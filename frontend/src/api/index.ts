@@ -1,4 +1,4 @@
-/** API 模块 — 后端四组接口 + 数据源/健康检查 */
+/** API 模块 — 后端全部接口分组 */
 import { get, post } from './request'
 
 export const Api = {
@@ -8,7 +8,7 @@ export const Api = {
   // ── 报告任务 ──
   report: {
     list: (params?: Record<string, string | number>) => get('/api/report/list', params),
-    generate: (data: { cycle: string; windowStart?: string; windowEnd?: string }) =>
+    generate: (data: { cycle: string; windowStart?: string; windowEnd?: string; rerun?: boolean }) =>
       post('/api/report/generate', data),
     detail: (taskId: number) => get(`/api/report/detail/${taskId}`),
     stats: () => get('/api/report/stats'),
@@ -17,9 +17,39 @@ export const Api = {
   // ── 调度 ──
   schedule: {
     list: () => get('/api/schedule/list'),
+    get: () => get('/api/schedule/get'),
     nextRun: (cycle: string) => get('/api/schedule/next-run', { cycle }),
     trigger: (cycle: string) => post('/api/schedule/trigger', { cycle }),
     toggle: (enabled: boolean) => post('/api/schedule/toggle', { enabled }),
+    save: (body: Record<string, unknown>) => post('/api/schedule/save', body),
+    pause: (body: Record<string, unknown>) => post('/api/schedule/pause', body),
+  },
+
+  // ── 数据源（V1.3 零代码管理） ──
+  datasource: {
+    meta: () => get('/api/datasource/meta'),
+    list: () => get('/api/datasource/list'),
+    create: (body: Record<string, unknown>) => post('/api/datasource/create', body),
+    update: (body: Record<string, unknown>) => post('/api/datasource/update', body),
+    toggle: (id: number) => post('/api/datasource/toggle', { id }),
+    remove: (id: number) => post('/api/datasource/delete', { id }),
+    test: (id: number) => post('/api/datasource/test', { id }),
+  },
+
+  // ── 知识库（V1.3） ──
+  kb: {
+    categories: () => get('/api/kb/categories'),
+    list: (category?: string) => get('/api/kb/list', category ? { category } : undefined),
+    create: (body: Record<string, unknown>) => post('/api/kb/create', body),
+    update: (body: Record<string, unknown>) => post('/api/kb/update', body),
+    toggle: (id: number) => post('/api/kb/toggle', { id }),
+    remove: (id: number) => post('/api/kb/delete', { id }),
+  },
+
+  // ── 报告选配（V1.3） ──
+  config: {
+    reportGet: () => get('/api/config/report/get'),
+    reportSave: (body: Record<string, unknown>) => post('/api/config/report/save', body),
   },
 
   // ── 版本管理 ──
@@ -28,12 +58,10 @@ export const Api = {
     detail: (versionId: number) => get(`/api/version/detail/${versionId}`),
     content: (versionId: number) => get(`/api/version/content/${versionId}`),
     download: (versionId: number) => get(`/api/version/download/${versionId}`),
-    // V1.2: 审核流转 + 版本对比
-    audit: (action: string, versionId: number, data?: Record<string, unknown>) =>
-      post(`/api/version/audit/${action}/${versionId}`, data || {}),
-    auditHistory: (versionId: number) => get(`/api/version/audit/history/${versionId}`),
-    compare: (baseId: number, targetId: number) =>
-      get('/api/version/compare', { baseId, targetId }),
+    compare: (baseId: number, targetId: number) => get('/api/version/compare', { baseId, targetId }),
+    audit: (action: string, versionId: number, body: Record<string, unknown>) =>
+      post(`/api/version/audit/${action}/${versionId}`, body),
+    history: (versionId: number) => get(`/api/version/audit/history/${versionId}`),
   },
 
   // ── 推送 ──
@@ -41,11 +69,5 @@ export const Api = {
     push: (data: { versionId: number; channel?: string }) => post('/api/publish/push', data),
     records: (versionId: number) => get('/api/publish/records', { versionId }),
     channels: () => get('/api/publish/channels'),
-  },
-
-  // ── 数据源 ──
-  datasource: {
-    list: () => get('/api/datasource/list'),
-    test: (id: number) => post('/api/datasource/test', { id }),
   },
 }

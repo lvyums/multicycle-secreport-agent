@@ -18,6 +18,22 @@
           <el-icon><Timer /></el-icon>
           <span>调度配置</span>
         </el-menu-item>
+        <el-menu-item index="/datasources">
+          <el-icon><Connection /></el-icon>
+          <span>数据源管理</span>
+        </el-menu-item>
+        <el-menu-item index="/knowledge">
+          <el-icon><Collection /></el-icon>
+          <span>知识库</span>
+        </el-menu-item>
+        <el-menu-item index="/report-config">
+          <el-icon><Setting /></el-icon>
+          <span>报告选配</span>
+        </el-menu-item>
+        <el-menu-item index="/task-logs">
+          <el-icon><Tickets /></el-icon>
+          <span>任务日志</span>
+        </el-menu-item>
       </el-menu>
     </el-aside>
 

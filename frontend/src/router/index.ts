@@ -30,6 +30,30 @@ const routes = [
         component: () => import('@/views/Schedule.vue'),
         meta: { title: '调度配置' },
       },
+      {
+        path: 'datasources',
+        name: 'datasources',
+        component: () => import('@/views/DataSources.vue'),
+        meta: { title: '数据源管理' },
+      },
+      {
+        path: 'knowledge',
+        name: 'knowledge',
+        component: () => import('@/views/Knowledge.vue'),
+        meta: { title: '知识库' },
+      },
+      {
+        path: 'report-config',
+        name: 'report-config',
+        component: () => import('@/views/ReportConfig.vue'),
+        meta: { title: '报告选配' },
+      },
+      {
+        path: 'task-logs',
+        name: 'task-logs',
+        component: () => import('@/views/TaskLogs.vue'),
+        meta: { title: '任务日志' },
+      },
     ],
   },
 ]
