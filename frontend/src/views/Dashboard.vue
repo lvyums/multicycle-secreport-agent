@@ -87,9 +87,23 @@ async function onGenerate(cycle: string, rerun = false) {
   if (!r.success || !r.data) return
   const data = (r.data as any) || {}
   const taskId = data.taskId ?? data.task_id
-  if ((r.data as any)?.reused) {
-    ElMessage.info(`窗口已有任务 #${taskId}（${(r.data as any)?.status}），直接复用`)
-    loadTasks()
+  if (data.reused) {
+    // 复用已有任务 → 跳转到对应报告内容，免去自己找
+    const st = await Api.report.status(taskId)
+    const stData = (st.data as any) || {}
+    const stName = stData.status || data.status || ''
+    const versionId = stData.versionId || 0
+    if (versionId > 0) {
+      ElMessage.success(`窗口已有任务 #${taskId}（${stName}），打开报告…`)
+      router.push(`/report-preview/${versionId}`)
+    } else {
+      ElMessage.info(
+        `窗口已有任务 #${taskId}（${stName}）${
+          ['PENDING', 'RUNNING'].includes(stName) ? '，正在执行中' : '，暂无报告内容'
+        }，可点"↻ 重跑"强制重新生成`,
+      )
+      loadTasks()
+    }
     return
   }
   ElMessage.success(`任务 #${taskId} 已提交，后台执行中…`)
