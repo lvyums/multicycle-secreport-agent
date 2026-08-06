@@ -8,7 +8,7 @@ reports/
 vector_data/
 .venv/
 venv/
-node_modules/
+node_modules
 dist/
 .pytest_cache/
 .coverage
