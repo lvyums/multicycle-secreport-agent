@@ -42,15 +42,22 @@ const renderedHtml = computed(() => {
   for (const line of lines) {
     const t = line.trim()
     if (t.startsWith('|') && t.endsWith('|')) {
+      // 分隔行（|---|）跳过不渲染
+      if (/^\|[\s\-:|]+\|$/.test(t)) {
+        if (!inTable) {
+          html.push('<table class="md-table">')
+          inTable = true
+        }
+        continue
+      }
       if (!inTable) {
         html.push('<table class="md-table">')
         inTable = true
       }
       const cells = t.split('|').filter((_, i, arr) => i > 0 && i < arr.length - 1)
-      const isHeader = line.includes('---') || /^\|[\s\-:|]+\|$/.test(t)
-      const tag = isHeader && html[html.length - 1]?.includes('<tr') ? 'td' : 'th'
+      const isHeader = !inTable || html[html.length - 1]?.includes('<table')
       html.push(
-        '<tr>' + cells.map((c) => `<${tag}>${escapeHtml(c.trim())}</${tag}>`).join('') + '</tr>',
+        '<tr>' + cells.map((c) => `<${isHeader ? 'th' : 'td'}>${escapeHtml(c.trim())}</${isHeader ? 'th' : 'td'}>`).join('') + '</tr>',
       )
       continue
     }

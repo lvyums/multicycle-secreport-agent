@@ -26,6 +26,7 @@ def schedule_list(request: Request):
         ReportCycle.QUARTERLY.value: settings.cron_quarterly,
         ReportCycle.YEARLY.value: settings.cron_yearly,
     }
+    jobs = []
     for cycle, cron in cycle_cron.items():
         next_run = None
         if scheduler:

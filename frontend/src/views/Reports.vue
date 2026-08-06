@@ -93,12 +93,14 @@ function preview(versionId: number) {
 }
 
 async function download(versionId: number) {
-  const r = await Api.version.download(versionId)
-  notifyError(r)
-  if (r.success) {
-    const path = (r.data as any)?.path || ''
-    ElMessage.success(path ? `报告已生成: ${path}` : '下载完成')
-  }
+  // 后端返回 FileResponse 文件流，直接触发浏览器下载
+  const a = document.createElement('a')
+  a.href = `/api/version/download/${versionId}`
+  a.download = ''
+  document.body.appendChild(a)
+  a.click()
+  a.remove()
+  ElMessage.success('下载已开始')
 }
 
 onMounted(() => {
