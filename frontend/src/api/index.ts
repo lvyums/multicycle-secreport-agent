@@ -28,6 +28,12 @@ export const Api = {
     detail: (versionId: number) => get(`/api/version/detail/${versionId}`),
     content: (versionId: number) => get(`/api/version/content/${versionId}`),
     download: (versionId: number) => get(`/api/version/download/${versionId}`),
+    // V1.2: 审核流转 + 版本对比
+    audit: (action: string, versionId: number, data?: Record<string, unknown>) =>
+      post(`/api/version/audit/${action}/${versionId}`, data || {}),
+    auditHistory: (versionId: number) => get(`/api/version/audit/history/${versionId}`),
+    compare: (baseId: number, targetId: number) =>
+      get('/api/version/compare', { baseId, targetId }),
   },
 
   // ── 推送 ──
