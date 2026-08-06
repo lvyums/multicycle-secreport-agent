@@ -48,13 +48,11 @@ class KnowledgeBase:
 class RAGFactory:
     """RAG 知识库工厂 — 管理所有知识库分片，支持按需路由"""
 
-    # 知识库注册表
+    # 知识库注册表（报告场景）
     KB_REGISTRY: dict[str, dict] = {
-        "log_basics": {"label": "日志基础库", "description": "全类型日志字段释义、正常/异常行为特征"},
-        "compliance": {"label": "合规审计库", "description": "等保2.0、网安法、数据安全法"},
-        "collection": {"label": "采集架构库", "description": "多设备采集协议、配置规范、架构方案"},
-        "scripts": {"label": "技术脚本库", "description": "攻击正则、检索语法、清洗规则"},
-        "cases": {"label": "实训案例库", "description": "标准化攻防场景、任务流程"},
+        "report_guideline": {"label": "报告规范库", "description": "网安态势报告撰写规范、章节结构、术语口径"},
+        "threat_intel": {"label": "威胁情报库", "description": "漏洞情报、攻击手法、威胁家族特征"},
+        "history": {"label": "历史报告库", "description": "历史周期报告沉淀，供趋势对比与风格参考"},
     }
 
     _instances: dict[str, KnowledgeBase] = {}
