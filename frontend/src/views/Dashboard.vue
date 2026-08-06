@@ -80,7 +80,8 @@ async function onGenerate(cycle: string) {
   const r = await Api.report.generate({ cycle })
   notifyError(r)
   if (!r.success || !r.data) return
-  const taskId = (r.data as any)?.taskId
+  const data = (r.data as any) || {}
+  const taskId = data.taskId ?? data.task_id
   if ((r.data as any)?.reused) {
     ElMessage.info(`窗口已有任务 #${taskId}（${(r.data as any)?.status}），直接复用`)
     loadTasks()
