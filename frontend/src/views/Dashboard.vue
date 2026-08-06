@@ -8,7 +8,12 @@
           </div>
           <div class="cycle-name">{{ c.label }}</div>
           <div class="cycle-desc">{{ c.desc }}</div>
-          <el-button type="primary" size="small" round>生成报告</el-button>
+          <div class="card-actions">
+            <el-button type="primary" size="small" round>生成报告</el-button>
+            <el-tooltip content="跳过幂等检查，强制新建任务重新生成" placement="top">
+              <el-button size="small" round @click.stop="onGenerate(c.value, true)">↻ 重跑</el-button>
+            </el-tooltip>
+          </div>
         </el-card>
       </el-col>
     </el-row>
@@ -75,9 +80,9 @@ async function loadTasks() {
   loading.value = false
 }
 
-async function onGenerate(cycle: string) {
-  // V2.0 R：异步提交 → 轮询状态
-  const r = await Api.report.generate({ cycle })
+async function onGenerate(cycle: string, rerun = false) {
+  // V2.0 R：异步提交 → 轮询状态；rerun=true 强制重跑（跳过幂等复用）
+  const r = await Api.report.generate(rerun ? { cycle, rerun: true } : { cycle })
   notifyError(r)
   if (!r.success || !r.data) return
   const data = (r.data as any) || {}
@@ -118,6 +123,12 @@ onMounted(loadTasks)
 .cycle-card {
   text-align: center;
   cursor: pointer;
+}
+.card-actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 4px;
 }
 .cycle-icon {
   width: 52px;
