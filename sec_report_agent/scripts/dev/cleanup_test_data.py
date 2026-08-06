@@ -36,5 +36,20 @@ try:
             t_removed += 1
     db.commit()
     print(f"已清理 {t_removed} 条测试任务")
+    # 清理非法 cycle 任务（API 联调误传假 cycle 如 cycle-xxx/vcyc-xxx 造的）
+    from sqlalchemy import delete as sa_delete2
+    VALID = {"DAILY", "WEEKLY", "MONTHLY", "QUARTERLY", "YEARLY"}
+    bad_tasks = [t for t in db.query(ReportTask).all() if (t.cycle or "") not in VALID]
+    c_removed = 0
+    for t in bad_tasks:
+        db.execute(sa_delete2(AuditLog).where(AuditLog.target_type == "ReportTask", AuditLog.target_id == t.id))
+        db.execute(sa_delete2(ReportVersion).where(ReportVersion.task_id == t.id))
+        db.execute(sa_delete2(AuditLog).where(AuditLog.target_type == "ReportVersion", AuditLog.target_id.in_(
+            [v.id for v in db.query(ReportVersion).filter(ReportVersion.task_id == t.id).all()]
+        )))
+        db.delete(t)
+        c_removed += 1
+    db.commit()
+    print(f"已清理 {c_removed} 条非法 cycle 任务")
 finally:
     db.close()
