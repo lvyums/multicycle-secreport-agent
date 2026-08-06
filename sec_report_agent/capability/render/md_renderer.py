@@ -60,4 +60,5 @@ class MdRenderer(Renderer):
             "risk_level": judge.get("risk_level", "LOW"),
             "sections": sections,
             "metric": {"alert": alert},
+            "compare": (metric.get("trend") or {}).get("compare"),
         }

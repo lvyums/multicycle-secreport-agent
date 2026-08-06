@@ -281,6 +281,12 @@ class AuditLogRepo:
             stmt = stmt.where(AuditLog.target_id == target_id)
         return db.execute(stmt.order_by(AuditLog.id.desc()).limit(limit)).scalars().all()
 
+    @staticmethod
+    def list_by_target(db: Session, target_type: str, target_id: int,
+                       limit: int = 100) -> Sequence[AuditLog]:
+        """按目标对象查询审计记录"""
+        return AuditLogRepo.list_all(db, target_type=target_type, target_id=target_id, limit=limit)
+
 
 # ═══════════ 推送记录 ═══════════
 

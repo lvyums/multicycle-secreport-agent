@@ -16,8 +16,12 @@ def push_report(body: dict, db: Session = Depends(get_db)):
     """推送报告版本到指定渠道（默认 local）"""
     from capability.push.push_strategy import PushStrategyFactory
     from capability.push.local_strategy import LocalPushStrategy
+    from capability.push.webhook_strategies import DingTalkPushStrategy, WeComPushStrategy, EmailPushStrategy
 
     PushStrategyFactory.register(LocalPushStrategy)
+    PushStrategyFactory.register(DingTalkPushStrategy)
+    PushStrategyFactory.register(WeComPushStrategy)
+    PushStrategyFactory.register(EmailPushStrategy)
 
     version_id = body.get("versionId")
     channel = body.get("channel") or "local"
@@ -59,5 +63,10 @@ def push_channels():
     """可用推送渠道"""
     from capability.push.push_strategy import PushStrategyFactory
     from capability.push.local_strategy import LocalPushStrategy
+    from capability.push.webhook_strategies import DingTalkPushStrategy, WeComPushStrategy, EmailPushStrategy
+
     PushStrategyFactory.register(LocalPushStrategy)
+    PushStrategyFactory.register(DingTalkPushStrategy)
+    PushStrategyFactory.register(WeComPushStrategy)
+    PushStrategyFactory.register(EmailPushStrategy)
     return ok({"channels": PushStrategyFactory.available_channels()})

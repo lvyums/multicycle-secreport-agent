@@ -21,11 +21,15 @@ class HistoryAdapter(DataSourceAdapter):
         return []
 
     def fetch(self, window_start: str, window_end: str, task_id: int = 0) -> list[dict]:
-        """查找同周期上一窗口的指标快照，返回历史指标事件"""
+        """查找同周期上一窗口的指标快照，返回历史指标事件
+
+        周期来源：运行时注入 current_cycle（report_service 拉取时设置），
+        其次 config_json["cycle"]；都没有则跳过环比。
+        """
         from infra.db.session import SessionLocal
         from infra.db.repositories import MetricSnapshotRepo
 
-        cycle = (self.config.config_json or {}).get("cycle", "")
+        cycle = getattr(self, "current_cycle", "") or (self.config.config_json or {}).get("cycle", "")
         db = SessionLocal()
         try:
             prev = MetricSnapshotRepo.find_prev_snapshot(db, cycle, window_start, window_end)

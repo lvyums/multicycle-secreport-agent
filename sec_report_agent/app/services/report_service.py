@@ -72,8 +72,8 @@ class ReportService:
     async def _run_pipeline(cls, task_id: int, cycle: str, ws: str, we: str) -> dict:
         start = time.monotonic()
 
-        # 1. 数据源拉取（三类并行，单源失败不阻塞整体）
-        raw_all, vuln_raw, stats = await cls._fetch_all(task_id, ws, we)
+        # 1. 数据源拉取（并行，单源失败不阻塞整体）
+        raw_all, vuln_raw, stats = await cls._fetch_all(task_id, cycle, ws, we)
         partial = any(s.get("ok") is False for s in stats.values())
 
         # 2. RawEvent 落地 + 清洗入库
@@ -102,8 +102,8 @@ class ReportService:
     # ── 环节实现 ──
 
     @classmethod
-    async def _fetch_all(cls, task_id: int, ws: str, we: str) -> tuple[list, list, dict]:
-        """拉取所有启用数据源（异步并行）"""
+    async def _fetch_all(cls, task_id: int, cycle: str, ws: str, we: str) -> tuple[list, list, dict]:
+        """拉取所有启用数据源（异步并行；HISTORY 注入当前周期用于环比）"""
         from infra.db.session import SessionLocal
         from infra.db.repositories import DataSourceConfigRepo
         from capability.adapter.factory import AdapterFactory
@@ -121,6 +121,8 @@ class ReportService:
         async def fetch_one(cfg):
             try:
                 adapter = AdapterFactory.get(cfg)
+                if cfg.type == "HISTORY":
+                    adapter.current_cycle = cycle  # 运行时注入当前周期（环比匹配同周期快照）
                 raw = adapter.fetch(ws, we)
                 stats[cfg.name] = {"ok": True, "count": len(raw), "type": cfg.type}
                 return cfg.type, raw

@@ -116,6 +116,7 @@ def build_fallback_sections(metric: MetricSet, risk_flags: list) -> dict:
     close_rate = alert.get("close_rate", 0)
     unfixed_high = vuln.get("unfixed_high", 0)
     top_src = top.get("top_src") or []
+    compare = trend.get("compare") or None
 
     risk_lines = "\n".join(f"- {f.message}" for f in (risk_flags or [])) or "- 无规则命中"
 
@@ -144,7 +145,8 @@ def build_fallback_sections(metric: MetricSet, risk_flags: list) -> dict:
         "trend": (
             f"事件按天分布共 {len(trend.get('by_day', []))} 天，"
             f"日均 {round(total / max(len(trend.get('by_day', []) or [1]), 1), 1)} 起。"
-            f"环比/同比数据暂缺，建议结合历史报告对比。"
+            + (f"环比上期：告警总量 {compare.get('alert_total', {}).get('delta', '暂无')}。"
+               if compare else "环比/同比数据暂缺，建议结合历史报告对比。")
         ),
         "suggestion": (
             "1. 优先处置高危告警与未修复高危漏洞，明确责任人与时限；\n"

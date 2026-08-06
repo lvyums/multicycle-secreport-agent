@@ -132,3 +132,112 @@ class VersionService:
             "remark": ver.remark,
             "createdAt": ver.created_at,
         }
+
+
+class VersionCompareService:
+    """版本对比服务（V1.2）：指标 diff + 章节文本 diff"""
+
+    # 参与对比的数值指标（白名单，避免 by_day/by_type 数组噪音）
+    METRIC_FIELDS = [
+        ("alert", "total", "告警总量"),
+        ("alert", "high", "高危告警"),
+        ("alert", "medium", "中危告警"),
+        ("alert", "low", "低危告警"),
+        ("alert", "info", "提示告警"),
+        ("alert", "close_rate", "事件闭环率"),
+        ("vuln", "total", "漏洞总量"),
+        ("vuln", "unfixed", "未修复漏洞"),
+        ("vuln", "unfixed_high", "未修复高危漏洞"),
+        ("vuln", "close_rate", "漏洞修复率"),
+    ]
+
+    @staticmethod
+    def compare(db, base_id: int, target_id: int) -> dict:
+        from infra.db.repositories import ReportVersionRepo, MetricSnapshotRepo
+
+        base = ReportVersionRepo.get(db, base_id)
+        target = ReportVersionRepo.get(db, target_id)
+        if not base or not target:
+            from common.exception.exception import NotFoundError
+            raise NotFoundError(f"版本不存在: {base_id if not base else target_id}")
+
+        base_metrics = VersionCompareService._load_metrics(db, base)
+        target_metrics = VersionCompareService._load_metrics(db, target)
+
+        return {
+            "base": {"id": base.id, "title": base.title, "cycle": base.cycle,
+                     "windowStart": base.window_start, "windowEnd": base.window_end,
+                     "createdAt": base.created_at},
+            "target": {"id": target.id, "title": target.title, "cycle": target.cycle,
+                       "windowStart": target.window_start, "windowEnd": target.window_end,
+                       "createdAt": target.created_at},
+            "metricDiff": VersionCompareService._metric_diff(base_metrics, target_metrics),
+            "textDiff": VersionCompareService._text_diff(base.content_md, target.content_md),
+        }
+
+    @staticmethod
+    def _load_metrics(db, ver) -> dict:
+        from infra.db.repositories import MetricSnapshotRepo
+        snap = MetricSnapshotRepo.get(db, ver.metric_snapshot_id) if ver.metric_snapshot_id else None
+        return (snap.metrics_json or {}) if snap else {}
+
+    @staticmethod
+    def _metric_diff(base: dict, target: dict) -> list[dict]:
+        diffs = []
+        for group, field, label in VersionCompareService.METRIC_FIELDS:
+            b = (base.get(group) or {}).get(field, 0)
+            t = (target.get(group) or {}).get(field, 0)
+            if isinstance(b, (int, float)) and isinstance(t, (int, float)):
+                delta = round(t - b, 4)
+                pct = round(delta / b * 100, 1) if b else None
+                diffs.append({
+                    "group": group, "field": field, "label": label,
+                    "base": b, "target": t, "delta": delta,
+                    "pct": pct,
+                    "changed": abs(delta) > 1e-9,
+                })
+        return diffs
+
+    @staticmethod
+    def _text_diff(base_md: str, target_md: str) -> dict:
+        import difflib
+
+        def _split_sections(md: str) -> dict[str, list[str]]:
+            """按 '## ' 章节切分，返回 章节名 → 行列表"""
+            sections: dict[str, list[str]] = {}
+            current = "_header"
+            for line in (md or "").splitlines():
+                if line.startswith("## "):
+                    current = line[3:].strip()
+                    sections.setdefault(current, [])
+                else:
+                    sections.setdefault(current, []).append(line)
+            return sections
+
+        base_secs = _split_sections(base_md)
+        target_secs = _split_sections(target_md)
+        result = []
+        for name in sorted(set(base_secs) | set(target_secs)):
+            b_lines, t_lines = base_secs.get(name, []), target_secs.get(name, [])
+            sm = difflib.SequenceMatcher(None, b_lines, t_lines)
+            added = removed = changed = 0
+            samples = []
+            for tag, i1, i2, j1, j2 in sm.get_opcodes():
+                if tag == "insert":
+                    added += j2 - j1
+                    samples.append(("+", t_lines[j1:j2][0][:80]))
+                elif tag == "delete":
+                    removed += i2 - i1
+                    samples.append(("-", b_lines[i1:i2][0][:80]))
+                elif tag == "replace":
+                    changed += max(i2 - i1, j2 - j1)
+                    samples.append(("~", t_lines[j1:j2][0][:80] if j2 > j1 else b_lines[i1:i2][0][:80]))
+            if added or removed or changed:
+                result.append({
+                    "section": name,
+                    "added": added, "removed": removed, "changed": changed,
+                    "samples": samples[:5],
+                })
+        return {"sections": result, "totalAdded": sum(s["added"] for s in result),
+                "totalRemoved": sum(s["removed"] for s in result),
+                "totalChanged": sum(s["changed"] for s in result)}
