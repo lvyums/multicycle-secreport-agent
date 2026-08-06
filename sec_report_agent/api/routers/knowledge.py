@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from api.response import ok
+from api.auth_deps import require_login, require_admin, require_analyst
 from infra.db.session import get_db
 from infra.db.repositories import KnowledgeDocRepo
 from common.exception.exception import BusinessError, NotFoundError
@@ -14,12 +15,12 @@ CATEGORIES = ["general", "attack", "defense", "regulation"]
 
 
 @router.get("/categories")
-def kb_categories():
+def kb_categories(_=Depends(require_login)):
     return ok({"categories": CATEGORIES})
 
 
 @router.get("/list")
-def kb_list(category: str = "", db: Session = Depends(get_db)):
+def kb_list(category: str = "", _=Depends(require_login), db: Session = Depends(get_db)):
     """知识库文档列表（可按分类筛选）"""
     rows = KnowledgeDocRepo.list_all(db, category or None)
     items = [{
@@ -31,7 +32,7 @@ def kb_list(category: str = "", db: Session = Depends(get_db)):
 
 
 @router.post("/create")
-def kb_create(body: dict, db: Session = Depends(get_db)):
+def kb_create(body: dict, _=Depends(require_admin), db: Session = Depends(get_db)):
     title = (body.get("title") or "").strip()
     if not title:
         raise BusinessError("标题必填")
@@ -49,7 +50,7 @@ def kb_create(body: dict, db: Session = Depends(get_db)):
 
 
 @router.post("/update")
-def kb_update(body: dict, db: Session = Depends(get_db)):
+def kb_update(body: dict, _=Depends(require_admin), db: Session = Depends(get_db)):
     doc = KnowledgeDocRepo.get(db, body.get("id") or 0)
     if not doc:
         raise NotFoundError(f"文档不存在: {body.get('id')}")
@@ -65,7 +66,7 @@ def kb_update(body: dict, db: Session = Depends(get_db)):
 
 
 @router.post("/toggle")
-def kb_toggle(body: dict, db: Session = Depends(get_db)):
+def kb_toggle(body: dict, _=Depends(require_admin), db: Session = Depends(get_db)):
     doc = KnowledgeDocRepo.get(db, body.get("id") or 0)
     if not doc:
         raise NotFoundError(f"文档不存在: {body.get('id')}")
@@ -74,7 +75,7 @@ def kb_toggle(body: dict, db: Session = Depends(get_db)):
 
 
 @router.post("/delete")
-def kb_delete(body: dict, db: Session = Depends(get_db)):
+def kb_delete(body: dict, _=Depends(require_admin), db: Session = Depends(get_db)):
     doc = KnowledgeDocRepo.get(db, body.get("id") or 0)
     if not doc:
         raise NotFoundError(f"文档不存在: {body.get('id')}")

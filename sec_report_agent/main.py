@@ -21,6 +21,18 @@ logger = LogManager.get_logger()
 async def lifespan(app: FastAPI):
     """应用生命周期：启动时建表 + 启动调度器；关闭时回收"""
     init_db()
+    # 种子用户（V2.0 RBAC，幂等）
+    try:
+        from infra.db.session import SessionLocal
+        from infra.db.repositories import UserRepo
+        _db = SessionLocal()
+        try:
+            UserRepo.ensure_seed_users(_db)
+            logger.info("[APP] 种子用户就绪（admin/analyst/viewer）")
+        finally:
+            _db.close()
+    except Exception as e:
+        logger.warning(f"[APP] 种子用户初始化失败: {e}")
     try:
         from infra.schedule.simple_scheduler import SimpleScheduler
         from app.scheduler import build_scheduler
@@ -127,6 +139,11 @@ def register_routers():
     try:
         from api.routers.config import router as config_router
         app.include_router(config_router, prefix="/api/config/report", tags=["报告选配"])
+    except ImportError:
+        pass
+    try:
+        from api.routers.auth import router as auth_router
+        app.include_router(auth_router, prefix="/api/auth", tags=["认证"])
     except ImportError:
         pass
 

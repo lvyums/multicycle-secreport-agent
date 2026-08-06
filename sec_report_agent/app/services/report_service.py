@@ -66,6 +66,60 @@ class ReportService:
             cls._finish_task(task_id, TaskStatus.FAILED.value, error=str(e)[:400])
         return {"task_id": task_id, "reused": False, **result}
 
+    @classmethod
+    async def submit(cls, cycle: str, window_start: str, window_end: str,
+                     trigger_type: str = TriggerType.MANUAL.value,
+                     rerun: bool = False) -> dict:
+        """异步提交（V2.0 R 性能）：创建 PENDING 任务立即返回，不阻塞请求"""
+        from infra.db.session import SessionLocal
+        from infra.db.repositories import ReportTaskRepo, AuditLogRepo
+
+        db = SessionLocal()
+        try:
+            existing = None
+            if not rerun:
+                existing = ReportTaskRepo.find_existing(db, cycle, window_start, window_end)
+            if existing:
+                return {"task_id": existing.id, "reused": True, "status": existing.status}
+            task = ReportTaskRepo.create(
+                db, cycle=cycle, window_start=window_start, window_end=window_end,
+                status=TaskStatus.PENDING.value, trigger_type=trigger_type,
+                trace_id=get_trace_id(),
+            )
+            db.commit()
+            AuditLogRepo.add(db, operator="system", action="report_submit",
+                             target_type="task", target_id=task.id,
+                             detail=f"{cycle} {window_start}~{window_end} 触发={trigger_type}",
+                             trace_id=get_trace_id())
+            logger.info(f"[PIPE] 任务 #{task.id} 已提交（PENDING）: {cycle}")
+            return {"task_id": task.id, "reused": False, "status": TaskStatus.PENDING.value}
+        finally:
+            db.close()
+
+    @classmethod
+    async def run_background(cls, task_id: int, cycle: str, ws: str, we: str) -> dict:
+        """后台执行 pipeline（V2.0 R 性能）：PENDING → RUNNING → 终态"""
+        from infra.db.session import SessionLocal
+        from infra.db.repositories import ReportTaskRepo
+
+        db = SessionLocal()
+        try:
+            task = ReportTaskRepo.get(db, task_id)
+            if task and task.status == TaskStatus.PENDING.value:
+                task.status = TaskStatus.RUNNING.value
+                task.started_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                db.commit()
+        finally:
+            db.close()
+
+        try:
+            result = await cls._run_pipeline(task_id, cycle, ws, we)
+        except Exception as e:
+            logger.error(f"[PIPE] 后台任务 #{task_id} 异常: {e}", exc_info=True)
+            cls._finish_task(task_id, TaskStatus.FAILED.value, error=str(e)[:400])
+            result = {"status": TaskStatus.FAILED.value, "error": str(e)[:400]}
+        return {"task_id": task_id, **result}
+
     # ── 核心 pipeline ──
 
     @classmethod
@@ -123,17 +177,22 @@ class ReportService:
         vuln_raw: list = []
 
         async def fetch_one(cfg):
-            try:
-                adapter = AdapterFactory.get(cfg)
-                if cfg.type == "HISTORY":
-                    adapter.current_cycle = cycle  # 运行时注入当前周期（环比匹配同周期快照）
-                raw = adapter.fetch(ws, we)
-                stats[cfg.name] = {"ok": True, "count": len(raw), "type": cfg.type}
-                return cfg.type, raw
-            except Exception as e:
-                logger.error(f"[PIPE] 数据源 {cfg.name} 拉取失败: {e}")
-                stats[cfg.name] = {"ok": False, "count": 0, "type": cfg.type, "error": str(e)[:200]}
-                return cfg.type, []
+            # V2.0 S 容错：失败重试 2 次（指数退避 0.3s/0.9s），单源失败不阻塞整体
+            for attempt in range(3):
+                try:
+                    adapter = AdapterFactory.get(cfg)
+                    if cfg.type == "HISTORY":
+                        adapter.current_cycle = cycle  # 运行时注入当前周期（环比匹配同周期快照）
+                    raw = adapter.fetch(ws, we)
+                    stats[cfg.name] = {"ok": True, "count": len(raw), "type": cfg.type}
+                    return cfg.type, raw
+                except Exception as e:
+                    if attempt < 2:
+                        await asyncio.sleep(0.3 * (3 ** attempt))
+                        continue
+                    logger.error(f"[PIPE] 数据源 {cfg.name} 拉取失败（已重试2次）: {e}")
+                    stats[cfg.name] = {"ok": False, "count": 0, "type": cfg.type, "error": str(e)[:200]}
+                    return cfg.type, []
 
         results = await asyncio.gather(*[fetch_one(c) for c in cfgs])
         for stype, raw in results:
@@ -267,23 +326,11 @@ class ReportService:
         facade = RAGFacade(enabled=True)
         refs = facade.recall_for_metric(metric) or []
 
-        # 知识库注入（V1.3）：启用文档 → rag_refs 格式（LLM 参考段）
-        try:
-            from infra.db.session import SessionLocal
-            from infra.db.repositories import KnowledgeDocRepo
-            _db = SessionLocal()
-            try:
-                kb_docs = KnowledgeDocRepo.list_enabled(_db, limit=5)
-            finally:
-                _db.close()
-            if kb_docs:
-                refs = refs + [
-                    {"kb_label": f"知识库·{d.category}", "content": f"{d.title}：{d.content}"}
-                    for d in kb_docs
-                ]
-                logger.info(f"[PIPE] 知识库注入 {len(kb_docs)} 篇: {[d.title for d in kb_docs]}")
-        except Exception as e:
-            logger.warning(f"[PIPE] 知识库注入失败（忽略）: {e}")
+        # 知识库关键词检索注入（V2.0 T1）：按指标告警/攻击类型匹配文档，替代全量注入
+        kb_refs = cls._kb_refs(metric)
+        if kb_refs:
+            refs = refs + kb_refs
+            logger.info(f"[PIPE] 知识库命中 {len(kb_refs)} 篇: {[r['kb_label'] for r in kb_refs]}")
 
         judge = LLMJudge()
         result = await judge.judge(metric, flags, refs)
@@ -291,6 +338,41 @@ class ReportService:
             result.risk_level = composite
         logger.info(f"[PIPE] 研判完成: risk={result.risk_level} llm_ok={result.llm_ok}")
         return result
+
+    @classmethod
+    def _kb_refs(cls, metric) -> list[dict]:
+        """知识库关键词检索（V2.0 T1）：按指标告警/攻击类型匹配文档"""
+        try:
+            from infra.db.session import SessionLocal
+            from infra.db.repositories import KnowledgeDocRepo
+            alert = metric.alert or {}
+            top = metric.top or {}
+            types = [
+                (i.get("type") or "") for i in (top.get("top_type") or [])[:5]
+            ] + [
+                (i.get("attack_type") or "") for i in (alert.get("by_type") or [])[:5]
+            ]
+            keywords = [t for t in types if t] or ["安全", "攻击", "漏洞"]
+            db = SessionLocal()
+            try:
+                docs = KnowledgeDocRepo.list_enabled(db, limit=20)
+            finally:
+                db.close()
+            scored = []
+            for d in docs:
+                text = f"{d.title} {d.content}"
+                score = sum(1 for kw in keywords if kw in text)
+                if score:
+                    scored.append((score, d))
+            scored.sort(key=lambda x: -x[0])
+            picked = [d for _, d in scored[:5]] or docs[:3]
+            return [
+                {"kb_label": f"知识库·{d.category}", "content": f"{d.title}：{d.content}"}
+                for d in picked
+            ]
+        except Exception as e:
+            logger.warning(f"[PIPE] 知识库检索失败（忽略）: {e}")
+            return []
 
     @classmethod
     async def _render_and_snapshot(cls, task_id: int, cycle: str, ws: str, we: str,

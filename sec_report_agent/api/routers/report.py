@@ -2,10 +2,11 @@
 
 import asyncio
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, Request
 from sqlalchemy.orm import Session
 
 from api.response import ok, fail, ApiCode
+from api.auth_deps import require_login, require_analyst
 from common.exception.exception import NotFoundError
 from common.validator.validator import validate_enum
 from infra.db.session import get_db
@@ -18,7 +19,7 @@ router = APIRouter()
 @router.get("/list")
 def list_tasks(cycle: str | None = None, status: str | None = None,
                page: int = Query(1, ge=1), limit: int = Query(15, ge=1, le=100),
-               db: Session = Depends(get_db)):
+               _=Depends(require_login), db: Session = Depends(get_db)):
     """任务列表（分页）"""
     rows, total = ReportTaskRepo.list_all(db, cycle=cycle, status=status,
                                           offset=(page - 1) * limit, limit=limit)
@@ -45,8 +46,8 @@ def list_tasks(cycle: str | None = None, status: str | None = None,
 
 
 @router.post("/generate")
-async def generate(body: dict, db: Session = Depends(get_db)):
-    """手动生成报告（cycle 必填；窗口缺省按周期计算）"""
+async def generate(body: dict, request: Request, _=Depends(require_analyst), db: Session = Depends(get_db)):
+    """异步提交报告生成（V2.0 R：创建 PENDING 任务立即返回，后台执行）"""
     from app.services.report_service import ReportService
     from app.tasks.report_task import calc_window
 
@@ -59,12 +60,38 @@ async def generate(body: dict, db: Session = Depends(get_db)):
         ws, we = calc_window(cycle)
     rerun = bool(body.get("rerun", False))
 
-    result = await ReportService.generate(cycle, ws, we, trigger_type="MANUAL", rerun=rerun)
-    return ok(result, message="任务已创建/复用")
+    result = await ReportService.submit(cycle, ws, we, trigger_type="MANUAL", rerun=rerun)
+    if not result.get("reused"):
+        # 后台执行（保留引用防 GC）
+        task = asyncio.create_task(
+            ReportService.run_background(result["task_id"], cycle, ws, we)
+        )
+        bg = getattr(request.app.state, "_bg_tasks", None)
+        if bg is None:
+            bg = set()
+            request.app.state._bg_tasks = bg
+        bg.add(task)
+        task.add_done_callback(bg.discard)
+    return ok(result, message="任务已创建，后台执行中")
+
+
+@router.get("/status/{task_id}")
+def task_status(task_id: int, _=Depends(require_login), db: Session = Depends(get_db)):
+    """异步任务状态轮询（V2.0 R）"""
+    from infra.db.repositories import ReportVersionRepo
+    task = ReportTaskRepo.get(db, task_id)
+    if not task:
+        raise NotFoundError(f"任务不存在: {task_id}")
+    version = ReportVersionRepo.get_latest_by_task(db, task_id)
+    return ok({
+        "id": task.id, "status": task.status, "cycle": task.cycle,
+        "errorMsg": task.error_msg, "versionId": version.id if version else 0,
+        "durationMs": task.duration_ms, "finishedAt": task.finished_at,
+    })
 
 
 @router.get("/detail/{task_id}")
-def task_detail(task_id: int, db: Session = Depends(get_db)):
+def task_detail(task_id: int, _=Depends(require_login), db: Session = Depends(get_db)):
     """任务详情（含数据源统计 + 版本关联）"""
     from infra.db.repositories import ReportVersionRepo
     task = ReportTaskRepo.get(db, task_id)
@@ -84,7 +111,7 @@ def task_detail(task_id: int, db: Session = Depends(get_db)):
 
 
 @router.get("/stats")
-def task_stats(db: Session = Depends(get_db)):
+def task_stats(_=Depends(require_login), db: Session = Depends(get_db)):
     """五周期任务统计（供看板）"""
     rows, _ = ReportTaskRepo.list_all(db, limit=500)
     stats = {}

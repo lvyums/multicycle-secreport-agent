@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import datetime
 from typing import Optional, Sequence
 
 from sqlalchemy import select, func, or_
@@ -10,7 +11,7 @@ from sqlalchemy.orm import Session
 from model.entity.entities import (
     DataSourceConfig, RawEvent, StdEvent, AssetVuln,
     ReportTask, ReportVersion, MetricSnapshot, AuditLog, PushLog,
-    KnowledgeDoc, ReportConfig,
+    KnowledgeDoc, ReportConfig, User,
 )
 from model.enum.enums import TaskStatus, DataSourceType
 
@@ -388,9 +389,66 @@ class KnowledgeDocRepo:
         db.commit()
 
 
-# ═══════════ 报告选配（V1.3，单例） ═══════════
+# ═══════════ 系统用户（V2.0 RBAC） ═══════════
+
+class UserRepo:
+    @staticmethod
+    def get_by_username(db: Session, username: str) -> User | None:
+        return db.execute(
+            select(User).where(User.username == username)
+        ).scalars().first()
+
+    @staticmethod
+    def get(db: Session, user_id: int) -> User | None:
+        return db.get(User, user_id)
+
+    @staticmethod
+    def list_all(db: Session) -> Sequence[User]:
+        return db.execute(select(User).order_by(User.id)).scalars().all()
+
+    @staticmethod
+    def create(db: Session, username: str, password_hash: str,
+               role: str = "viewer", display_name: str = "") -> User:
+        user = User(
+            username=username, password_hash=password_hash,
+            role=role, display_name=display_name,
+        )
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+        return user
+
+    @staticmethod
+    def update(db: Session, user: User, **kwargs) -> User:
+        for k, v in kwargs.items():
+            if v is not None and hasattr(user, k):
+                setattr(user, k, v)
+        user.updated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        db.commit()
+        db.refresh(user)
+        return user
+
+    @staticmethod
+    def delete(db: Session, user: User):
+        db.delete(user)
+        db.commit()
+
+    @staticmethod
+    def ensure_seed_users(db: Session):
+        """幂等创建种子用户（admin/analyst/viewer）"""
+        from app.services import auth_service
+        seeds = [
+            ("admin", "admin123", "admin", "系统管理员"),
+            ("analyst", "analyst123", "analyst", "安全分析师"),
+            ("viewer", "viewer123", "viewer", "只读访客"),
+        ]
+        for username, pwd, role, name in seeds:
+            if not UserRepo.get_by_username(db, username):
+                UserRepo.create(db, username, auth_service.hash_password(pwd), role, name)
+
 
 class ReportConfigRepo:
+    """报告选配（单例 id=1）"""
     DEFAULT_SECTIONS = {
         "overview": True, "alert": True, "vuln": True,
         "attack": True, "trend": True, "suggestion": True,

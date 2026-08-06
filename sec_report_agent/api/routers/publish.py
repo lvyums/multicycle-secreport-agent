@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from api.response import ok
+from api.auth_deps import require_analyst
 from infra.db.session import get_db
 from infra.db.repositories import PushLogRepo, ReportVersionRepo
 from common.exception.exception import NotFoundError
@@ -12,7 +13,7 @@ router = APIRouter()
 
 
 @router.post("/push")
-def push_report(body: dict, db: Session = Depends(get_db)):
+def push_report(body: dict, _=Depends(require_analyst), db: Session = Depends(get_db)):
     """推送报告版本到指定渠道（默认 local）"""
     from capability.push.push_strategy import PushStrategyFactory
     from capability.push.local_strategy import LocalPushStrategy

@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from api.response import ok
+from api.auth_deps import require_login, require_admin, require_analyst
 from infra.db.session import get_db
 from infra.db.repositories import ReportConfigRepo
 from common.exception.exception import BusinessError
@@ -15,7 +16,7 @@ VALID_CYCLES = {"DAILY", "WEEKLY", "MONTHLY", "QUARTERLY", "YEARLY"}
 
 
 @router.get("/get")
-def config_get(db: Session = Depends(get_db)):
+def config_get(_=Depends(require_login), db: Session = Depends(get_db)):
     """获取报告选配（不存在则建默认）"""
     cfg = ReportConfigRepo.get_or_create(db)
     return ok({
@@ -29,7 +30,7 @@ def config_get(db: Session = Depends(get_db)):
 
 
 @router.post("/save")
-def config_save(body: dict, db: Session = Depends(get_db)):
+def config_save(body: dict, _=Depends(require_admin), db: Session = Depends(get_db)):
     """保存报告选配"""
     cfg = ReportConfigRepo.get_or_create(db)
     sections = body.get("sections")

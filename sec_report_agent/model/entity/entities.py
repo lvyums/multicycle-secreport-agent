@@ -129,7 +129,6 @@ class ReportVersion(Base):
 class KnowledgeDoc(Base):
     """知识库文档（研判参考注入源，V1.3）"""
     __tablename__ = "knowledge_doc"
-
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     title: Mapped[str] = mapped_column(String(255), index=True)
     category: Mapped[str] = mapped_column(String(32), default="general", index=True)  # general/attack/defense/regulation
@@ -189,3 +188,17 @@ class PushLog(Base):
     status: Mapped[str] = mapped_column(String(16), default="PENDING")
     detail: Mapped[str] = mapped_column(String(500), default="")
     created_at: Mapped[str] = mapped_column(String(32), default=_now)
+
+
+class User(Base):
+    """系统用户（RBAC，V2.0）"""
+    __tablename__ = "sys_user"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    username: Mapped[str] = mapped_column(String(64), unique=True, index=True)
+    password_hash: Mapped[str] = mapped_column(String(255), default="")
+    role: Mapped[str] = mapped_column(String(16), default="viewer")     # admin/analyst/viewer
+    display_name: Mapped[str] = mapped_column(String(64), default="")
+    enabled: Mapped[str] = mapped_column(String(8), default="enabled")  # enabled/disabled
+    created_at: Mapped[str] = mapped_column(String(32), default=_now)
+    updated_at: Mapped[str] = mapped_column(String(32), default=_now)

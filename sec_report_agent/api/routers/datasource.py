@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from api.response import ok
+from api.auth_deps import require_login, require_admin, require_analyst
 from infra.db.session import get_db
 from infra.db.repositories import DataSourceConfigRepo
 from capability.adapter.factory import AdapterFactory
@@ -47,13 +48,13 @@ TYPE_META = {
 
 
 @router.get("/meta")
-def datasource_meta():
+def datasource_meta(_=Depends(require_login)):
     """数据源类型元数据（零代码表单驱动）"""
     return ok({"types": TYPE_META})
 
 
 @router.get("/list")
-def datasource_list(db: Session = Depends(get_db)):
+def datasource_list(_=Depends(require_login), db: Session = Depends(get_db)):
     """数据源配置列表（含适配器描述）"""
     rows = DataSourceConfigRepo.list_all(db)
     items = []
@@ -73,7 +74,7 @@ def datasource_list(db: Session = Depends(get_db)):
 
 
 @router.post("/create")
-def datasource_create(body: dict, db: Session = Depends(get_db)):
+def datasource_create(body: dict, _=Depends(require_admin), db: Session = Depends(get_db)):
     """新建数据源（零代码表单提交）"""
     name = (body.get("name") or "").strip()
     stype = (body.get("type") or "").strip().upper()
@@ -97,7 +98,7 @@ def datasource_create(body: dict, db: Session = Depends(get_db)):
 
 
 @router.post("/update")
-def datasource_update(body: dict, db: Session = Depends(get_db)):
+def datasource_update(body: dict, _=Depends(require_admin), db: Session = Depends(get_db)):
     """更新数据源配置"""
     cfg = DataSourceConfigRepo.get(db, body.get("id") or 0)
     if not cfg:
@@ -113,7 +114,7 @@ def datasource_update(body: dict, db: Session = Depends(get_db)):
 
 
 @router.post("/toggle")
-def datasource_toggle(body: dict, db: Session = Depends(get_db)):
+def datasource_toggle(body: dict, _=Depends(require_admin), db: Session = Depends(get_db)):
     """启停数据源"""
     cfg = DataSourceConfigRepo.get(db, body.get("id") or 0)
     if not cfg:
@@ -123,7 +124,7 @@ def datasource_toggle(body: dict, db: Session = Depends(get_db)):
 
 
 @router.post("/delete")
-def datasource_delete(body: dict, db: Session = Depends(get_db)):
+def datasource_delete(body: dict, _=Depends(require_admin), db: Session = Depends(get_db)):
     """删除数据源"""
     cfg = DataSourceConfigRepo.get(db, body.get("id") or 0)
     if not cfg:
@@ -133,7 +134,7 @@ def datasource_delete(body: dict, db: Session = Depends(get_db)):
 
 
 @router.post("/test")
-def datasource_test(body: dict, db: Session = Depends(get_db)):
+def datasource_test(body: dict, _=Depends(require_admin), db: Session = Depends(get_db)):
     """测试数据源连通性（拉取 1 条验证）"""
     cfg_id = body.get("id")
     cfg = DataSourceConfigRepo.get(db, cfg_id) if cfg_id else None

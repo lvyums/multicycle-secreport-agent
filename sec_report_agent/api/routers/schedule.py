@@ -1,9 +1,10 @@
 """调度 API — 任务列表 / 下次运行 / 立即触发 / 启停"""
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Depends, Request
 from fastapi.responses import JSONResponse
 
 from api.response import ok, fail
+from api.auth_deps import require_login, require_admin, require_analyst
 from common.validator.validator import validate_enum
 from model.enum.enums import ReportCycle
 
@@ -15,7 +16,7 @@ def _get_scheduler(request: Request):
 
 
 @router.get("/list")
-def schedule_list(request: Request):
+def schedule_list(request: Request, _=Depends(require_login)):
     """调度任务列表（含 cron 与下次触发时间）"""
     from config.settings import settings
     scheduler = _get_scheduler(request)
@@ -43,7 +44,7 @@ def schedule_list(request: Request):
 
 
 @router.get("/next-run")
-def next_run(cycle: str, request: Request):
+def next_run(cycle: str, request: Request, _=Depends(require_login)):
     """指定周期下次触发时间"""
     validate_enum(cycle.upper(), [c.value for c in ReportCycle], "cycle")
     scheduler = _get_scheduler(request)
@@ -57,7 +58,7 @@ def next_run(cycle: str, request: Request):
 
 
 @router.post("/trigger")
-def trigger(body: dict, request: Request):
+def trigger(body: dict, request: Request, _=Depends(require_analyst)):
     """立即触发指定周期报告生成"""
     import asyncio
     from app.services.report_service import ReportService
@@ -71,7 +72,7 @@ def trigger(body: dict, request: Request):
 
 
 @router.post("/toggle")
-def toggle(body: dict, request: Request):
+def toggle(body: dict, request: Request, _=Depends(require_admin)):
     """启停调度（配置项 schedule_enabled）"""
     from config.settings import settings
     enabled = bool(body.get("enabled", True))

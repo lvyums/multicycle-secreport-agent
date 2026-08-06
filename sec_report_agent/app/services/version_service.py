@@ -130,8 +130,25 @@ class VersionService:
             "metricSnapshotId": ver.metric_snapshot_id,
             "operator": ver.operator,
             "remark": ver.remark,
+            "summary": VersionService._extract_summary(ver.content_md or ""),
             "createdAt": ver.created_at,
         }
+
+    @staticmethod
+    def _extract_summary(content_md: str, max_len: int = 120) -> str:
+        """摘要提取（V2.0 T2）：取总体态势章节首段前 N 字，无则正文开头"""
+        if not content_md:
+            return ""
+        text = content_md
+        for marker in ("## 一、总体态势", "## 1. 总体态势", "## 总体", "# "):
+            idx = text.find(marker)
+            if idx >= 0:
+                text = text[idx + len(marker):]
+                break
+        import re as _re
+        text = _re.sub(r"[#*`>\[\]()\-]", "", text)
+        text = _re.sub(r"\s+", " ", text).strip()
+        return text[:max_len] + ("…" if len(text) > max_len else "")
 
 
 class VersionCompareService:
