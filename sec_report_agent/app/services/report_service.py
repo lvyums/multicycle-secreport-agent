@@ -95,6 +95,10 @@ class ReportService:
         cls._finish_task(task_id, status, duration_ms=duration_ms,
                          data_source_stats=stats, version_id=version.get("id", 0))
 
+        # 7. 自动推送（报告选配 auto_generate，V1.3）
+        if status == TaskStatus.SUCCESS.value:
+            cls._auto_push_if_enabled(version.get("id", 0))
+
         logger.info(f"[PIPE] 任务 #{task_id} 完成: {status} 耗时{duration_ms}ms")
         return {"status": status, "version_id": version.get("id", 0),
                 "event_count": metric.alert.get("total", 0), "partial": partial}
@@ -261,7 +265,25 @@ class ReportService:
         composite = engine.composite_level(flags)
 
         facade = RAGFacade(enabled=True)
-        refs = facade.recall_for_metric(metric)
+        refs = facade.recall_for_metric(metric) or []
+
+        # 知识库注入（V1.3）：启用文档 → rag_refs 格式（LLM 参考段）
+        try:
+            from infra.db.session import SessionLocal
+            from infra.db.repositories import KnowledgeDocRepo
+            _db = SessionLocal()
+            try:
+                kb_docs = KnowledgeDocRepo.list_enabled(_db, limit=5)
+            finally:
+                _db.close()
+            if kb_docs:
+                refs = refs + [
+                    {"kb_label": f"知识库·{d.category}", "content": f"{d.title}：{d.content}"}
+                    for d in kb_docs
+                ]
+                logger.info(f"[PIPE] 知识库注入 {len(kb_docs)} 篇: {[d.title for d in kb_docs]}")
+        except Exception as e:
+            logger.warning(f"[PIPE] 知识库注入失败（忽略）: {e}")
 
         judge = LLMJudge()
         result = await judge.judge(metric, flags, refs)
@@ -315,7 +337,9 @@ class ReportService:
             md_content = f"# {EMPTY_REPORT_TITLE.format(cycle_label=cycle_label, window_start=ws[:10], window_end=we[:10])}\n\n{EMPTY_REPORT_BODY}"
         else:
             md_content = md_renderer.render(data)
-        md_path = md_renderer.render_to_file(data, md_path) if not empty else file_store.save_file(md_content, md_path)
+        # 章节裁剪（报告选配 sections 开关，V1.3）
+        md_content = cls._filter_sections(md_content, cls._load_report_sections())
+        md_path = file_store.save_file(md_content, md_path)
         docx_path = docx_renderer.render_to_file(data, docx_path)
 
         version = VersionService.create_draft(
@@ -325,6 +349,92 @@ class ReportService:
         )
         logger.info(f"[PIPE] 版本快照 #{version['id']}: {md_path}")
         return version
+
+    # ── 报告选配辅助（V1.3） ──
+
+    _SECTION_KEYWORDS = {
+        "overview": "总体", "alert": "告警", "vuln": "漏洞",
+        "attack": "攻击", "trend": "趋势", "suggestion": "建议",
+    }
+
+    @classmethod
+    def _load_report_sections(cls) -> Optional[dict]:
+        """读取报告选配章节开关（异常/未配置返回 None = 不裁剪）"""
+        try:
+            from infra.db.session import SessionLocal
+            from infra.db.repositories import ReportConfigRepo
+            db = SessionLocal()
+            try:
+                cfg = ReportConfigRepo.get_or_create(db)
+                return cfg.sections or None
+            finally:
+                db.close()
+        except Exception:
+            return None
+
+    @classmethod
+    def _filter_sections(cls, content_md: str, sections: Optional[dict]) -> str:
+        """按章节开关裁剪 markdown（关闭章节整段移除）"""
+        if not sections or not content_md:
+            return content_md
+        lines = content_md.split("\n")
+        out: list[str] = []
+        drop = False
+        for ln in lines:
+            if ln.startswith("## "):
+                title = ln[3:]
+                key = next((k for k, kw in cls._SECTION_KEYWORDS.items() if kw in title), None)
+                drop = bool(key) and not sections.get(key, True)
+            if not drop:
+                out.append(ln)
+        return "\n".join(out)
+
+    @classmethod
+    def _auto_push_if_enabled(cls, version_id: int):
+        """报告选配 auto_generate=enabled 时自动推送所有已选渠道"""
+        try:
+            from infra.db.session import SessionLocal
+            from infra.db.repositories import ReportConfigRepo, PushLogRepo, ReportVersionRepo
+            from capability.push.push_strategy import PushStrategyFactory
+            from capability.push.local_strategy import LocalPushStrategy
+            from capability.push.webhook_strategies import (
+                DingTalkPushStrategy, WeComPushStrategy, EmailPushStrategy,
+            )
+
+            PushStrategyFactory.register(LocalPushStrategy)
+            PushStrategyFactory.register(DingTalkPushStrategy)
+            PushStrategyFactory.register(WeComPushStrategy)
+            PushStrategyFactory.register(EmailPushStrategy)
+
+            db = SessionLocal()
+            try:
+                cfg = ReportConfigRepo.get_or_create(db)
+                if cfg.auto_generate != "enabled":
+                    return
+                ver = ReportVersionRepo.get(db, version_id)
+                if not ver:
+                    return
+                version_info = {
+                    "version_id": ver.id, "title": ver.title, "file_path": ver.file_path,
+                    "content_md": ver.content_md, "cycle": ver.cycle, "version_no": ver.version_no,
+                }
+                for channel in (cfg.push_channels or ["local"]):
+                    try:
+                        strategy = PushStrategyFactory.get(channel)
+                        result = strategy.push(version_info)
+                        PushLogRepo.create(
+                            db, version_id=version_id, channel=channel,
+                            status="SUCCESS" if result.success else "FAILED",
+                            detail=f"[自动推送] {result.detail[:360]}",
+                        )
+                        logger.info(f"[PIPE] 自动推送 #{version_id} → {channel}: "
+                                    f"{'成功' if result.success else '失败'}")
+                    except Exception as e:
+                        logger.warning(f"[PIPE] 自动推送 {channel} 失败: {e}")
+            finally:
+                db.close()
+        except Exception as e:
+            logger.warning(f"[PIPE] 自动推送流程异常（忽略）: {e}")
 
     # ── 状态收尾 ──
 

@@ -119,6 +119,16 @@ def register_routers():
         app.include_router(datasource_router, prefix="/api/datasource", tags=["数据源"])
     except ImportError:
         pass
+    try:
+        from api.routers.knowledge import router as kb_router
+        app.include_router(kb_router, prefix="/api/kb", tags=["知识库"])
+    except ImportError:
+        pass
+    try:
+        from api.routers.config import router as config_router
+        app.include_router(config_router, prefix="/api/config/report", tags=["报告选配"])
+    except ImportError:
+        pass
 
 
 register_routers()

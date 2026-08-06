@@ -65,10 +65,12 @@ async def generate(body: dict, db: Session = Depends(get_db)):
 
 @router.get("/detail/{task_id}")
 def task_detail(task_id: int, db: Session = Depends(get_db)):
-    """任务详情（含数据源统计）"""
+    """任务详情（含数据源统计 + 版本关联）"""
+    from infra.db.repositories import ReportVersionRepo
     task = ReportTaskRepo.get(db, task_id)
     if not task:
         raise NotFoundError(f"任务不存在: {task_id}")
+    version = ReportVersionRepo.get_latest_by_task(db, task_id)
     return ok({
         "id": task.id, "cycle": task.cycle, "windowStart": task.window_start,
         "windowEnd": task.window_end, "status": task.status,
@@ -76,6 +78,7 @@ def task_detail(task_id: int, db: Session = Depends(get_db)):
         "dataSourceStats": task.data_source_stats,
         "startedAt": task.started_at, "finishedAt": task.finished_at,
         "durationMs": task.duration_ms, "traceId": task.trace_id,
+        "versionId": version.id if version else 0,
         "createdAt": task.created_at,
     })
 

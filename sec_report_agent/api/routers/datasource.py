@@ -1,4 +1,4 @@
-"""数据源 API — 列表 / 连通测试"""
+"""数据源 API — 列表 / 连通测试 / 零代码 CRUD（V1.3）"""
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
@@ -7,9 +7,49 @@ from api.response import ok
 from infra.db.session import get_db
 from infra.db.repositories import DataSourceConfigRepo
 from capability.adapter.factory import AdapterFactory
-from common.exception.exception import NotFoundError
+from common.exception.exception import BusinessError, NotFoundError
 
 router = APIRouter()
+
+# 数据源类型 → 配置表单字段（前端零代码动态表单）
+TYPE_META = {
+    "SYSLOG": {
+        "label": "Syslog 日志文件",
+        "fields": [{"key": "file_path", "label": "日志文件路径", "type": "text"}],
+    },
+    "API": {
+        "label": "API 告警源",
+        "fields": [
+            {"key": "endpoint", "label": "接口地址", "type": "text"},
+            {"key": "token", "label": "Token", "type": "password"},
+        ],
+    },
+    "DB": {
+        "label": "漏洞台账数据库",
+        "fields": [
+            {"key": "db_url", "label": "数据库连接串", "type": "text"},
+            {"key": "vuln_table", "label": "漏洞表名", "type": "text"},
+        ],
+    },
+    "EXCEL": {
+        "label": "Excel 威胁情报台账",
+        "fields": [{"key": "file_path", "label": "xlsx 文件路径", "type": "text"}],
+    },
+    "INTEL": {
+        "label": "威胁情报 IOC 源",
+        "fields": [{"key": "file_path", "label": "IOC 文件路径", "type": "text"}],
+    },
+    "HISTORY": {
+        "label": "历史报告源（环比）",
+        "fields": [{"key": "cycle", "label": "周期（可选）", "type": "text"}],
+    },
+}
+
+
+@router.get("/meta")
+def datasource_meta():
+    """数据源类型元数据（零代码表单驱动）"""
+    return ok({"types": TYPE_META})
 
 
 @router.get("/list")
@@ -30,6 +70,66 @@ def datasource_list(db: Session = Depends(get_db)):
         })
         items.append(desc)
     return ok({"items": items})
+
+
+@router.post("/create")
+def datasource_create(body: dict, db: Session = Depends(get_db)):
+    """新建数据源（零代码表单提交）"""
+    name = (body.get("name") or "").strip()
+    stype = (body.get("type") or "").strip().upper()
+    if not name or not stype:
+        raise BusinessError("name 与 type 必填")
+    if stype not in TYPE_META:
+        raise BusinessError(f"不支持的数据源类型: {stype}")
+    if DataSourceConfigRepo.get_by_name(db, name):
+        raise BusinessError(f"数据源名称已存在: {name}")
+    cfg = DataSourceConfigRepo.create(
+        db,
+        name=name,
+        type=stype,
+        status=body.get("status", "enabled"),
+        config_json=body.get("config", {}) or {},
+        filter_rules_json=body.get("filterRules", {}) or {},
+        sync_strategy=body.get("syncStrategy", "window"),
+        description=body.get("description", ""),
+    )
+    return ok({"id": cfg.id, "name": cfg.name})
+
+
+@router.post("/update")
+def datasource_update(body: dict, db: Session = Depends(get_db)):
+    """更新数据源配置"""
+    cfg = DataSourceConfigRepo.get(db, body.get("id") or 0)
+    if not cfg:
+        raise NotFoundError(f"数据源不存在: {body.get('id')}")
+    DataSourceConfigRepo.update(
+        db, cfg,
+        config_json=body.get("config", cfg.config_json),
+        filter_rules_json=body.get("filterRules", cfg.filter_rules_json),
+        sync_strategy=body.get("syncStrategy", cfg.sync_strategy),
+        description=body.get("description", cfg.description),
+    )
+    return ok({"id": cfg.id, "name": cfg.name})
+
+
+@router.post("/toggle")
+def datasource_toggle(body: dict, db: Session = Depends(get_db)):
+    """启停数据源"""
+    cfg = DataSourceConfigRepo.get(db, body.get("id") or 0)
+    if not cfg:
+        raise NotFoundError(f"数据源不存在: {body.get('id')}")
+    DataSourceConfigRepo.toggle(db, cfg)
+    return ok({"id": cfg.id, "status": cfg.status})
+
+
+@router.post("/delete")
+def datasource_delete(body: dict, db: Session = Depends(get_db)):
+    """删除数据源"""
+    cfg = DataSourceConfigRepo.get(db, body.get("id") or 0)
+    if not cfg:
+        raise NotFoundError(f"数据源不存在: {body.get('id')}")
+    DataSourceConfigRepo.delete(db, cfg)
+    return ok({"id": body.get("id")})
 
 
 @router.post("/test")

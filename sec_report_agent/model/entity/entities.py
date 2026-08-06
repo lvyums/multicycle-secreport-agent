@@ -126,6 +126,31 @@ class ReportVersion(Base):
     created_at: Mapped[str] = mapped_column(String(32), default=_now)
 
 
+class KnowledgeDoc(Base):
+    """知识库文档（研判参考注入源，V1.3）"""
+    __tablename__ = "knowledge_doc"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    title: Mapped[str] = mapped_column(String(255), index=True)
+    category: Mapped[str] = mapped_column(String(32), default="general", index=True)  # general/attack/defense/regulation
+    content: Mapped[str] = mapped_column(Text, default="")
+    enabled: Mapped[str] = mapped_column(String(8), default="enabled")   # enabled/disabled
+    created_at: Mapped[str] = mapped_column(String(32), default=_now)
+    updated_at: Mapped[str] = mapped_column(String(32), default=_now, onupdate=_now)
+
+
+class ReportConfig(Base):
+    """报告选配（单例 id=1，V1.3）"""
+    __tablename__ = "report_config"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    enabled_cycles: Mapped[list] = mapped_column(JSON, default=list)      # 启用的报告周期
+    sections: Mapped[dict] = mapped_column(JSON, default=dict)            # 章节开关 {overview: true, ...}
+    push_channels: Mapped[list] = mapped_column(JSON, default=list)       # 推送渠道
+    auto_generate: Mapped[str] = mapped_column(String(8), default="disabled")  # enabled/disabled
+    updated_at: Mapped[str] = mapped_column(String(32), default=_now, onupdate=_now)
+
+
 class MetricSnapshot(Base):
     """指标快照（溯源/对比/防幻觉）"""
     __tablename__ = "metric_snapshot"

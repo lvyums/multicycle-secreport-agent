@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 from model.entity.entities import (
     DataSourceConfig, RawEvent, StdEvent, AssetVuln,
     ReportTask, ReportVersion, MetricSnapshot, AuditLog, PushLog,
+    KnowledgeDoc, ReportConfig,
 )
 from model.enum.enums import TaskStatus, DataSourceType
 
@@ -48,6 +49,27 @@ class DataSourceConfigRepo:
         db.commit()
         db.refresh(cfg)
         return cfg
+
+    @staticmethod
+    def update(db: Session, cfg: DataSourceConfig, **kwargs) -> DataSourceConfig:
+        for k, v in kwargs.items():
+            if hasattr(cfg, k):
+                setattr(cfg, k, v)
+        db.commit()
+        db.refresh(cfg)
+        return cfg
+
+    @staticmethod
+    def toggle(db: Session, cfg: DataSourceConfig) -> DataSourceConfig:
+        cfg.status = "disabled" if cfg.status == "enabled" else "enabled"
+        db.commit()
+        db.refresh(cfg)
+        return cfg
+
+    @staticmethod
+    def delete(db: Session, cfg: DataSourceConfig):
+        db.delete(cfg)
+        db.commit()
 
 
 # ═══════════ 原始/标准化事件 ═══════════
@@ -199,6 +221,13 @@ class ReportVersionRepo:
         ).scalars().all()
 
     @staticmethod
+    def get_latest_by_task(db: Session, task_id: int) -> Optional[ReportVersion]:
+        return db.execute(
+            select(ReportVersion).where(ReportVersion.task_id == task_id)
+            .order_by(ReportVersion.id.desc()).limit(1)
+        ).scalar_one_or_none()
+
+    @staticmethod
     def next_version_no(db: Session, task_id: int) -> int:
         cur = db.execute(
             select(func.max(ReportVersion.version_no)).where(ReportVersion.task_id == task_id)
@@ -305,3 +334,90 @@ class PushLogRepo:
             select(PushLog).where(PushLog.version_id == version_id)
             .order_by(PushLog.id.desc())
         ).scalars().all()
+
+
+# ═══════════ 知识库文档（V1.3） ═══════════
+
+class KnowledgeDocRepo:
+    @staticmethod
+    def list_all(db: Session, category: Optional[str] = None) -> Sequence[KnowledgeDoc]:
+        stmt = select(KnowledgeDoc)
+        if category:
+            stmt = stmt.where(KnowledgeDoc.category == category)
+        return db.execute(stmt.order_by(KnowledgeDoc.id.desc())).scalars().all()
+
+    @staticmethod
+    def get(db: Session, doc_id: int) -> Optional[KnowledgeDoc]:
+        return db.get(KnowledgeDoc, doc_id)
+
+    @staticmethod
+    def list_enabled(db: Session, limit: int = 20) -> Sequence[KnowledgeDoc]:
+        """启用文档（研判注入源）"""
+        return db.execute(
+            select(KnowledgeDoc).where(KnowledgeDoc.enabled == "enabled")
+            .order_by(KnowledgeDoc.id.desc()).limit(limit)
+        ).scalars().all()
+
+    @staticmethod
+    def create(db: Session, **kwargs) -> KnowledgeDoc:
+        doc = KnowledgeDoc(**kwargs)
+        db.add(doc)
+        db.commit()
+        db.refresh(doc)
+        return doc
+
+    @staticmethod
+    def update(db: Session, doc: KnowledgeDoc, **kwargs) -> KnowledgeDoc:
+        for k, v in kwargs.items():
+            if hasattr(doc, k):
+                setattr(doc, k, v)
+        db.commit()
+        db.refresh(doc)
+        return doc
+
+    @staticmethod
+    def toggle(db: Session, doc: KnowledgeDoc) -> KnowledgeDoc:
+        doc.enabled = "disabled" if doc.enabled == "enabled" else "enabled"
+        db.commit()
+        db.refresh(doc)
+        return doc
+
+    @staticmethod
+    def delete(db: Session, doc: KnowledgeDoc):
+        db.delete(doc)
+        db.commit()
+
+
+# ═══════════ 报告选配（V1.3，单例） ═══════════
+
+class ReportConfigRepo:
+    DEFAULT_SECTIONS = {
+        "overview": True, "alert": True, "vuln": True,
+        "attack": True, "trend": True, "suggestion": True,
+    }
+    DEFAULT_CYCLES = ["DAILY", "WEEKLY", "MONTHLY", "QUARTERLY", "YEARLY"]
+
+    @staticmethod
+    def get_or_create(db: Session) -> ReportConfig:
+        cfg = db.get(ReportConfig, 1)
+        if not cfg:
+            cfg = ReportConfig(
+                id=1,
+                enabled_cycles=ReportConfigRepo.DEFAULT_CYCLES,
+                sections=dict(ReportConfigRepo.DEFAULT_SECTIONS),
+                push_channels=["local"],
+                auto_generate="disabled",
+            )
+            db.add(cfg)
+            db.commit()
+            db.refresh(cfg)
+        return cfg
+
+    @staticmethod
+    def save(db: Session, cfg: ReportConfig, **kwargs) -> ReportConfig:
+        for k, v in kwargs.items():
+            if hasattr(cfg, k):
+                setattr(cfg, k, v)
+        db.commit()
+        db.refresh(cfg)
+        return cfg
