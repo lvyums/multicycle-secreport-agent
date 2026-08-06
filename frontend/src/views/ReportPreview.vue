@@ -47,12 +47,46 @@
           <el-button size="small" type="primary" :disabled="version.status !== 'APPROVED'" @click="doPush">
             推送{{ version.status !== 'APPROVED' ? '(需终审)' : '' }}
           </el-button>
+          <!-- V2.1 导出 -->
+          <el-divider direction="vertical" style="margin: 0 8px" />
+          <el-button size="small" @click="doExport('md')">下载 Markdown</el-button>
+          <el-button size="small" @click="doExport('docx')">下载 Word</el-button>
         </div>
       </template>
 
       <div v-if="loading" v-loading="true" class="loading-wrap" />
       <template v-else-if="content">
         <div class="md-body" v-html="renderedHtml" />
+
+        <!-- V2.1 报告智能问答 -->
+        <el-card shadow="never" class="qa-card">
+          <template #header>
+            <div class="toolbar">
+              <span>💬 报告智能问答</span>
+              <el-tag v-if="qaMode === 'llm'" size="small" type="success">LLM 回答</el-tag>
+              <el-tag v-else-if="qaMode === 'fallback'" size="small" type="warning">自动提取</el-tag>
+            </div>
+          </template>
+          <div class="qa-input">
+            <el-input
+              v-model="qaQuestion"
+              placeholder="针对本报告提问，如：高危告警有多少起？主要攻击类型是什么？建议优先处置哪些？"
+              size="small"
+              clearable
+              @keyup.enter="askQa"
+            />
+            <el-button size="small" type="primary" :loading="qaLoading" @click="askQa">提问</el-button>
+          </div>
+          <div v-if="qaAnswer" class="qa-answer">
+            <div class="qa-answer-text">{{ qaAnswer }}</div>
+            <div v-if="qaRefs.length" class="qa-refs">
+              <div class="qa-ref-title">📚 参考资料（知识库）</div>
+              <div v-for="(r, i) in qaRefs" :key="i" class="qa-ref-item">
+                [{{ r.kb_label || r.kb_name }}] {{ String(r.content || '').slice(0, 140) }}
+              </div>
+            </div>
+          </div>
+        </el-card>
 
         <!-- 版本对比结果 -->
         <el-card v-if="compareResult" shadow="never" class="compare-card">
@@ -104,6 +138,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Api } from '@/api'
 import { notifyError } from '@/api/request'
+import { getToken } from '@/utils/auth'
 import { CYCLE_LABELS, VERSION_STATUS_LABELS } from '@/types'
 import type { ReportVersion } from '@/types'
 
@@ -117,6 +152,51 @@ const channels = ref<string[]>(['local'])
 const pushChannel = ref('local')
 const compareTarget = ref<number | null>(null)
 const compareResult = ref<any>(null)
+// V2.1 问答状态
+const qaQuestion = ref('')
+const qaAnswer = ref('')
+const qaRefs = ref<any[]>([])
+const qaMode = ref('')
+const qaLoading = ref(false)
+
+/** V2.1 导出：fetch blob 下载（带 token，文件名取标题） */
+function doExport(format: 'md' | 'docx') {
+  if (!version.value) return
+  const token = getToken()
+  const url = Api.report.exportUrl(version.value.id, format)
+  fetch(url, { headers: token ? { Authorization: 'Bearer ' + token } : {} })
+    .then((r) => {
+      if (!r.ok) throw new Error('HTTP ' + r.status)
+      return r.blob()
+    })
+    .then((blob) => {
+      const a = document.createElement('a')
+      a.href = URL.createObjectURL(blob)
+      a.download = `${(version.value?.title || 'report').replace(/[（()）\s]/g, '_')}.${format}`
+      document.body.appendChild(a)
+      a.click()
+      URL.revokeObjectURL(a.href)
+      a.remove()
+      ElMessage.success(`已导出 ${format.toUpperCase()}`)
+    })
+    .catch((e) => ElMessage.error('导出失败: ' + (e?.message || e)))
+}
+
+/** V2.1 报告智能问答 */
+async function askQa() {
+  const q = qaQuestion.value.trim()
+  if (!q || !version.value) return
+  qaLoading.value = true
+  const r = await Api.report.qa({ versionId: version.value.id, question: q })
+  qaLoading.value = false
+  if (r.success && r.data) {
+    qaAnswer.value = String((r.data as any).answer || '')
+    qaRefs.value = (r.data as any).refs || []
+    qaMode.value = String((r.data as any).mode || '')
+  } else {
+    ElMessage.error(r.msg || '问答失败')
+  }
+}
 
 function escapeHtml(s: string) {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -290,6 +370,37 @@ onMounted(load)
 }
 .compare-card {
   margin-top: 18px;
+}
+.qa-card {
+  margin-top: 18px;
+}
+.qa-input {
+  display: flex;
+  gap: 8px;
+}
+.qa-answer {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: #f8fafc;
+  border-radius: 6px;
+  font-size: 13px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+.qa-refs {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed #dcdfe6;
+}
+.qa-ref-title {
+  font-size: 12px;
+  color: #909399;
+  margin-bottom: 4px;
+}
+.qa-ref-item {
+  font-size: 12px;
+  color: #606266;
+  line-height: 1.7;
 }
 .mt8 {
   margin-top: 8px;

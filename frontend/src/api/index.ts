@@ -13,6 +13,10 @@ export const Api = {
     detail: (taskId: number) => get(`/api/report/detail/${taskId}`),
     status: (taskId: number) => get(`/api/report/status/${taskId}`),
     stats: () => get('/api/report/stats'),
+    // V2.1 智能问答 + 导出
+    qa: (data: { versionId: number; question: string }) => post('/api/report/qa', data),
+    exportUrl: (versionId: number, format: 'md' | 'docx') =>
+      `/api/report/export/${versionId}?format=${format}`,
   },
 
   // ── 调度 ──

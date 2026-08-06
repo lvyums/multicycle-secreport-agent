@@ -1,6 +1,7 @@
 """报告 API — 任务列表 / 生成 / 详情 / 统计"""
 
 import asyncio
+from io import BytesIO
 
 from fastapi import APIRouter, Depends, Query, Request
 from sqlalchemy.orm import Session
@@ -73,6 +74,51 @@ async def generate(body: dict, request: Request, _=Depends(require_analyst), db:
         bg.add(task)
         task.add_done_callback(bg.discard)
     return ok(result, message="任务已创建，后台执行中")
+
+
+@router.post("/qa")
+async def report_qa(body: dict, _=Depends(require_login), db: Session = Depends(get_db)):
+    """报告智能问答（V2.1）：基于报告正文 + 知识库参考回答分析师问题"""
+    from app.services.report_qa_service import ReportQAService
+
+    version_id = int(body.get("versionId") or body.get("version_id") or 0)
+    question = str(body.get("question") or "").strip()
+    if version_id <= 0:
+        return fail("versionId 必填", ApiCode.PARAM_ERROR)
+    if not question:
+        return fail("question 必填", ApiCode.PARAM_ERROR)
+    result = await ReportQAService.ask(db, version_id, question)
+    return ok(result)
+
+
+@router.get("/export/{version_id}")
+def report_export(version_id: int, format: str = Query("md", pattern="^(md|docx)$"),
+                  _=Depends(require_login), db: Session = Depends(get_db)):
+    """报告导出（V2.1）：md / docx 文件下载"""
+    from fastapi.responses import StreamingResponse
+    from app.services.report_export_service import ReportExportService
+    from model.entity.entities import ReportVersion
+
+    version = db.query(ReportVersion).filter(ReportVersion.id == version_id).first()
+    if not version:
+        return fail(f"报告版本不存在: {version_id}", ApiCode.NOT_FOUND)
+    content_md = version.content_md or ""
+    if format == "docx":
+        payload = ReportExportService.build_docx(content_md)
+        media = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        filename = f"{version.title or 'report'}-v{version.version_no}.docx"
+    else:
+        payload = ReportExportService.build_markdown(content_md)
+        media = "text/markdown; charset=utf-8"
+        filename = f"{version.title or 'report'}-v{version.version_no}.md"
+    filename = filename.replace("（", "(").replace("）", ")").replace(" ", "_")
+    from urllib.parse import quote
+    safe_name = quote(filename)  # 中文文件名需 URL 编码（headers 必须 latin-1 可编码）
+    return StreamingResponse(
+        BytesIO(payload),
+        media_type=media,
+        headers={"Content-Disposition": f"attachment; filename*=UTF-8''{safe_name}"},
+    )
 
 
 @router.get("/status/{task_id}")
