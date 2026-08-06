@@ -7,7 +7,7 @@ sys.path.insert(0, ".")
 
 from sqlalchemy import delete as sa_delete
 from infra.db.session import SessionLocal
-from model.entity.entities import ReportVersion, ReportTask, AuditLog
+from model.entity.entities import ReportVersion, ReportTask, AuditLog, User, KnowledgeDoc
 
 TEST_TITLE_PATTERNS = ("UT版本", "UT测试", "初稿", "基线", "目标", "路由测试", "推送内容", "对比测试", "审核测试")
 
@@ -51,5 +51,10 @@ try:
         c_removed += 1
     db.commit()
     print(f"已清理 {c_removed} 条非法 cycle 任务")
+    # 清理测试用户与 UT 文档（V2.0 RBAC 测试造的 utuserxxx / UT文档）
+    u_removed = db.execute(sa_delete2(User).where(User.username.like("utuser%"))).rowcount
+    k_removed = db.execute(sa_delete2(KnowledgeDoc).where(KnowledgeDoc.title.like("UT%"))).rowcount
+    db.commit()
+    print(f"已清理 {u_removed} 个测试用户、{k_removed} 条 UT 文档")
 finally:
     db.close()
