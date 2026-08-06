@@ -79,7 +79,10 @@ class CachedMetricProxy:
         if cached is not None:
             return MetricSet(**cached)
         metric = self._aggregator.build(events, vulns, window_start, window_end)
-        self._cache.set(key, metric.to_dict(), ttl=self._ttl)
+        # 空结果不缓存（避免污染后续重跑）
+        raw = metric.raw or {}
+        if raw.get("event_count", 0) > 0 or raw.get("vuln_count", 0) > 0:
+            self._cache.set(key, metric.to_dict(), ttl=self._ttl)
         return metric
 
     def invalidate(self, window_start: str, window_end: str):

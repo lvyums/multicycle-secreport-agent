@@ -1,6 +1,6 @@
-"""报告任务执行入口 — 周期窗口计算 + 全链路编排（D2 阶段接入完整 pipeline）
+"""报告任务 — 周期窗口计算 + 同步执行入口（调度器/脚本调用）
 
-V1.0 占位：仅计算窗口并记录日志，B/C/D 阶段填充各环节。
+run_report_task 委托 app.services.report_service（完整 pipeline）
 """
 
 from datetime import datetime, timedelta
@@ -47,29 +47,9 @@ def calc_window(cycle: str, ref: datetime | None = None) -> tuple[str, str]:
 
 
 def run_report_task(cycle: str, trigger_type: str = "MANUAL",
-                    window_start: str | None = None, window_end: str | None = None) -> dict:
-    """报告任务入口：创建任务 + 编排 pipeline（V1.0 占位）"""
-    from infra.db.session import SessionLocal
-    from infra.db.repositories import ReportTaskRepo
-    from infra.trace.trace import set_trace_id, get_trace_id
-
-    set_trace_id()
-    if not window_start or not window_end:
-        window_start, window_end = calc_window(cycle)
-
-    db = SessionLocal()
-    try:
-        existing = ReportTaskRepo.find_existing(db, cycle, window_start, window_end)
-        if existing:
-            logger.info(f"[TASK] 幂等命中，复用任务 #{existing.id}（{existing.status}）")
-            return {"task_id": existing.id, "reused": True, "status": existing.status}
-
-        task = ReportTaskRepo.create(
-            db, cycle=cycle, window_start=window_start, window_end=window_end,
-            status="PENDING", trigger_type=trigger_type,
-            trace_id=get_trace_id(),
-        )
-        logger.info(f"[TASK] 创建报告任务 #{task.id}: {cycle} {window_start} ~ {window_end}")
-        return {"task_id": task.id, "reused": False, "status": task.status}
-    finally:
-        db.close()
+                    window_start: str | None = None, window_end: str | None = None,
+                    rerun: bool = False) -> dict:
+    """同步入口：委托 ReportService 执行完整 pipeline"""
+    from app.services.report_service import run_report_task as _run
+    return _run(cycle, trigger_type=trigger_type,
+                window_start=window_start, window_end=window_end, rerun=rerun)

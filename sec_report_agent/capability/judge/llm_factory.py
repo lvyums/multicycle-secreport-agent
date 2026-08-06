@@ -6,7 +6,7 @@ import time
 
 from openai import AsyncOpenAI
 
-from common.logger import LogManager
+from common.logger.logger import LogManager
 
 logger = LogManager.get_logger()
 
