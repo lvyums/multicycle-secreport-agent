@@ -11,6 +11,7 @@ export const Api = {
     generate: (data: { cycle: string; windowStart?: string; windowEnd?: string; rerun?: boolean }) =>
       post('/api/report/generate', data),
     detail: (taskId: number) => get(`/api/report/detail/${taskId}`),
+    status: (taskId: number) => get(`/api/report/status/${taskId}`),
     stats: () => get('/api/report/stats'),
   },
 

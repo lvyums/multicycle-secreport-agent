@@ -4,7 +4,7 @@
       <template #header>
         <div class="toolbar">
           <span>数据源管理（零代码）</span>
-          <el-button type="primary" size="small" @click="openCreate">新增数据源</el-button>
+          <el-button v-if="canManage" type="primary" size="small" @click="openCreate">新增数据源</el-button>
         </div>
       </template>
 
@@ -17,7 +17,7 @@
         </el-table-column>
         <el-table-column label="状态" width="90">
           <template #default="{ row }">
-            <el-switch :model-value="row.status === 'enabled'" @change="() => onToggle(row)" />
+            <el-switch :model-value="row.status === 'enabled'" :disabled="!canManage" @change="() => onToggle(row)" />
           </template>
         </el-table-column>
         <el-table-column prop="syncStrategy" label="同步策略" width="110" />
@@ -25,8 +25,8 @@
         <el-table-column label="操作" width="200" fixed="right">
           <template #default="{ row }">
             <el-button link type="primary" size="small" @click="onTest(row)">测试</el-button>
-            <el-button link type="primary" size="small" @click="openEdit(row)">编辑</el-button>
-            <el-button link type="danger" size="small" @click="onRemove(row)">删除</el-button>
+            <el-button v-if="canManage" link type="primary" size="small" @click="openEdit(row)">编辑</el-button>
+            <el-button v-if="canManage" link type="danger" size="small" @click="onRemove(row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -67,6 +67,9 @@
 import { ref, computed, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Api } from '@/api'
+import { isAdmin } from '@/utils/auth'
+
+const canManage = isAdmin()
 
 const loading = ref(false)
 const items = ref<any[]>([])

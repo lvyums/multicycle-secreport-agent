@@ -3,7 +3,7 @@
     <template #header>
       <div class="toolbar">
         <span>调度配置</span>
-        <el-switch v-model="enabled" active-text="启用调度" @change="onToggle" />
+        <el-switch v-model="enabled" active-text="启用调度" :disabled="!canManage" @change="onToggle" />
       </div>
     </template>
 
@@ -31,6 +31,9 @@ import { ElMessage } from 'element-plus'
 import { Api } from '@/api'
 import { notifyError } from '@/api/request'
 import { CYCLE_LABELS } from '@/types'
+import { isAdmin } from '@/utils/auth'
+
+const canManage = isAdmin()
 
 const loading = ref(false)
 const enabled = ref(true)

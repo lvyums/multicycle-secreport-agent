@@ -34,6 +34,10 @@
           <el-icon><Tickets /></el-icon>
           <span>任务日志</span>
         </el-menu-item>
+        <el-menu-item v-if="canManage" index="/users">
+          <el-icon><UserFilled /></el-icon>
+          <span>系统用户</span>
+        </el-menu-item>
       </el-menu>
     </el-aside>
 
@@ -41,7 +45,20 @@
       <el-header class="main-header">
         <div class="header-title">{{ pageTitle }}</div>
         <div class="header-right">
-          <el-tag size="small" type="info">V0.1 框架底座</el-tag>
+          <el-tag size="small" type="info">V2.0 生产加固</el-tag>
+          <el-dropdown @command="onCommand">
+            <span class="user-chip">
+              <el-icon><UserFilled /></el-icon>
+              {{ user?.displayName || user?.username || '未登录' }}
+              <el-tag size="small" :type="roleTagType" class="role-tag">{{ roleLabel }}</el-tag>
+              <el-icon><ArrowDown /></el-icon>
+            </span>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item command="logout" divided>退出登录</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
         </div>
       </el-header>
       <el-main class="main-content">
@@ -53,11 +70,24 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { getUser, clearAuth, isAdmin, ROLE_LABEL } from '../utils/auth'
 
 const route = useRoute()
+const router = useRouter()
+const user = getUser()
+const canManage = isAdmin()
 const activeMenu = computed(() => route.path)
 const pageTitle = computed(() => (route.meta?.title as string) || '')
+const roleLabel = computed(() => (user ? (ROLE_LABEL[user.role] || user.role) : ''))
+const roleTagType = computed(() => (user?.role === 'admin' ? 'danger' : user?.role === 'analyst' ? 'warning' : 'info'))
+
+function onCommand(cmd: string) {
+  if (cmd === 'logout') {
+    clearAuth()
+    router.replace('/login')
+  }
+}
 </script>
 
 <style scoped>
@@ -100,6 +130,22 @@ const pageTitle = computed(() => (route.meta?.title as string) || '')
 .header-title {
   font-size: 16px;
   font-weight: 600;
+}
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.user-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  color: #303133;
+  font-size: 14px;
+}
+.role-tag {
+  margin-left: 2px;
 }
 .main-content {
   background: #f5f7fa;

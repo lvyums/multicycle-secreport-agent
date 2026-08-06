@@ -19,7 +19,8 @@
           <el-tag size="small">{{ CYCLE_LABELS[row.cycle] || row.cycle }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="title" label="标题" min-width="260" show-overflow-tooltip />
+      <el-table-column prop="title" label="标题" min-width="240" show-overflow-tooltip />
+      <el-table-column prop="summary" label="摘要" min-width="240" show-overflow-tooltip />
       <el-table-column label="版本" width="80">
         <template #default="{ row }">v{{ row.versionNo }}</template>
       </el-table-column>

@@ -1,6 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { isLoggedIn } from '../utils/auth'
 
 const routes = [
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/Login.vue'),
+    meta: { title: '登录' },
+  },
   {
     path: '/',
     component: () => import('@/layouts/MainLayout.vue'),
@@ -54,6 +61,12 @@ const routes = [
         component: () => import('@/views/TaskLogs.vue'),
         meta: { title: '任务日志' },
       },
+      {
+        path: 'users',
+        name: 'users',
+        component: () => import('@/views/UserManage.vue'),
+        meta: { title: '系统用户' },
+      },
     ],
   },
 ]
@@ -61,6 +74,16 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+})
+
+router.beforeEach((to) => {
+  if (to.path !== '/login' && !isLoggedIn()) {
+    return { path: '/login', query: { redirect: to.fullPath } }
+  }
+  if (to.path === '/login' && isLoggedIn()) {
+    return { path: '/dashboard' }
+  }
+  return true
 })
 
 router.afterEach((to) => {

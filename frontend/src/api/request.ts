@@ -1,6 +1,7 @@
-/** fetch 统一封装 — 解析 ApiResponse{code, message, data, traceId} */
+/** fetch 统一封装 — 解析 ApiResponse{code, message, data, traceId}；自动注入 Bearer token（V2.0 RBAC） */
 import type { ApiResponse } from '../types'
 import { ElMessage } from 'element-plus'
+import { getToken, clearAuth } from '../utils/auth'
 
 const BASE = ''
 
@@ -16,17 +17,22 @@ async function request<T = any>(
   data?: any,
   options?: RequestInit,
 ): Promise<RequestResult<T>> {
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+  const token = getToken()
+  if (token) {
+    headers['Authorization'] = 'Bearer ' + token
+  }
   const config: RequestInit = {
     method,
-    headers: { 'Content-Type': 'application/json' },
+    headers,
     ...options,
   }
 
   if (data && method !== 'GET') {
     if (data instanceof FormData) {
-      const headers = { ...(config.headers as Record<string, string>) }
-      delete headers['Content-Type']
-      config.headers = headers
+      const h = { ...(config.headers as Record<string, string>) }
+      delete h['Content-Type']
+      config.headers = h
       config.body = data
     } else {
       config.body = JSON.stringify(data)
@@ -35,6 +41,15 @@ async function request<T = any>(
 
   try {
     const resp = await fetch(BASE + url, config)
+    if (resp.status === 401 || resp.status === 403) {
+      // 未登录/越权 → 清凭证回登录页
+      clearAuth()
+      if (!location.pathname.startsWith('/login')) {
+        ElMessage.warning(resp.status === 401 ? '登录已过期，请重新登录' : '无权限访问该操作')
+        location.href = '/login'
+      }
+      return { success: false, data: null, msg: resp.status === 401 ? '未登录' : '无权限' }
+    }
     if (!resp.ok) {
       return { success: false, data: null, msg: 'HTTP ' + resp.status }
     }

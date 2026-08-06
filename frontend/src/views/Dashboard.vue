@@ -76,12 +76,34 @@ async function loadTasks() {
 }
 
 async function onGenerate(cycle: string) {
+  // V2.0 R：异步提交 → 轮询状态
   const r = await Api.report.generate({ cycle })
   notifyError(r)
-  if (r.success) {
-    ElMessage.success(`任务已创建 (ID: ${(r.data as any)?.taskId})`)
+  if (!r.success || !r.data) return
+  const taskId = (r.data as any)?.taskId
+  if ((r.data as any)?.reused) {
+    ElMessage.info(`窗口已有任务 #${taskId}（${(r.data as any)?.status}），直接复用`)
     loadTasks()
+    return
   }
+  ElMessage.success(`任务 #${taskId} 已提交，后台执行中…`)
+  const begin = Date.now()
+  for (let i = 0; i < 60; i++) {
+    await new Promise((res) => setTimeout(res, 1000))
+    const s = await Api.report.status(taskId)
+    const st = (s.data as any)?.status
+    if (st && !['PENDING', 'RUNNING'].includes(st)) {
+      const cost = ((Date.now() - begin) / 1000).toFixed(1)
+      const v = (s.data as any)?.versionId
+      ElMessage[st === 'SUCCESS' ? 'success' : 'warning'](
+        `任务 #${taskId} ${st}（${cost}s）${v ? `，版本 #${v}` : ''}`,
+      )
+      loadTasks()
+      return
+    }
+  }
+  ElMessage.warning('任务仍在执行，可稍后到任务日志查看')
+  loadTasks()
 }
 
 function goVersions(taskId: number) {
