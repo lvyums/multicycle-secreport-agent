@@ -1,0 +1,1200 @@
+<86>Jul 14 08:56:40 ids-01 malware[9035]: Malware detected on 10.0.1.5 from 203.0.113.1: trojan.win32.emotet
+<86>Jul 14 05:39:07 fw-gw malware[9295]: Malware detected on 10.0.1.1 from 203.0.113.2: trojan.win32.emotet
+<165>Jul 21 03:39:47 ids-01 dos[206]: Flood detected: 203.0.113.18 -> 10.0.2.2 25926 pps SYN flood
+<165>Jul 14 03:15:31 ids-01 dos[1774]: Flood detected: 203.0.113.11 -> 10.0.1.5 17156 pps SYN flood
+<86>Jul 15 14:41:16 mail-gw web_attack[7627]: WAF blocked SQLi/XSS attempt from 203.0.113.12 to 10.0.2.1: union select
+<165>Jul 16 11:19:16 mail-gw policy[9559]: Policy violation: 10.0.1.2 accessed forbidden site from 203.0.113.13
+<165>Jul 14 12:19:10 core-sw brute_force[1407]: Failed password for root from 203.0.113.3 port 25256 ssh2 (user=admin attempts=9)
+<134>Jul 18 18:45:47 ids-01 web_attack[4474]: WAF blocked SQLi/XSS attempt from 203.0.113.15 to 10.0.2.1: union select
+<190>Jul 15 00:29:47 core-sw malware[6316]: Malware detected on 10.0.2.4 from 203.0.113.6: trojan.win32.qakbot
+<86>Jul 17 09:42:58 core-sw policy[3852]: Policy violation: 10.0.1.4 accessed forbidden site from 203.0.113.18
+<165>Jul 09 15:53:18 waf-01 phishing[3583]: Phishing email blocked: from 203.0.113.11 to user42@corp.local subject=invoice
+<165>Jul 11 20:45:59 waf-01 web_attack[9677]: WAF blocked SQLi/XSS attempt from 203.0.113.15 to 10.0.1.3: ../../../etc/passwd
+<134>Aug 06 14:18:26 ids-01 lateral[8448]: Lateral movement: 203.0.113.13 -> 10.0.2.1 SMB 16 connections anomalous
+<190>Jul 26 11:59:38 ids-01 brute_force[9871]: Failed password for root from 203.0.113.2 port 14163 ssh2 (user=admin attempts=27)
+<86>Aug 05 19:24:33 waf-01 web_attack[1976]: WAF blocked SQLi/XSS attempt from 203.0.113.15 to 10.0.2.4: <script>alert(1)</script>
+<190>Jul 20 17:15:49 waf-01 dos[153]: Flood detected: 203.0.113.11 -> 10.0.1.2 39522 pps SYN flood
+<165>Aug 02 19:00:22 fw-gw policy[8417]: Policy violation: 10.0.2.4 accessed forbidden site from 203.0.113.6
+<86>Jul 23 20:35:08 ids-01 malware[9913]: Malware detected on 10.0.2.1 from 203.0.113.5: trojan.win32.qakbot
+<134>Jul 14 20:38:18 waf-01 web_attack[9395]: WAF blocked SQLi/XSS attempt from 203.0.113.4 to 10.0.2.1: union select
+<134>Jul 30 15:38:00 mail-gw brute_force[7887]: Failed password for root from 203.0.113.16 port 46031 ssh2 (user=admin attempts=13)
+<134>Aug 04 13:03:01 ids-01 brute_force[5207]: Failed password for root from 203.0.113.20 port 36148 ssh2 (user=admin attempts=26)
+<86>Jul 15 02:43:29 fw-gw web_attack[5639]: WAF blocked SQLi/XSS attempt from 203.0.113.17 to 10.0.2.3: union select
+<86>Jul 07 21:24:36 ids-01 malware[3850]: Malware detected on 10.0.2.5 from 203.0.113.8: trojan.win32.emotet
+<190>Jul 14 19:35:46 mail-gw lateral[3610]: Lateral movement: 203.0.113.11 -> 10.0.1.2 SMB 18 connections anomalous
+<190>Jul 14 23:11:26 db-firewall brute_force[6769]: Failed password for root from 203.0.113.19 port 22478 ssh2 (user=admin attempts=9)
+<86>Jul 20 00:13:35 db-firewall brute_force[1712]: Failed password for root from 203.0.113.14 port 13972 ssh2 (user=admin attempts=28)
+<190>Jul 13 09:10:59 ids-01 dos[2396]: Flood detected: 203.0.113.4 -> 10.0.1.4 60296 pps SYN flood
+<86>Jul 20 23:17:12 fw-gw brute_force[928]: Failed password for root from 203.0.113.15 port 52738 ssh2 (user=admin attempts=37)
+<190>Jul 19 20:51:03 ids-01 phishing[3602]: Phishing email blocked: from 203.0.113.3 to user26@corp.local subject=invoice
+<165>Aug 06 05:39:18 fw-gw lateral[7554]: Lateral movement: 203.0.113.6 -> 10.0.2.2 SMB 10 connections anomalous
+<134>Jul 13 08:57:33 ids-01 web_attack[1058]: WAF blocked SQLi/XSS attempt from 203.0.113.18 to 10.0.2.3: union select
+<134>Jul 21 23:31:13 mail-gw dos[1031]: Flood detected: 203.0.113.2 -> 10.0.1.1 71562 pps SYN flood
+<134>Jul 09 17:09:52 mail-gw brute_force[6715]: Failed password for root from 203.0.113.6 port 17856 ssh2 (user=admin attempts=39)
+<165>Jul 10 03:15:38 mail-gw brute_force[4372]: Failed password for root from 203.0.113.20 port 23386 ssh2 (user=admin attempts=23)
+<190>Jul 27 00:59:36 core-sw brute_force[5280]: Failed password for root from 203.0.113.13 port 59274 ssh2 (user=admin attempts=7)
+<134>Jul 09 20:58:49 fw-gw brute_force[8388]: Failed password for root from 203.0.113.20 port 27380 ssh2 (user=admin attempts=11)
+<190>Jul 16 05:25:25 waf-01 policy[9000]: Policy violation: 10.0.1.4 accessed forbidden site from 203.0.113.3
+<165>Jul 27 17:05:39 fw-gw dos[1797]: Flood detected: 203.0.113.20 -> 10.0.2.4 22601 pps SYN flood
+<134>Jul 15 20:19:24 ids-01 brute_force[5717]: Failed password for root from 203.0.113.4 port 23342 ssh2 (user=admin attempts=19)
+<165>Jul 26 16:55:03 fw-gw web_attack[822]: WAF blocked SQLi/XSS attempt from 203.0.113.9 to 10.0.1.1: union select
+<190>Jul 29 21:55:08 ids-01 web_attack[9289]: WAF blocked SQLi/XSS attempt from 203.0.113.5 to 10.0.1.5: union select
+<134>Aug 01 17:08:28 fw-gw brute_force[7141]: Failed password for root from 203.0.113.5 port 18352 ssh2 (user=admin attempts=5)
+<86>Jul 28 03:19:14 ids-01 web_attack[5894]: WAF blocked SQLi/XSS attempt from 203.0.113.2 to 10.0.2.1: ../../../etc/passwd
+<134>Aug 05 23:06:04 ids-01 policy[6855]: Policy violation: 10.0.1.4 accessed forbidden site from 203.0.113.5
+<134>Aug 02 14:21:31 core-sw brute_force[4471]: Failed password for root from 203.0.113.11 port 20433 ssh2 (user=admin attempts=9)
+<190>Jul 13 15:55:30 ids-01 web_attack[5828]: WAF blocked SQLi/XSS attempt from 203.0.113.2 to 10.0.2.3: <script>alert(1)</script>
+<190>Jul 27 11:27:24 fw-gw phishing[5478]: Phishing email blocked: from 203.0.113.8 to user18@corp.local subject=invoice
+<165>Jul 22 23:00:17 core-sw lateral[552]: Lateral movement: 203.0.113.9 -> 10.0.2.1 SMB 4 connections anomalous
+<165>Aug 05 13:15:26 mail-gw lateral[726]: Lateral movement: 203.0.113.9 -> 10.0.1.3 SMB 4 connections anomalous
+<86>Jul 25 20:42:11 db-firewall malware[6411]: Malware detected on 10.0.2.1 from 203.0.113.12: trojan.win32.njrat
+<134>Jul 23 06:34:31 fw-gw brute_force[6067]: Failed password for root from 203.0.113.2 port 38265 ssh2 (user=admin attempts=7)
+<86>Jul 27 13:52:18 waf-01 policy[5020]: Policy violation: 10.0.2.5 accessed forbidden site from 203.0.113.11
+<134>Jul 28 14:13:22 db-firewall web_attack[3243]: WAF blocked SQLi/XSS attempt from 203.0.113.14 to 10.0.2.1: ../../../etc/passwd
+<190>Jul 24 17:59:18 mail-gw malware[9077]: Malware detected on 10.0.1.3 from 203.0.113.13: trojan.win32.emotet
+<165>Jul 25 21:01:44 mail-gw web_attack[7718]: WAF blocked SQLi/XSS attempt from 203.0.113.7 to 10.0.2.2: ../../../etc/passwd
+<134>Jul 31 11:43:20 db-firewall web_attack[1489]: WAF blocked SQLi/XSS attempt from 203.0.113.7 to 10.0.2.4: <script>alert(1)</script>
+<134>Aug 01 05:29:51 fw-gw web_attack[5185]: WAF blocked SQLi/XSS attempt from 203.0.113.20 to 10.0.2.1: ' or 1=1 --
+<190>Jul 15 00:31:09 fw-gw phishing[1293]: Phishing email blocked: from 203.0.113.5 to user30@corp.local subject=invoice
+<190>Jul 28 13:36:28 core-sw web_attack[6647]: WAF blocked SQLi/XSS attempt from 203.0.113.19 to 10.0.1.4: ' or 1=1 --
+<190>Jul 14 05:47:54 db-firewall brute_force[922]: Failed password for root from 203.0.113.1 port 46530 ssh2 (user=admin attempts=18)
+<165>Jul 31 17:15:09 ids-01 lateral[7351]: Lateral movement: 203.0.113.4 -> 10.0.2.3 SMB 20 connections anomalous
+<134>Jul 21 01:17:26 mail-gw phishing[7877]: Phishing email blocked: from 203.0.113.17 to user29@corp.local subject=invoice
+<134>Jul 22 05:08:33 mail-gw brute_force[4599]: Failed password for root from 203.0.113.8 port 38827 ssh2 (user=admin attempts=7)
+<86>Jul 17 06:25:25 waf-01 dos[2367]: Flood detected: 203.0.113.8 -> 10.0.1.5 24769 pps SYN flood
+<165>Jul 20 02:56:15 fw-gw brute_force[8990]: Failed password for root from 203.0.113.5 port 40534 ssh2 (user=admin attempts=29)
+<86>Aug 05 01:23:50 mail-gw brute_force[9532]: Failed password for root from 203.0.113.14 port 34928 ssh2 (user=admin attempts=33)
+<190>Aug 02 06:42:55 db-firewall brute_force[8918]: Failed password for root from 203.0.113.12 port 58989 ssh2 (user=admin attempts=37)
+<190>Jul 15 20:44:46 ids-01 phishing[575]: Phishing email blocked: from 203.0.113.8 to user25@corp.local subject=invoice
+<86>Aug 04 06:18:09 db-firewall web_attack[6555]: WAF blocked SQLi/XSS attempt from 203.0.113.13 to 10.0.1.3: union select
+<165>Jul 13 03:04:39 db-firewall brute_force[6311]: Failed password for root from 203.0.113.14 port 31453 ssh2 (user=admin attempts=16)
+<190>Jul 30 05:40:47 waf-01 web_attack[4233]: WAF blocked SQLi/XSS attempt from 203.0.113.11 to 10.0.2.2: union select
+<86>Jul 14 09:40:21 waf-01 web_attack[759]: WAF blocked SQLi/XSS attempt from 203.0.113.18 to 10.0.1.1: union select
+<134>Jul 12 05:56:53 mail-gw policy[7858]: Policy violation: 10.0.1.1 accessed forbidden site from 203.0.113.7
+<165>Jul 28 15:50:51 db-firewall malware[2849]: Malware detected on 10.0.1.4 from 203.0.113.19: trojan.win32.njrat
+<86>Jul 10 22:03:49 waf-01 malware[5211]: Malware detected on 10.0.1.3 from 203.0.113.4: trojan.win32.njrat
+<134>Jul 13 15:01:48 core-sw dos[1769]: Flood detected: 203.0.113.13 -> 10.0.2.2 44529 pps SYN flood
+<165>Jul 31 03:43:48 mail-gw lateral[8828]: Lateral movement: 203.0.113.20 -> 10.0.1.2 SMB 14 connections anomalous
+<190>Jul 17 21:55:09 core-sw malware[8131]: Malware detected on 10.0.2.4 from 203.0.113.3: trojan.win32.emotet
+<134>Jul 12 06:23:11 core-sw web_attack[8648]: WAF blocked SQLi/XSS attempt from 203.0.113.12 to 10.0.2.3: <script>alert(1)</script>
+<165>Jul 20 17:50:47 db-firewall malware[5380]: Malware detected on 10.0.2.3 from 203.0.113.18: trojan.win32.emotet
+<190>Jul 14 23:48:52 db-firewall phishing[9436]: Phishing email blocked: from 203.0.113.3 to user40@corp.local subject=invoice
+<134>Aug 02 04:55:07 db-firewall malware[8088]: Malware detected on 10.0.1.1 from 203.0.113.11: trojan.win32.emotet
+<165>Aug 03 02:03:47 waf-01 web_attack[9206]: WAF blocked SQLi/XSS attempt from 203.0.113.9 to 10.0.2.1: union select
+<190>Jul 29 06:41:11 ids-01 web_attack[9196]: WAF blocked SQLi/XSS attempt from 203.0.113.7 to 10.0.1.2: ' or 1=1 --
+<134>Jul 10 11:13:52 fw-gw dos[6725]: Flood detected: 203.0.113.16 -> 10.0.2.3 36890 pps SYN flood
+<165>Jul 24 06:43:59 db-firewall web_attack[7071]: WAF blocked SQLi/XSS attempt from 203.0.113.19 to 10.0.2.1: <script>alert(1)</script>
+<86>Jul 15 05:14:36 waf-01 web_attack[3255]: WAF blocked SQLi/XSS attempt from 203.0.113.15 to 10.0.1.5: <script>alert(1)</script>
+<190>Jul 14 04:01:46 ids-01 brute_force[4630]: Failed password for root from 203.0.113.18 port 57486 ssh2 (user=admin attempts=40)
+<134>Aug 06 02:12:01 waf-01 policy[4953]: Policy violation: 10.0.2.5 accessed forbidden site from 203.0.113.17
+<134>Jul 28 22:00:21 fw-gw brute_force[4594]: Failed password for root from 203.0.113.6 port 12982 ssh2 (user=admin attempts=6)
+<165>Aug 02 20:35:27 fw-gw malware[7790]: Malware detected on 10.0.2.3 from 203.0.113.5: trojan.win32.qakbot
+<190>Aug 04 21:47:54 waf-01 web_attack[1969]: WAF blocked SQLi/XSS attempt from 203.0.113.6 to 10.0.1.1: union select
+<134>Jul 28 06:28:39 core-sw web_attack[2544]: WAF blocked SQLi/XSS attempt from 203.0.113.3 to 10.0.2.5: <script>alert(1)</script>
+<134>Jul 30 14:37:55 mail-gw brute_force[8661]: Failed password for root from 203.0.113.8 port 34928 ssh2 (user=admin attempts=31)
+<86>Jul 16 20:06:23 db-firewall lateral[1725]: Lateral movement: 203.0.113.10 -> 10.0.2.5 SMB 7 connections anomalous
+<86>Jul 14 20:56:08 ids-01 malware[2664]: Malware detected on 10.0.1.2 from 203.0.113.9: trojan.win32.emotet
+<165>Jul 08 15:44:00 waf-01 web_attack[4732]: WAF blocked SQLi/XSS attempt from 203.0.113.20 to 10.0.2.3: ../../../etc/passwd
+<134>Jul 25 08:52:52 core-sw brute_force[7065]: Failed password for root from 203.0.113.8 port 17521 ssh2 (user=admin attempts=37)
+<134>Jul 09 19:38:52 ids-01 brute_force[5139]: Failed password for root from 203.0.113.5 port 48996 ssh2 (user=admin attempts=39)
+<190>Jul 28 08:04:51 db-firewall lateral[4560]: Lateral movement: 203.0.113.15 -> 10.0.1.2 SMB 17 connections anomalous
+<190>Jul 08 20:55:57 mail-gw web_attack[5380]: WAF blocked SQLi/XSS attempt from 203.0.113.15 to 10.0.1.2: <script>alert(1)</script>
+<165>Aug 05 04:47:56 mail-gw brute_force[9541]: Failed password for root from 203.0.113.8 port 12636 ssh2 (user=admin attempts=14)
+<190>Aug 06 14:02:00 ids-01 web_attack[8156]: WAF blocked SQLi/XSS attempt from 203.0.113.15 to 10.0.1.5: union select
+<134>Jul 27 18:43:44 waf-01 web_attack[5503]: WAF blocked SQLi/XSS attempt from 203.0.113.14 to 10.0.2.1: ../../../etc/passwd
+<86>Jul 08 18:39:16 mail-gw dos[5253]: Flood detected: 203.0.113.10 -> 10.0.2.2 38082 pps SYN flood
+<190>Jul 27 09:44:53 fw-gw web_attack[6870]: WAF blocked SQLi/XSS attempt from 203.0.113.13 to 10.0.2.4: union select
+<86>Jul 26 10:31:37 db-firewall brute_force[3435]: Failed password for root from 203.0.113.12 port 27501 ssh2 (user=admin attempts=38)
+<86>Jul 22 05:13:30 core-sw brute_force[4020]: Failed password for root from 203.0.113.10 port 56516 ssh2 (user=admin attempts=13)
+<86>Jul 10 11:20:36 db-firewall web_attack[7660]: WAF blocked SQLi/XSS attempt from 203.0.113.1 to 10.0.2.4: union select
+<165>Jul 16 10:22:23 core-sw malware[6907]: Malware detected on 10.0.2.3 from 203.0.113.5: trojan.win32.qakbot
+<134>Jul 12 00:22:29 mail-gw policy[9920]: Policy violation: 10.0.2.3 accessed forbidden site from 203.0.113.8
+<190>Jul 30 20:33:31 waf-01 web_attack[5668]: WAF blocked SQLi/XSS attempt from 203.0.113.5 to 10.0.1.2: <script>alert(1)</script>
+<190>Jul 25 01:46:39 mail-gw phishing[2534]: Phishing email blocked: from 203.0.113.10 to user29@corp.local subject=invoice
+<190>Jul 30 13:30:03 mail-gw web_attack[7560]: WAF blocked SQLi/XSS attempt from 203.0.113.12 to 10.0.2.1: <script>alert(1)</script>
+<190>Jul 14 16:23:51 db-firewall lateral[815]: Lateral movement: 203.0.113.8 -> 10.0.2.5 SMB 11 connections anomalous
+<134>Jul 31 10:45:22 core-sw dos[8215]: Flood detected: 203.0.113.13 -> 10.0.2.2 9852 pps SYN flood
+<190>Aug 02 21:38:59 fw-gw brute_force[1733]: Failed password for root from 203.0.113.19 port 44468 ssh2 (user=admin attempts=32)
+<86>Aug 05 18:36:06 core-sw brute_force[7792]: Failed password for root from 203.0.113.5 port 61218 ssh2 (user=admin attempts=19)
+<190>Aug 02 05:55:06 waf-01 web_attack[5288]: WAF blocked SQLi/XSS attempt from 203.0.113.13 to 10.0.1.2: ../../../etc/passwd
+<165>Jul 14 17:16:02 fw-gw lateral[3827]: Lateral movement: 203.0.113.2 -> 10.0.2.5 SMB 3 connections anomalous
+<165>Jul 12 16:00:55 db-firewall web_attack[574]: WAF blocked SQLi/XSS attempt from 203.0.113.4 to 10.0.1.2: union select
+<134>Jul 18 22:07:06 waf-01 web_attack[4100]: WAF blocked SQLi/XSS attempt from 203.0.113.2 to 10.0.1.5: ../../../etc/passwd
+<190>Jul 10 01:05:23 ids-01 malware[4045]: Malware detected on 10.0.1.3 from 203.0.113.6: trojan.win32.qakbot
+<190>Jul 26 19:31:26 db-firewall lateral[4283]: Lateral movement: 203.0.113.5 -> 10.0.1.4 SMB 1 connections anomalous
+<86>Jul 24 01:47:00 core-sw lateral[7337]: Lateral movement: 203.0.113.15 -> 10.0.1.5 SMB 12 connections anomalous
+<165>Jul 15 04:18:12 core-sw policy[3363]: Policy violation: 10.0.2.2 accessed forbidden site from 203.0.113.10
+<165>Jul 19 02:48:54 ids-01 policy[9517]: Policy violation: 10.0.1.2 accessed forbidden site from 203.0.113.16
+<86>Jul 19 13:12:46 core-sw brute_force[9372]: Failed password for root from 203.0.113.10 port 54944 ssh2 (user=admin attempts=6)
+<165>Jul 25 21:19:10 ids-01 lateral[3688]: Lateral movement: 203.0.113.16 -> 10.0.1.5 SMB 7 connections anomalous
+<165>Jul 27 01:35:52 core-sw malware[7322]: Malware detected on 10.0.1.2 from 203.0.113.5: trojan.win32.emotet
+<190>Jul 17 11:28:13 waf-01 malware[2977]: Malware detected on 10.0.1.2 from 203.0.113.5: trojan.win32.emotet
+<165>Jul 22 17:31:30 mail-gw brute_force[2795]: Failed password for root from 203.0.113.18 port 26840 ssh2 (user=admin attempts=33)
+<86>Jul 21 17:25:52 fw-gw policy[2406]: Policy violation: 10.0.2.1 accessed forbidden site from 203.0.113.10
+<190>Jul 18 15:35:26 mail-gw dos[328]: Flood detected: 203.0.113.8 -> 10.0.2.2 39663 pps SYN flood
+<165>Jul 30 03:31:16 core-sw web_attack[9677]: WAF blocked SQLi/XSS attempt from 203.0.113.15 to 10.0.2.1: ../../../etc/passwd
+<86>Jul 14 16:35:04 core-sw phishing[9298]: Phishing email blocked: from 203.0.113.12 to user21@corp.local subject=invoice
+<165>Aug 01 09:24:31 core-sw lateral[6789]: Lateral movement: 203.0.113.8 -> 10.0.1.2 SMB 4 connections anomalous
+<134>Jul 11 03:50:22 db-firewall brute_force[8907]: Failed password for root from 203.0.113.2 port 18890 ssh2 (user=admin attempts=27)
+<134>Jul 29 22:39:59 mail-gw web_attack[6897]: WAF blocked SQLi/XSS attempt from 203.0.113.18 to 10.0.2.2: union select
+<165>Jul 08 15:47:18 waf-01 phishing[3659]: Phishing email blocked: from 203.0.113.20 to user29@corp.local subject=invoice
+<165>Aug 06 02:30:02 fw-gw web_attack[9020]: WAF blocked SQLi/XSS attempt from 203.0.113.8 to 10.0.2.1: <script>alert(1)</script>
+<190>Aug 05 03:31:13 fw-gw brute_force[1601]: Failed password for root from 203.0.113.9 port 53435 ssh2 (user=admin attempts=16)
+<134>Jul 31 06:43:29 fw-gw malware[2163]: Malware detected on 10.0.1.1 from 203.0.113.20: trojan.win32.njrat
+<134>Jul 14 03:43:03 mail-gw brute_force[5483]: Failed password for root from 203.0.113.18 port 60749 ssh2 (user=admin attempts=12)
+<134>Aug 02 10:17:06 waf-01 phishing[2229]: Phishing email blocked: from 203.0.113.20 to user35@corp.local subject=invoice
+<134>Aug 02 16:04:30 core-sw brute_force[343]: Failed password for root from 203.0.113.6 port 33477 ssh2 (user=admin attempts=18)
+<190>Jul 09 05:57:36 waf-01 malware[8719]: Malware detected on 10.0.1.3 from 203.0.113.1: trojan.win32.emotet
+<86>Jul 23 01:45:50 waf-01 dos[7505]: Flood detected: 203.0.113.16 -> 10.0.2.3 71039 pps SYN flood
+<165>Jul 31 04:09:22 core-sw brute_force[7604]: Failed password for root from 203.0.113.20 port 52161 ssh2 (user=admin attempts=4)
+<190>Jul 28 06:13:22 db-firewall brute_force[7367]: Failed password for root from 203.0.113.16 port 14816 ssh2 (user=admin attempts=8)
+<165>Jul 15 22:14:39 ids-01 web_attack[6340]: WAF blocked SQLi/XSS attempt from 203.0.113.5 to 10.0.1.2: <script>alert(1)</script>
+<86>Jul 31 11:15:43 fw-gw web_attack[9133]: WAF blocked SQLi/XSS attempt from 203.0.113.20 to 10.0.2.2: ' or 1=1 --
+<190>Aug 01 11:58:28 waf-01 web_attack[6915]: WAF blocked SQLi/XSS attempt from 203.0.113.8 to 10.0.2.2: union select
+<190>Aug 05 06:49:09 waf-01 web_attack[1199]: WAF blocked SQLi/XSS attempt from 203.0.113.11 to 10.0.1.5: union select
+<165>Jul 30 00:20:12 fw-gw phishing[2231]: Phishing email blocked: from 203.0.113.3 to user36@corp.local subject=invoice
+<190>Jul 27 18:38:32 waf-01 brute_force[5893]: Failed password for root from 203.0.113.18 port 53603 ssh2 (user=admin attempts=30)
+<86>Jul 17 01:11:45 mail-gw lateral[9568]: Lateral movement: 203.0.113.2 -> 10.0.1.5 SMB 17 connections anomalous
+<165>Jul 18 04:18:53 fw-gw brute_force[1982]: Failed password for root from 203.0.113.16 port 59978 ssh2 (user=admin attempts=20)
+<86>Jul 26 02:00:19 mail-gw malware[4481]: Malware detected on 10.0.2.4 from 203.0.113.14: trojan.win32.emotet
+<134>Jul 07 20:37:44 waf-01 brute_force[9378]: Failed password for root from 203.0.113.10 port 53079 ssh2 (user=admin attempts=28)
+<190>Jul 23 14:10:49 core-sw brute_force[6978]: Failed password for root from 203.0.113.1 port 39730 ssh2 (user=admin attempts=24)
+<86>Jul 25 13:30:50 mail-gw brute_force[2649]: Failed password for root from 203.0.113.10 port 20316 ssh2 (user=admin attempts=6)
+<190>Jul 20 09:31:24 core-sw dos[6885]: Flood detected: 203.0.113.9 -> 10.0.2.3 40804 pps SYN flood
+<165>Jul 20 13:46:14 waf-01 brute_force[9817]: Failed password for root from 203.0.113.17 port 41891 ssh2 (user=admin attempts=36)
+<86>Aug 06 05:02:01 db-firewall malware[225]: Malware detected on 10.0.1.4 from 203.0.113.2: trojan.win32.emotet
+<86>Jul 16 08:38:04 waf-01 web_attack[226]: WAF blocked SQLi/XSS attempt from 203.0.113.7 to 10.0.1.3: ../../../etc/passwd
+<134>Jul 23 15:41:31 db-firewall dos[8296]: Flood detected: 203.0.113.6 -> 10.0.1.3 78233 pps SYN flood
+<86>Aug 02 12:42:11 db-firewall phishing[7247]: Phishing email blocked: from 203.0.113.12 to user2@corp.local subject=invoice
+<190>Jul 20 13:19:02 mail-gw web_attack[6943]: WAF blocked SQLi/XSS attempt from 203.0.113.3 to 10.0.2.1: <script>alert(1)</script>
+<190>Jul 31 17:11:05 ids-01 brute_force[6028]: Failed password for root from 203.0.113.1 port 15775 ssh2 (user=admin attempts=30)
+<86>Jul 19 16:33:23 mail-gw phishing[6584]: Phishing email blocked: from 203.0.113.8 to user20@corp.local subject=invoice
+<86>Jul 09 23:13:33 ids-01 dos[8793]: Flood detected: 203.0.113.8 -> 10.0.2.1 71840 pps SYN flood
+<134>Aug 05 10:09:12 core-sw brute_force[3971]: Failed password for root from 203.0.113.12 port 16737 ssh2 (user=admin attempts=12)
+<86>Jul 30 11:35:16 ids-01 brute_force[3002]: Failed password for root from 203.0.113.6 port 60649 ssh2 (user=admin attempts=34)
+<165>Jul 28 02:38:55 db-firewall web_attack[5279]: WAF blocked SQLi/XSS attempt from 203.0.113.19 to 10.0.2.5: ' or 1=1 --
+<165>Jul 16 18:15:48 core-sw web_attack[9789]: WAF blocked SQLi/XSS attempt from 203.0.113.16 to 10.0.2.3: union select
+<86>Jul 21 05:36:38 db-firewall web_attack[6141]: WAF blocked SQLi/XSS attempt from 203.0.113.3 to 10.0.1.5: <script>alert(1)</script>
+<190>Jul 22 21:19:17 mail-gw brute_force[9608]: Failed password for root from 203.0.113.3 port 46327 ssh2 (user=admin attempts=5)
+<134>Jul 25 19:50:13 waf-01 web_attack[1113]: WAF blocked SQLi/XSS attempt from 203.0.113.19 to 10.0.1.4: ../../../etc/passwd
+<86>Jul 27 01:26:39 mail-gw brute_force[4159]: Failed password for root from 203.0.113.11 port 56374 ssh2 (user=admin attempts=31)
+<165>Jul 12 10:31:48 mail-gw policy[4734]: Policy violation: 10.0.2.4 accessed forbidden site from 203.0.113.17
+<165>Jul 31 08:28:34 fw-gw web_attack[1179]: WAF blocked SQLi/XSS attempt from 203.0.113.11 to 10.0.2.5: <script>alert(1)</script>
+<134>Jul 29 09:19:15 waf-01 brute_force[5561]: Failed password for root from 203.0.113.13 port 15341 ssh2 (user=admin attempts=40)
+<190>Jul 28 15:08:18 core-sw malware[2212]: Malware detected on 10.0.1.5 from 203.0.113.12: trojan.win32.njrat
+<165>Jul 18 23:26:30 mail-gw dos[2193]: Flood detected: 203.0.113.3 -> 10.0.1.5 73995 pps SYN flood
+<165>Jul 08 05:21:31 waf-01 brute_force[3053]: Failed password for root from 203.0.113.14 port 24037 ssh2 (user=admin attempts=24)
+<134>Aug 06 16:12:57 ids-01 policy[1364]: Policy violation: 10.0.1.4 accessed forbidden site from 203.0.113.16
+<86>Aug 01 17:31:08 mail-gw brute_force[5617]: Failed password for root from 203.0.113.4 port 60220 ssh2 (user=admin attempts=11)
+<134>Aug 01 14:48:04 ids-01 malware[7270]: Malware detected on 10.0.1.3 from 203.0.113.5: trojan.win32.emotet
+<190>Jul 16 05:22:51 mail-gw web_attack[3933]: WAF blocked SQLi/XSS attempt from 203.0.113.8 to 10.0.2.3: ' or 1=1 --
+<190>Jul 28 00:36:49 waf-01 web_attack[7664]: WAF blocked SQLi/XSS attempt from 203.0.113.16 to 10.0.1.4: <script>alert(1)</script>
+<134>Aug 05 15:56:45 db-firewall phishing[2367]: Phishing email blocked: from 203.0.113.17 to user17@corp.local subject=invoice
+<86>Aug 04 16:55:26 mail-gw brute_force[4770]: Failed password for root from 203.0.113.16 port 15496 ssh2 (user=admin attempts=13)
+<134>Jul 10 10:15:59 db-firewall brute_force[7491]: Failed password for root from 203.0.113.17 port 32910 ssh2 (user=admin attempts=4)
+<86>Jul 14 17:59:34 waf-01 web_attack[6242]: WAF blocked SQLi/XSS attempt from 203.0.113.13 to 10.0.2.4: ' or 1=1 --
+<165>Jul 11 19:18:16 ids-01 brute_force[7840]: Failed password for root from 203.0.113.4 port 55617 ssh2 (user=admin attempts=11)
+<86>Jul 07 20:00:49 mail-gw dos[411]: Flood detected: 203.0.113.16 -> 10.0.2.3 38544 pps SYN flood
+<190>Jul 25 22:37:35 core-sw brute_force[1921]: Failed password for root from 203.0.113.5 port 60867 ssh2 (user=admin attempts=21)
+<190>Jul 20 06:30:25 ids-01 brute_force[1129]: Failed password for root from 203.0.113.4 port 17265 ssh2 (user=admin attempts=34)
+<134>Jul 14 22:25:41 mail-gw malware[4872]: Malware detected on 10.0.2.4 from 203.0.113.1: trojan.win32.qakbot
+<86>Jul 20 04:09:41 mail-gw brute_force[8676]: Failed password for root from 203.0.113.12 port 33632 ssh2 (user=admin attempts=7)
+<190>Jul 24 07:13:19 mail-gw policy[7802]: Policy violation: 10.0.2.4 accessed forbidden site from 203.0.113.18
+<165>Jul 30 02:18:02 waf-01 brute_force[1206]: Failed password for root from 203.0.113.13 port 32596 ssh2 (user=admin attempts=18)
+<134>Jul 30 09:02:29 core-sw dos[826]: Flood detected: 203.0.113.4 -> 10.0.2.5 51176 pps SYN flood
+<134>Jul 22 00:46:30 core-sw web_attack[2309]: WAF blocked SQLi/XSS attempt from 203.0.113.6 to 10.0.2.3: union select
+<134>Jul 13 17:22:41 waf-01 dos[786]: Flood detected: 203.0.113.15 -> 10.0.1.1 46365 pps SYN flood
+<86>Jul 21 21:04:50 mail-gw policy[3231]: Policy violation: 10.0.2.2 accessed forbidden site from 203.0.113.17
+<165>Jul 11 09:51:17 waf-01 brute_force[7259]: Failed password for root from 203.0.113.2 port 36215 ssh2 (user=admin attempts=31)
+<190>Jul 22 13:29:56 ids-01 lateral[6118]: Lateral movement: 203.0.113.13 -> 10.0.2.1 SMB 17 connections anomalous
+<134>Jul 20 14:16:11 fw-gw brute_force[9037]: Failed password for root from 203.0.113.3 port 29252 ssh2 (user=admin attempts=23)
+<190>Jul 21 01:17:31 waf-01 brute_force[2830]: Failed password for root from 203.0.113.11 port 55204 ssh2 (user=admin attempts=31)
+<165>Aug 06 14:54:04 mail-gw web_attack[1039]: WAF blocked SQLi/XSS attempt from 203.0.113.2 to 10.0.2.1: union select
+<134>Jul 31 17:01:18 mail-gw dos[610]: Flood detected: 203.0.113.13 -> 10.0.2.1 23714 pps SYN flood
+<165>Jul 09 16:38:26 ids-01 phishing[6033]: Phishing email blocked: from 203.0.113.15 to user25@corp.local subject=invoice
+<165>Jul 28 01:09:26 ids-01 policy[6195]: Policy violation: 10.0.2.5 accessed forbidden site from 203.0.113.2
+<190>Jul 23 13:26:38 ids-01 web_attack[5250]: WAF blocked SQLi/XSS attempt from 203.0.113.3 to 10.0.2.5: <script>alert(1)</script>
+<190>Jul 13 06:11:14 core-sw brute_force[9302]: Failed password for root from 203.0.113.4 port 17717 ssh2 (user=admin attempts=19)
+<190>Jul 16 05:50:53 mail-gw phishing[3379]: Phishing email blocked: from 203.0.113.15 to user8@corp.local subject=invoice
+<190>Aug 03 15:16:54 ids-01 brute_force[1538]: Failed password for root from 203.0.113.3 port 63117 ssh2 (user=admin attempts=23)
+<165>Jul 16 09:17:37 mail-gw malware[2680]: Malware detected on 10.0.2.4 from 203.0.113.3: trojan.win32.njrat
+<134>Jul 14 09:41:12 mail-gw dos[2375]: Flood detected: 203.0.113.6 -> 10.0.2.1 36029 pps SYN flood
+<190>Jul 24 20:16:21 mail-gw phishing[9138]: Phishing email blocked: from 203.0.113.1 to user9@corp.local subject=invoice
+<190>Jul 19 14:54:28 waf-01 malware[8712]: Malware detected on 10.0.1.2 from 203.0.113.3: trojan.win32.qakbot
+<86>Aug 05 20:20:46 ids-01 dos[7472]: Flood detected: 203.0.113.19 -> 10.0.1.2 66057 pps SYN flood
+<134>Jul 26 20:53:03 mail-gw dos[2214]: Flood detected: 203.0.113.12 -> 10.0.1.3 61704 pps SYN flood
+<134>Jul 12 06:24:14 mail-gw web_attack[2753]: WAF blocked SQLi/XSS attempt from 203.0.113.2 to 10.0.1.2: <script>alert(1)</script>
+<86>Aug 03 12:34:45 mail-gw policy[4205]: Policy violation: 10.0.2.1 accessed forbidden site from 203.0.113.8
+<86>Jul 26 10:14:55 ids-01 brute_force[8334]: Failed password for root from 203.0.113.18 port 52007 ssh2 (user=admin attempts=13)
+<165>Jul 27 10:31:13 ids-01 malware[9334]: Malware detected on 10.0.1.3 from 203.0.113.19: trojan.win32.emotet
+<165>Aug 05 03:11:11 fw-gw phishing[3553]: Phishing email blocked: from 203.0.113.1 to user50@corp.local subject=invoice
+<165>Aug 03 08:18:37 db-firewall malware[5049]: Malware detected on 10.0.1.1 from 203.0.113.20: trojan.win32.qakbot
+<86>Jul 09 20:46:24 db-firewall brute_force[2689]: Failed password for root from 203.0.113.13 port 38809 ssh2 (user=admin attempts=29)
+<165>Jul 11 23:40:27 mail-gw web_attack[5758]: WAF blocked SQLi/XSS attempt from 203.0.113.7 to 10.0.2.1: ../../../etc/passwd
+<134>Jul 10 20:41:06 mail-gw brute_force[7742]: Failed password for root from 203.0.113.12 port 18029 ssh2 (user=admin attempts=20)
+<190>Jul 16 09:11:07 fw-gw web_attack[6950]: WAF blocked SQLi/XSS attempt from 203.0.113.5 to 10.0.1.2: ' or 1=1 --
+<134>Jul 29 07:26:42 mail-gw policy[2710]: Policy violation: 10.0.2.1 accessed forbidden site from 203.0.113.6
+<190>Aug 03 01:10:02 db-firewall web_attack[479]: WAF blocked SQLi/XSS attempt from 203.0.113.17 to 10.0.2.3: union select
+<165>Jul 14 03:08:12 ids-01 policy[897]: Policy violation: 10.0.2.3 accessed forbidden site from 203.0.113.17
+<165>Jul 27 20:26:51 core-sw brute_force[8893]: Failed password for root from 203.0.113.16 port 10535 ssh2 (user=admin attempts=9)
+<190>Jul 18 15:42:27 db-firewall web_attack[938]: WAF blocked SQLi/XSS attempt from 203.0.113.9 to 10.0.2.1: ' or 1=1 --
+<165>Jul 22 19:17:48 db-firewall web_attack[2046]: WAF blocked SQLi/XSS attempt from 203.0.113.10 to 10.0.1.2: ' or 1=1 --
+<165>Jul 24 09:52:18 waf-01 policy[2463]: Policy violation: 10.0.2.1 accessed forbidden site from 203.0.113.13
+<86>Jul 08 21:12:58 mail-gw brute_force[2345]: Failed password for root from 203.0.113.17 port 56765 ssh2 (user=admin attempts=24)
+<134>Jul 25 20:44:25 ids-01 phishing[5473]: Phishing email blocked: from 203.0.113.17 to user40@corp.local subject=invoice
+<165>Aug 01 22:54:22 core-sw web_attack[8411]: WAF blocked SQLi/XSS attempt from 203.0.113.13 to 10.0.2.5: ../../../etc/passwd
+<86>Jul 18 17:27:01 fw-gw dos[6924]: Flood detected: 203.0.113.10 -> 10.0.2.3 45327 pps SYN flood
+<134>Jul 15 15:24:52 db-firewall phishing[941]: Phishing email blocked: from 203.0.113.1 to user38@corp.local subject=invoice
+<134>Jul 12 02:37:52 db-firewall web_attack[617]: WAF blocked SQLi/XSS attempt from 203.0.113.17 to 10.0.2.5: union select
+<134>Jul 12 05:15:47 db-firewall brute_force[6823]: Failed password for root from 203.0.113.15 port 42887 ssh2 (user=admin attempts=33)
+<165>Jul 13 21:31:07 mail-gw lateral[7937]: Lateral movement: 203.0.113.2 -> 10.0.1.3 SMB 17 connections anomalous
+<165>Jul 17 22:42:29 mail-gw web_attack[4431]: WAF blocked SQLi/XSS attempt from 203.0.113.6 to 10.0.2.3: ../../../etc/passwd
+<165>Jul 16 15:09:07 mail-gw brute_force[4835]: Failed password for root from 203.0.113.8 port 56196 ssh2 (user=admin attempts=16)
+<165>Jul 18 03:22:15 db-firewall dos[4815]: Flood detected: 203.0.113.16 -> 10.0.2.1 20974 pps SYN flood
+<134>Aug 01 05:27:52 db-firewall malware[4858]: Malware detected on 10.0.2.2 from 203.0.113.18: trojan.win32.emotet
+<190>Jul 27 08:31:57 db-firewall brute_force[3605]: Failed password for root from 203.0.113.3 port 23242 ssh2 (user=admin attempts=37)
+<134>Jul 10 22:52:33 ids-01 brute_force[4072]: Failed password for root from 203.0.113.18 port 13326 ssh2 (user=admin attempts=36)
+<190>Jul 20 01:48:35 fw-gw brute_force[1747]: Failed password for root from 203.0.113.8 port 54642 ssh2 (user=admin attempts=11)
+<190>Jul 27 06:18:56 db-firewall brute_force[7922]: Failed password for root from 203.0.113.18 port 52633 ssh2 (user=admin attempts=15)
+<86>Jul 27 01:16:45 waf-01 dos[9506]: Flood detected: 203.0.113.10 -> 10.0.2.1 35437 pps SYN flood
+<134>Aug 03 03:26:56 db-firewall web_attack[695]: WAF blocked SQLi/XSS attempt from 203.0.113.2 to 10.0.1.3: ../../../etc/passwd
+<86>Jul 07 22:54:18 fw-gw phishing[5589]: Phishing email blocked: from 203.0.113.6 to user19@corp.local subject=invoice
+<134>Aug 03 08:29:59 db-firewall web_attack[8361]: WAF blocked SQLi/XSS attempt from 203.0.113.18 to 10.0.2.4: ../../../etc/passwd
+<165>Jul 29 14:38:19 ids-01 brute_force[3150]: Failed password for root from 203.0.113.4 port 10923 ssh2 (user=admin attempts=24)
+<190>Jul 26 00:07:12 ids-01 phishing[7107]: Phishing email blocked: from 203.0.113.19 to user33@corp.local subject=invoice
+<190>Aug 06 03:02:46 ids-01 web_attack[5401]: WAF blocked SQLi/XSS attempt from 203.0.113.13 to 10.0.1.2: ' or 1=1 --
+<165>Jul 30 06:56:15 db-firewall brute_force[5047]: Failed password for root from 203.0.113.13 port 48172 ssh2 (user=admin attempts=39)
+<190>Jul 27 17:02:19 fw-gw brute_force[5126]: Failed password for root from 203.0.113.12 port 20467 ssh2 (user=admin attempts=28)
+<165>Aug 04 03:50:47 core-sw dos[6121]: Flood detected: 203.0.113.10 -> 10.0.1.2 33947 pps SYN flood
+<165>Jul 21 07:49:02 ids-01 brute_force[6913]: Failed password for root from 203.0.113.5 port 56002 ssh2 (user=admin attempts=38)
+<86>Jul 28 02:04:44 ids-01 lateral[8709]: Lateral movement: 203.0.113.18 -> 10.0.1.4 SMB 15 connections anomalous
+<134>Jul 11 01:01:23 mail-gw web_attack[9483]: WAF blocked SQLi/XSS attempt from 203.0.113.12 to 10.0.1.2: ' or 1=1 --
+<190>Jul 28 02:02:43 fw-gw brute_force[1589]: Failed password for root from 203.0.113.17 port 43447 ssh2 (user=admin attempts=31)
+<86>Jul 20 03:20:18 mail-gw phishing[9255]: Phishing email blocked: from 203.0.113.15 to user30@corp.local subject=invoice
+<86>Jul 15 07:26:31 db-firewall dos[3670]: Flood detected: 203.0.113.10 -> 10.0.1.1 14572 pps SYN flood
+<86>Aug 06 12:00:06 mail-gw brute_force[7834]: Failed password for root from 203.0.113.12 port 12079 ssh2 (user=admin attempts=21)
+<190>Aug 06 11:05:22 waf-01 web_attack[7448]: WAF blocked SQLi/XSS attempt from 203.0.113.5 to 10.0.2.2: ../../../etc/passwd
+<86>Aug 02 11:38:20 core-sw web_attack[3024]: WAF blocked SQLi/XSS attempt from 203.0.113.18 to 10.0.1.3: ../../../etc/passwd
+<190>Aug 06 00:44:45 fw-gw web_attack[9020]: WAF blocked SQLi/XSS attempt from 203.0.113.8 to 10.0.1.1: ../../../etc/passwd
+<165>Jul 18 01:28:04 db-firewall web_attack[3188]: WAF blocked SQLi/XSS attempt from 203.0.113.8 to 10.0.1.4: union select
+<86>Jul 14 21:30:45 fw-gw brute_force[1753]: Failed password for root from 203.0.113.14 port 48924 ssh2 (user=admin attempts=5)
+<190>Jul 09 00:04:59 core-sw web_attack[3939]: WAF blocked SQLi/XSS attempt from 203.0.113.2 to 10.0.1.4: ' or 1=1 --
+<134>Aug 06 11:32:27 mail-gw dos[9538]: Flood detected: 203.0.113.2 -> 10.0.1.3 46799 pps SYN flood
+<134>Aug 02 23:08:19 waf-01 malware[6875]: Malware detected on 10.0.1.4 from 203.0.113.11: trojan.win32.qakbot
+<190>Aug 04 00:34:07 core-sw brute_force[9207]: Failed password for root from 203.0.113.18 port 42481 ssh2 (user=admin attempts=6)
+<190>Jul 28 13:34:29 waf-01 policy[2544]: Policy violation: 10.0.2.4 accessed forbidden site from 203.0.113.13
+<134>Jul 14 21:43:47 db-firewall brute_force[5027]: Failed password for root from 203.0.113.6 port 56371 ssh2 (user=admin attempts=12)
+<134>Aug 05 17:02:19 db-firewall phishing[6463]: Phishing email blocked: from 203.0.113.2 to user16@corp.local subject=invoice
+<86>Aug 02 02:10:07 db-firewall brute_force[8875]: Failed password for root from 203.0.113.11 port 57486 ssh2 (user=admin attempts=15)
+<86>Jul 08 20:42:25 mail-gw brute_force[3182]: Failed password for root from 203.0.113.13 port 62733 ssh2 (user=admin attempts=40)
+<165>Jul 13 22:37:58 db-firewall dos[5067]: Flood detected: 203.0.113.18 -> 10.0.1.4 7009 pps SYN flood
+<190>Aug 06 15:55:28 core-sw brute_force[4074]: Failed password for root from 203.0.113.7 port 55588 ssh2 (user=admin attempts=16)
+<190>Jul 30 22:36:09 waf-01 web_attack[7739]: WAF blocked SQLi/XSS attempt from 203.0.113.8 to 10.0.2.4: <script>alert(1)</script>
+<190>Jul 21 15:45:20 db-firewall web_attack[5346]: WAF blocked SQLi/XSS attempt from 203.0.113.12 to 10.0.2.4: ' or 1=1 --
+<134>Aug 02 14:22:25 mail-gw web_attack[365]: WAF blocked SQLi/XSS attempt from 203.0.113.14 to 10.0.1.1: <script>alert(1)</script>
+<134>Jul 20 04:53:20 core-sw malware[3314]: Malware detected on 10.0.2.5 from 203.0.113.19: trojan.win32.qakbot
+<165>Jul 24 04:41:43 db-firewall brute_force[4316]: Failed password for root from 203.0.113.19 port 60027 ssh2 (user=admin attempts=34)
+<165>Jul 29 15:49:43 ids-01 policy[2873]: Policy violation: 10.0.2.3 accessed forbidden site from 203.0.113.16
+<86>Aug 04 04:24:01 ids-01 brute_force[8684]: Failed password for root from 203.0.113.18 port 12216 ssh2 (user=admin attempts=7)
+<134>Jul 11 19:13:36 db-firewall policy[1213]: Policy violation: 10.0.1.1 accessed forbidden site from 203.0.113.2
+<86>Jul 21 08:33:35 mail-gw dos[8016]: Flood detected: 203.0.113.1 -> 10.0.1.4 68944 pps SYN flood
+<165>Jul 08 00:45:55 db-firewall brute_force[8877]: Failed password for root from 203.0.113.18 port 28788 ssh2 (user=admin attempts=4)
+<134>Aug 04 05:13:40 fw-gw web_attack[4048]: WAF blocked SQLi/XSS attempt from 203.0.113.14 to 10.0.1.3: ' or 1=1 --
+<86>Jul 31 12:35:12 waf-01 malware[6212]: Malware detected on 10.0.2.1 from 203.0.113.9: trojan.win32.qakbot
+<86>Jul 28 04:44:33 waf-01 web_attack[619]: WAF blocked SQLi/XSS attempt from 203.0.113.8 to 10.0.1.4: union select
+<86>Jul 09 08:38:07 db-firewall web_attack[2907]: WAF blocked SQLi/XSS attempt from 203.0.113.13 to 10.0.2.4: union select
+<86>Aug 05 23:54:35 mail-gw web_attack[8753]: WAF blocked SQLi/XSS attempt from 203.0.113.14 to 10.0.2.1: union select
+<86>Jul 09 01:45:26 waf-01 brute_force[4693]: Failed password for root from 203.0.113.19 port 45588 ssh2 (user=admin attempts=39)
+<134>Aug 05 12:29:26 fw-gw malware[6625]: Malware detected on 10.0.2.1 from 203.0.113.6: trojan.win32.emotet
+<190>Aug 01 17:10:52 mail-gw brute_force[8956]: Failed password for root from 203.0.113.19 port 31740 ssh2 (user=admin attempts=27)
+<165>Jul 30 00:57:41 mail-gw dos[979]: Flood detected: 203.0.113.5 -> 10.0.1.2 17803 pps SYN flood
+<190>Jul 30 17:55:00 mail-gw web_attack[5447]: WAF blocked SQLi/XSS attempt from 203.0.113.3 to 10.0.2.1: union select
+<190>Jul 18 08:25:00 ids-01 malware[7175]: Malware detected on 10.0.2.3 from 203.0.113.15: trojan.win32.emotet
+<134>Jul 16 12:54:21 mail-gw dos[1304]: Flood detected: 203.0.113.13 -> 10.0.1.2 15752 pps SYN flood
+<165>Jul 19 08:45:38 core-sw brute_force[1845]: Failed password for root from 203.0.113.13 port 15997 ssh2 (user=admin attempts=3)
+<86>Jul 10 17:50:21 waf-01 policy[3170]: Policy violation: 10.0.2.1 accessed forbidden site from 203.0.113.15
+<86>Jul 19 22:01:28 mail-gw web_attack[1568]: WAF blocked SQLi/XSS attempt from 203.0.113.18 to 10.0.2.4: <script>alert(1)</script>
+<86>Aug 02 14:06:35 waf-01 malware[4881]: Malware detected on 10.0.2.5 from 203.0.113.20: trojan.win32.qakbot
+<134>Jul 24 20:02:39 ids-01 web_attack[6337]: WAF blocked SQLi/XSS attempt from 203.0.113.3 to 10.0.2.4: ' or 1=1 --
+<134>Jul 12 01:18:21 db-firewall brute_force[7221]: Failed password for root from 203.0.113.10 port 28085 ssh2 (user=admin attempts=29)
+<190>Aug 05 00:04:22 waf-01 brute_force[9828]: Failed password for root from 203.0.113.3 port 50414 ssh2 (user=admin attempts=15)
+<165>Aug 05 03:23:08 fw-gw web_attack[6324]: WAF blocked SQLi/XSS attempt from 203.0.113.5 to 10.0.1.5: <script>alert(1)</script>
+<134>Jul 16 16:32:46 ids-01 web_attack[7948]: WAF blocked SQLi/XSS attempt from 203.0.113.14 to 10.0.2.5: <script>alert(1)</script>
+<190>Jul 29 17:20:32 waf-01 brute_force[9535]: Failed password for root from 203.0.113.13 port 61247 ssh2 (user=admin attempts=18)
+<134>Jul 11 02:13:55 waf-01 web_attack[9803]: WAF blocked SQLi/XSS attempt from 203.0.113.9 to 10.0.2.2: ' or 1=1 --
+<134>Jul 21 12:36:02 core-sw dos[7283]: Flood detected: 203.0.113.18 -> 10.0.1.1 43185 pps SYN flood
+<165>Jul 22 15:43:51 core-sw phishing[4065]: Phishing email blocked: from 203.0.113.3 to user17@corp.local subject=invoice
+<190>Jul 21 03:33:38 fw-gw malware[9639]: Malware detected on 10.0.2.2 from 203.0.113.14: trojan.win32.qakbot
+<165>Jul 31 09:33:06 fw-gw web_attack[8896]: WAF blocked SQLi/XSS attempt from 203.0.113.14 to 10.0.2.4: union select
+<86>Jul 27 02:04:21 ids-01 brute_force[9327]: Failed password for root from 203.0.113.8 port 52272 ssh2 (user=admin attempts=28)
+<165>Jul 07 23:49:37 fw-gw policy[3737]: Policy violation: 10.0.2.2 accessed forbidden site from 203.0.113.11
+<134>Jul 28 07:21:04 mail-gw web_attack[7403]: WAF blocked SQLi/XSS attempt from 203.0.113.17 to 10.0.2.4: <script>alert(1)</script>
+<86>Jul 18 00:36:33 ids-01 web_attack[8009]: WAF blocked SQLi/XSS attempt from 203.0.113.19 to 10.0.2.4: union select
+<165>Jul 11 22:14:20 core-sw brute_force[5720]: Failed password for root from 203.0.113.3 port 39840 ssh2 (user=admin attempts=16)
+<190>Jul 20 19:42:44 fw-gw web_attack[5325]: WAF blocked SQLi/XSS attempt from 203.0.113.12 to 10.0.2.3: union select
+<134>Jul 27 02:46:16 waf-01 web_attack[4096]: WAF blocked SQLi/XSS attempt from 203.0.113.4 to 10.0.1.1: ' or 1=1 --
+<134>Aug 05 10:19:33 db-firewall malware[6736]: Malware detected on 10.0.2.4 from 203.0.113.11: trojan.win32.njrat
+<134>Jul 29 19:09:08 fw-gw brute_force[7465]: Failed password for root from 203.0.113.14 port 48810 ssh2 (user=admin attempts=30)
+<86>Jul 30 05:54:25 waf-01 web_attack[9559]: WAF blocked SQLi/XSS attempt from 203.0.113.7 to 10.0.1.4: union select
+<190>Jul 17 10:56:30 waf-01 phishing[1967]: Phishing email blocked: from 203.0.113.18 to user17@corp.local subject=invoice
+<190>Jul 17 01:53:01 core-sw dos[6531]: Flood detected: 203.0.113.16 -> 10.0.2.4 19972 pps SYN flood
+<165>Aug 01 02:07:27 ids-01 web_attack[9769]: WAF blocked SQLi/XSS attempt from 203.0.113.15 to 10.0.2.5: union select
+<134>Jul 16 20:06:22 ids-01 dos[6216]: Flood detected: 203.0.113.11 -> 10.0.1.2 23528 pps SYN flood
+<190>Jul 24 22:05:35 ids-01 web_attack[3143]: WAF blocked SQLi/XSS attempt from 203.0.113.14 to 10.0.2.5: ../../../etc/passwd
+<134>Jul 22 08:46:30 ids-01 malware[3165]: Malware detected on 10.0.2.4 from 203.0.113.6: trojan.win32.qakbot
+<190>Aug 05 05:33:32 waf-01 phishing[2336]: Phishing email blocked: from 203.0.113.20 to user13@corp.local subject=invoice
+<190>Jul 22 12:36:39 core-sw phishing[6909]: Phishing email blocked: from 203.0.113.18 to user46@corp.local subject=invoice
+<134>Jul 24 15:19:09 fw-gw phishing[4885]: Phishing email blocked: from 203.0.113.16 to user3@corp.local subject=invoice
+<190>Jul 31 02:21:56 ids-01 brute_force[9106]: Failed password for root from 203.0.113.18 port 43476 ssh2 (user=admin attempts=10)
+<86>Jul 23 22:30:14 waf-01 malware[7331]: Malware detected on 10.0.2.4 from 203.0.113.9: trojan.win32.njrat
+<134>Aug 01 13:53:01 core-sw brute_force[4977]: Failed password for root from 203.0.113.14 port 12112 ssh2 (user=admin attempts=31)
+<134>Jul 30 22:41:15 fw-gw brute_force[3538]: Failed password for root from 203.0.113.3 port 63130 ssh2 (user=admin attempts=40)
+<134>Jul 26 03:51:41 ids-01 dos[3490]: Flood detected: 203.0.113.20 -> 10.0.2.2 12780 pps SYN flood
+<165>Jul 23 20:08:46 mail-gw malware[4894]: Malware detected on 10.0.1.5 from 203.0.113.18: trojan.win32.qakbot
+<190>Aug 05 13:25:43 ids-01 malware[1071]: Malware detected on 10.0.1.2 from 203.0.113.17: trojan.win32.qakbot
+<165>Jul 12 01:31:41 ids-01 lateral[4155]: Lateral movement: 203.0.113.5 -> 10.0.1.3 SMB 13 connections anomalous
+<190>Jul 20 02:28:29 core-sw web_attack[1337]: WAF blocked SQLi/XSS attempt from 203.0.113.19 to 10.0.1.5: union select
+<165>Aug 05 04:24:56 db-firewall web_attack[9634]: WAF blocked SQLi/XSS attempt from 203.0.113.9 to 10.0.2.1: union select
+<165>Jul 27 14:24:58 core-sw lateral[1137]: Lateral movement: 203.0.113.3 -> 10.0.2.3 SMB 18 connections anomalous
+<165>Jul 15 17:34:45 db-firewall web_attack[5633]: WAF blocked SQLi/XSS attempt from 203.0.113.14 to 10.0.1.4: ' or 1=1 --
+<86>Jul 30 13:03:20 core-sw malware[1731]: Malware detected on 10.0.2.1 from 203.0.113.16: trojan.win32.njrat
+<134>Aug 04 13:25:28 fw-gw phishing[7330]: Phishing email blocked: from 203.0.113.15 to user30@corp.local subject=invoice
+<165>Aug 03 23:00:21 core-sw brute_force[2704]: Failed password for root from 203.0.113.14 port 27958 ssh2 (user=admin attempts=8)
+<134>Jul 27 14:40:44 waf-01 malware[948]: Malware detected on 10.0.1.2 from 203.0.113.9: trojan.win32.qakbot
+<86>Jul 10 09:53:46 core-sw malware[117]: Malware detected on 10.0.2.2 from 203.0.113.8: trojan.win32.emotet
+<190>Jul 23 06:13:57 ids-01 web_attack[252]: WAF blocked SQLi/XSS attempt from 203.0.113.5 to 10.0.2.5: union select
+<86>Jul 11 15:23:55 core-sw dos[3851]: Flood detected: 203.0.113.4 -> 10.0.2.2 55209 pps SYN flood
+<165>Jul 18 16:52:37 waf-01 brute_force[2346]: Failed password for root from 203.0.113.4 port 35082 ssh2 (user=admin attempts=11)
+<134>Jul 24 13:48:08 mail-gw malware[7310]: Malware detected on 10.0.1.2 from 203.0.113.5: trojan.win32.qakbot
+<134>Jul 28 06:33:37 mail-gw dos[1520]: Flood detected: 203.0.113.5 -> 10.0.2.2 18168 pps SYN flood
+<190>Jul 19 04:44:08 core-sw brute_force[5252]: Failed password for root from 203.0.113.4 port 61844 ssh2 (user=admin attempts=11)
+<165>Jul 25 16:57:07 mail-gw brute_force[539]: Failed password for root from 203.0.113.3 port 53149 ssh2 (user=admin attempts=22)
+<165>Jul 30 02:40:48 ids-01 brute_force[994]: Failed password for root from 203.0.113.20 port 61367 ssh2 (user=admin attempts=18)
+<86>Jul 26 19:39:07 db-firewall web_attack[8755]: WAF blocked SQLi/XSS attempt from 203.0.113.4 to 10.0.1.4: union select
+<190>Aug 02 12:01:07 db-firewall policy[6086]: Policy violation: 10.0.1.3 accessed forbidden site from 203.0.113.11
+<86>Jul 08 04:14:56 fw-gw web_attack[325]: WAF blocked SQLi/XSS attempt from 203.0.113.6 to 10.0.2.3: <script>alert(1)</script>
+<190>Jul 16 06:30:14 mail-gw brute_force[7039]: Failed password for root from 203.0.113.2 port 55993 ssh2 (user=admin attempts=28)
+<86>Jul 12 06:09:45 mail-gw brute_force[5177]: Failed password for root from 203.0.113.18 port 15178 ssh2 (user=admin attempts=35)
+<86>Jul 19 09:33:34 waf-01 lateral[5181]: Lateral movement: 203.0.113.5 -> 10.0.2.4 SMB 14 connections anomalous
+<190>Jul 10 06:18:21 ids-01 dos[2000]: Flood detected: 203.0.113.8 -> 10.0.1.1 64424 pps SYN flood
+<134>Jul 29 22:15:07 core-sw malware[2056]: Malware detected on 10.0.1.5 from 203.0.113.2: trojan.win32.emotet
+<165>Aug 05 06:24:15 db-firewall dos[2835]: Flood detected: 203.0.113.1 -> 10.0.1.3 53741 pps SYN flood
+<190>Jul 17 17:26:26 fw-gw brute_force[4556]: Failed password for root from 203.0.113.9 port 44331 ssh2 (user=admin attempts=7)
+<165>Jul 21 07:58:30 db-firewall brute_force[1008]: Failed password for root from 203.0.113.19 port 42742 ssh2 (user=admin attempts=39)
+<86>Aug 03 12:06:21 fw-gw brute_force[3842]: Failed password for root from 203.0.113.6 port 58547 ssh2 (user=admin attempts=35)
+<190>Jul 21 19:54:11 fw-gw brute_force[2558]: Failed password for root from 203.0.113.1 port 21728 ssh2 (user=admin attempts=5)
+<165>Jul 15 02:58:56 waf-01 malware[4544]: Malware detected on 10.0.1.4 from 203.0.113.14: trojan.win32.emotet
+<134>Aug 03 17:37:49 core-sw malware[3756]: Malware detected on 10.0.2.4 from 203.0.113.4: trojan.win32.njrat
+<165>Aug 02 15:46:33 db-firewall policy[5462]: Policy violation: 10.0.1.2 accessed forbidden site from 203.0.113.13
+<165>Jul 13 16:42:57 waf-01 brute_force[4074]: Failed password for root from 203.0.113.15 port 40403 ssh2 (user=admin attempts=26)
+<134>Aug 03 16:33:07 core-sw malware[2566]: Malware detected on 10.0.1.4 from 203.0.113.16: trojan.win32.emotet
+<86>Jul 18 01:39:28 mail-gw policy[5588]: Policy violation: 10.0.1.4 accessed forbidden site from 203.0.113.1
+<134>Jul 13 19:58:21 fw-gw brute_force[6978]: Failed password for root from 203.0.113.13 port 42245 ssh2 (user=admin attempts=6)
+<134>Jul 08 23:50:27 fw-gw policy[8615]: Policy violation: 10.0.1.5 accessed forbidden site from 203.0.113.5
+<86>Jul 10 05:21:45 core-sw web_attack[8380]: WAF blocked SQLi/XSS attempt from 203.0.113.12 to 10.0.2.3: ' or 1=1 --
+<190>Jul 24 17:03:49 mail-gw malware[2241]: Malware detected on 10.0.1.2 from 203.0.113.13: trojan.win32.emotet
+<165>Aug 01 15:12:02 core-sw brute_force[5311]: Failed password for root from 203.0.113.11 port 39671 ssh2 (user=admin attempts=20)
+<86>Jul 10 22:41:35 mail-gw brute_force[2793]: Failed password for root from 203.0.113.7 port 39462 ssh2 (user=admin attempts=32)
+<134>Aug 05 14:46:11 waf-01 web_attack[7504]: WAF blocked SQLi/XSS attempt from 203.0.113.4 to 10.0.2.4: <script>alert(1)</script>
+<165>Jul 31 21:42:09 ids-01 web_attack[9984]: WAF blocked SQLi/XSS attempt from 203.0.113.4 to 10.0.1.2: union select
+<165>Jul 29 00:15:57 fw-gw brute_force[6592]: Failed password for root from 203.0.113.11 port 43650 ssh2 (user=admin attempts=6)
+<190>Aug 05 05:44:32 fw-gw dos[9208]: Flood detected: 203.0.113.9 -> 10.0.1.3 77105 pps SYN flood
+<86>Jul 11 07:40:44 ids-01 brute_force[3741]: Failed password for root from 203.0.113.15 port 18566 ssh2 (user=admin attempts=15)
+<86>Jul 25 06:14:17 mail-gw phishing[457]: Phishing email blocked: from 203.0.113.12 to user5@corp.local subject=invoice
+<165>Aug 03 19:53:20 fw-gw brute_force[2107]: Failed password for root from 203.0.113.15 port 12798 ssh2 (user=admin attempts=32)
+<86>Jul 19 12:37:54 core-sw brute_force[6370]: Failed password for root from 203.0.113.19 port 54775 ssh2 (user=admin attempts=30)
+<134>Jul 16 01:43:41 waf-01 brute_force[667]: Failed password for root from 203.0.113.7 port 50246 ssh2 (user=admin attempts=18)
+<86>Jul 22 01:08:06 mail-gw malware[4683]: Malware detected on 10.0.2.2 from 203.0.113.16: trojan.win32.qakbot
+<86>Jul 26 14:22:33 ids-01 brute_force[6366]: Failed password for root from 203.0.113.7 port 61243 ssh2 (user=admin attempts=25)
+<190>Jul 22 17:57:21 mail-gw web_attack[4530]: WAF blocked SQLi/XSS attempt from 203.0.113.16 to 10.0.2.1: ' or 1=1 --
+<165>Aug 03 13:11:00 fw-gw brute_force[1059]: Failed password for root from 203.0.113.20 port 62995 ssh2 (user=admin attempts=33)
+<134>Jul 10 16:19:46 ids-01 web_attack[4466]: WAF blocked SQLi/XSS attempt from 203.0.113.19 to 10.0.1.4: union select
+<134>Jul 18 07:41:31 db-firewall dos[2985]: Flood detected: 203.0.113.8 -> 10.0.2.5 36005 pps SYN flood
+<165>Jul 28 18:43:07 fw-gw malware[9400]: Malware detected on 10.0.2.5 from 203.0.113.12: trojan.win32.njrat
+<190>Jul 16 22:45:03 mail-gw brute_force[721]: Failed password for root from 203.0.113.7 port 15915 ssh2 (user=admin attempts=6)
+<165>Jul 22 00:23:05 mail-gw brute_force[3400]: Failed password for root from 203.0.113.8 port 62851 ssh2 (user=admin attempts=11)
+<134>Jul 08 08:00:36 fw-gw web_attack[1917]: WAF blocked SQLi/XSS attempt from 203.0.113.6 to 10.0.2.1: <script>alert(1)</script>
+<165>Jul 10 16:58:33 mail-gw policy[5385]: Policy violation: 10.0.2.2 accessed forbidden site from 203.0.113.12
+<165>Aug 05 11:54:34 core-sw brute_force[2954]: Failed password for root from 203.0.113.6 port 56345 ssh2 (user=admin attempts=38)
+<134>Jul 27 15:24:56 ids-01 dos[6299]: Flood detected: 203.0.113.20 -> 10.0.2.1 45215 pps SYN flood
+<190>Jul 29 12:59:27 ids-01 dos[9397]: Flood detected: 203.0.113.10 -> 10.0.1.3 9244 pps SYN flood
+<86>Jul 26 20:46:42 ids-01 brute_force[8229]: Failed password for root from 203.0.113.11 port 19217 ssh2 (user=admin attempts=24)
+<86>Jul 12 17:06:42 waf-01 dos[5600]: Flood detected: 203.0.113.8 -> 10.0.2.1 63540 pps SYN flood
+<165>Jul 09 17:02:42 core-sw brute_force[1870]: Failed password for root from 203.0.113.7 port 57213 ssh2 (user=admin attempts=3)
+<190>Aug 03 05:06:36 ids-01 brute_force[6304]: Failed password for root from 203.0.113.15 port 33018 ssh2 (user=admin attempts=37)
+<134>Jul 30 10:10:05 core-sw web_attack[2764]: WAF blocked SQLi/XSS attempt from 203.0.113.16 to 10.0.2.5: ../../../etc/passwd
+<86>Jul 17 05:42:32 fw-gw brute_force[1315]: Failed password for root from 203.0.113.2 port 32400 ssh2 (user=admin attempts=13)
+<86>Aug 04 22:21:12 mail-gw lateral[5636]: Lateral movement: 203.0.113.6 -> 10.0.1.2 SMB 20 connections anomalous
+<134>Aug 04 22:47:28 db-firewall policy[7213]: Policy violation: 10.0.1.1 accessed forbidden site from 203.0.113.16
+<190>Aug 05 21:47:58 ids-01 brute_force[9178]: Failed password for root from 203.0.113.4 port 57319 ssh2 (user=admin attempts=37)
+<190>Jul 10 13:17:32 ids-01 brute_force[9467]: Failed password for root from 203.0.113.10 port 46022 ssh2 (user=admin attempts=34)
+<190>Jul 10 07:19:30 db-firewall brute_force[3371]: Failed password for root from 203.0.113.12 port 16356 ssh2 (user=admin attempts=4)
+<165>Aug 01 23:44:47 db-firewall brute_force[6612]: Failed password for root from 203.0.113.10 port 40863 ssh2 (user=admin attempts=34)
+<134>Jul 24 00:00:12 core-sw lateral[6178]: Lateral movement: 203.0.113.9 -> 10.0.1.2 SMB 13 connections anomalous
+<165>Jul 20 20:50:45 waf-01 web_attack[3806]: WAF blocked SQLi/XSS attempt from 203.0.113.15 to 10.0.1.1: <script>alert(1)</script>
+<190>Jul 27 17:17:39 fw-gw malware[9762]: Malware detected on 10.0.1.2 from 203.0.113.5: trojan.win32.emotet
+<190>Aug 05 15:29:05 db-firewall malware[9483]: Malware detected on 10.0.2.4 from 203.0.113.13: trojan.win32.emotet
+<134>Jul 08 17:14:14 core-sw web_attack[2070]: WAF blocked SQLi/XSS attempt from 203.0.113.3 to 10.0.2.2: ../../../etc/passwd
+<190>Jul 11 11:05:12 ids-01 brute_force[1383]: Failed password for root from 203.0.113.6 port 54769 ssh2 (user=admin attempts=30)
+<86>Jul 17 06:27:08 waf-01 brute_force[1525]: Failed password for root from 203.0.113.5 port 35434 ssh2 (user=admin attempts=38)
+<86>Jul 21 10:06:21 mail-gw web_attack[9726]: WAF blocked SQLi/XSS attempt from 203.0.113.11 to 10.0.1.5: ../../../etc/passwd
+<86>Jul 25 07:32:43 mail-gw brute_force[1830]: Failed password for root from 203.0.113.5 port 46876 ssh2 (user=admin attempts=9)
+<190>Jul 15 14:24:40 db-firewall phishing[9472]: Phishing email blocked: from 203.0.113.18 to user39@corp.local subject=invoice
+<190>Jul 11 23:48:24 db-firewall web_attack[735]: WAF blocked SQLi/XSS attempt from 203.0.113.6 to 10.0.1.5: ../../../etc/passwd
+<165>Jul 30 01:10:21 fw-gw lateral[6202]: Lateral movement: 203.0.113.11 -> 10.0.1.4 SMB 1 connections anomalous
+<86>Aug 01 23:04:56 waf-01 web_attack[3834]: WAF blocked SQLi/XSS attempt from 203.0.113.10 to 10.0.1.5: ' or 1=1 --
+<86>Jul 29 12:58:06 waf-01 web_attack[3179]: WAF blocked SQLi/XSS attempt from 203.0.113.15 to 10.0.2.1: ../../../etc/passwd
+<86>Aug 02 16:36:31 mail-gw brute_force[8542]: Failed password for root from 203.0.113.14 port 61871 ssh2 (user=admin attempts=13)
+<86>Jul 31 02:12:16 ids-01 brute_force[2946]: Failed password for root from 203.0.113.17 port 22632 ssh2 (user=admin attempts=15)
+<165>Jul 09 04:38:07 db-firewall phishing[3362]: Phishing email blocked: from 203.0.113.8 to user18@corp.local subject=invoice
+<86>Jul 26 17:43:40 db-firewall web_attack[600]: WAF blocked SQLi/XSS attempt from 203.0.113.15 to 10.0.2.4: ' or 1=1 --
+<190>Aug 05 11:48:26 ids-01 web_attack[9715]: WAF blocked SQLi/XSS attempt from 203.0.113.20 to 10.0.2.3: <script>alert(1)</script>
+<86>Jul 08 11:59:49 waf-01 web_attack[2769]: WAF blocked SQLi/XSS attempt from 203.0.113.9 to 10.0.1.2: ' or 1=1 --
+<86>Jul 27 05:22:32 waf-01 lateral[245]: Lateral movement: 203.0.113.8 -> 10.0.1.4 SMB 16 connections anomalous
+<165>Jul 14 09:20:49 fw-gw lateral[4611]: Lateral movement: 203.0.113.6 -> 10.0.2.5 SMB 14 connections anomalous
+<165>Jul 14 05:20:35 waf-01 lateral[8630]: Lateral movement: 203.0.113.12 -> 10.0.2.3 SMB 20 connections anomalous
+<165>Aug 06 15:49:18 mail-gw web_attack[9298]: WAF blocked SQLi/XSS attempt from 203.0.113.4 to 10.0.1.1: <script>alert(1)</script>
+<165>Jul 17 18:21:25 fw-gw brute_force[5427]: Failed password for root from 203.0.113.4 port 28145 ssh2 (user=admin attempts=19)
+<134>Jul 23 04:41:02 ids-01 malware[1030]: Malware detected on 10.0.1.4 from 203.0.113.10: trojan.win32.njrat
+<190>Jul 08 10:33:38 core-sw web_attack[4943]: WAF blocked SQLi/XSS attempt from 203.0.113.11 to 10.0.1.3: <script>alert(1)</script>
+<134>Jul 08 17:39:44 core-sw lateral[5722]: Lateral movement: 203.0.113.13 -> 10.0.2.2 SMB 8 connections anomalous
+<134>Jul 16 16:22:22 mail-gw dos[9246]: Flood detected: 203.0.113.16 -> 10.0.2.1 28741 pps SYN flood
+<134>Jul 15 10:27:43 core-sw brute_force[5599]: Failed password for root from 203.0.113.16 port 52889 ssh2 (user=admin attempts=8)
+<165>Jul 31 07:39:28 db-firewall brute_force[6189]: Failed password for root from 203.0.113.8 port 27076 ssh2 (user=admin attempts=40)
+<86>Aug 02 16:02:09 fw-gw brute_force[7836]: Failed password for root from 203.0.113.4 port 22749 ssh2 (user=admin attempts=35)
+<134>Jul 20 01:40:12 waf-01 brute_force[2350]: Failed password for root from 203.0.113.13 port 23126 ssh2 (user=admin attempts=24)
+<134>Jul 17 04:01:43 ids-01 web_attack[1424]: WAF blocked SQLi/XSS attempt from 203.0.113.19 to 10.0.2.3: ../../../etc/passwd
+<190>Jul 09 10:00:09 core-sw web_attack[4581]: WAF blocked SQLi/XSS attempt from 203.0.113.6 to 10.0.2.1: ' or 1=1 --
+<86>Jul 22 08:43:41 ids-01 dos[2220]: Flood detected: 203.0.113.6 -> 10.0.2.5 61847 pps SYN flood
+<86>Jul 19 04:13:14 db-firewall malware[8845]: Malware detected on 10.0.2.2 from 203.0.113.13: trojan.win32.emotet
+<86>Jul 13 09:26:52 mail-gw dos[4176]: Flood detected: 203.0.113.1 -> 10.0.2.1 34657 pps SYN flood
+<165>Jul 10 18:10:57 ids-01 dos[2836]: Flood detected: 203.0.113.12 -> 10.0.1.5 13557 pps SYN flood
+<165>Jul 29 12:16:18 db-firewall phishing[7205]: Phishing email blocked: from 203.0.113.10 to user44@corp.local subject=invoice
+<134>Jul 30 04:18:57 waf-01 policy[6709]: Policy violation: 10.0.2.3 accessed forbidden site from 203.0.113.11
+<134>Jul 29 16:46:04 ids-01 brute_force[2117]: Failed password for root from 203.0.113.8 port 34024 ssh2 (user=admin attempts=5)
+<86>Jul 09 03:12:55 mail-gw web_attack[1871]: WAF blocked SQLi/XSS attempt from 203.0.113.9 to 10.0.2.4: union select
+<165>Jul 19 02:00:55 db-firewall brute_force[7872]: Failed password for root from 203.0.113.4 port 55997 ssh2 (user=admin attempts=12)
+<165>Jul 27 12:37:52 db-firewall brute_force[2347]: Failed password for root from 203.0.113.1 port 37448 ssh2 (user=admin attempts=9)
+<86>Jul 11 02:19:18 waf-01 web_attack[8254]: WAF blocked SQLi/XSS attempt from 203.0.113.20 to 10.0.1.2: ' or 1=1 --
+<190>Jul 18 09:56:11 ids-01 malware[4939]: Malware detected on 10.0.2.4 from 203.0.113.9: trojan.win32.emotet
+<165>Aug 04 16:04:56 core-sw brute_force[3942]: Failed password for root from 203.0.113.16 port 10179 ssh2 (user=admin attempts=3)
+<86>Jul 22 11:59:15 core-sw dos[8483]: Flood detected: 203.0.113.4 -> 10.0.2.5 14836 pps SYN flood
+<165>Jul 14 14:40:05 core-sw dos[4427]: Flood detected: 203.0.113.4 -> 10.0.1.5 65853 pps SYN flood
+<165>Jul 18 11:35:14 waf-01 brute_force[7079]: Failed password for root from 203.0.113.6 port 58400 ssh2 (user=admin attempts=10)
+<134>Jul 27 13:50:54 ids-01 brute_force[5484]: Failed password for root from 203.0.113.2 port 33430 ssh2 (user=admin attempts=31)
+<134>Aug 01 03:00:25 waf-01 policy[1965]: Policy violation: 10.0.1.2 accessed forbidden site from 203.0.113.9
+<190>Jul 28 08:57:45 db-firewall web_attack[7009]: WAF blocked SQLi/XSS attempt from 203.0.113.15 to 10.0.1.5: ' or 1=1 --
+<190>Jul 20 03:46:21 fw-gw brute_force[9421]: Failed password for root from 203.0.113.2 port 54459 ssh2 (user=admin attempts=31)
+<134>Jul 08 12:58:49 mail-gw brute_force[8014]: Failed password for root from 203.0.113.13 port 41989 ssh2 (user=admin attempts=10)
+<165>Jul 15 12:35:38 fw-gw lateral[302]: Lateral movement: 203.0.113.15 -> 10.0.1.1 SMB 17 connections anomalous
+<165>Aug 06 00:19:03 ids-01 dos[8604]: Flood detected: 203.0.113.19 -> 10.0.2.5 73564 pps SYN flood
+<134>Jul 27 12:39:58 db-firewall dos[7995]: Flood detected: 203.0.113.20 -> 10.0.1.2 50318 pps SYN flood
+<86>Aug 03 10:31:02 mail-gw malware[290]: Malware detected on 10.0.1.3 from 203.0.113.13: trojan.win32.njrat
+<86>Aug 02 18:12:43 db-firewall policy[8155]: Policy violation: 10.0.2.3 accessed forbidden site from 203.0.113.17
+<190>Jul 22 21:13:18 fw-gw web_attack[6707]: WAF blocked SQLi/XSS attempt from 203.0.113.11 to 10.0.1.5: ' or 1=1 --
+<190>Jul 10 07:36:25 db-firewall brute_force[7424]: Failed password for root from 203.0.113.15 port 30713 ssh2 (user=admin attempts=10)
+<86>Jul 20 01:06:59 db-firewall policy[1589]: Policy violation: 10.0.1.2 accessed forbidden site from 203.0.113.1
+<190>Jul 24 13:06:44 mail-gw phishing[5684]: Phishing email blocked: from 203.0.113.20 to user24@corp.local subject=invoice
+<190>Jul 24 11:32:28 waf-01 phishing[6052]: Phishing email blocked: from 203.0.113.8 to user46@corp.local subject=invoice
+<165>Jul 17 22:00:35 fw-gw web_attack[9073]: WAF blocked SQLi/XSS attempt from 203.0.113.4 to 10.0.1.4: <script>alert(1)</script>
+<190>Jul 11 21:21:22 db-firewall dos[1852]: Flood detected: 203.0.113.2 -> 10.0.1.3 38330 pps SYN flood
+<134>Jul 14 03:27:25 db-firewall malware[5636]: Malware detected on 10.0.1.2 from 203.0.113.7: trojan.win32.emotet
+<190>Jul 30 20:10:38 fw-gw dos[7593]: Flood detected: 203.0.113.2 -> 10.0.2.5 71086 pps SYN flood
+<190>Jul 29 18:18:24 mail-gw brute_force[9686]: Failed password for root from 203.0.113.16 port 41649 ssh2 (user=admin attempts=35)
+<134>Jul 29 14:11:20 ids-01 phishing[1796]: Phishing email blocked: from 203.0.113.6 to user25@corp.local subject=invoice
+<190>Aug 03 02:50:02 mail-gw malware[4167]: Malware detected on 10.0.2.1 from 203.0.113.20: trojan.win32.qakbot
+<134>Jul 31 19:41:11 db-firewall web_attack[6862]: WAF blocked SQLi/XSS attempt from 203.0.113.11 to 10.0.1.5: <script>alert(1)</script>
+<134>Jul 29 18:44:31 core-sw phishing[3391]: Phishing email blocked: from 203.0.113.18 to user14@corp.local subject=invoice
+<134>Jul 11 15:45:23 core-sw malware[8355]: Malware detected on 10.0.2.1 from 203.0.113.10: trojan.win32.njrat
+<190>Jul 24 13:04:28 waf-01 dos[8847]: Flood detected: 203.0.113.11 -> 10.0.1.2 42477 pps SYN flood
+<190>Jul 10 20:53:29 mail-gw lateral[2481]: Lateral movement: 203.0.113.14 -> 10.0.1.1 SMB 2 connections anomalous
+<165>Aug 06 04:22:33 ids-01 dos[2499]: Flood detected: 203.0.113.7 -> 10.0.1.5 13130 pps SYN flood
+<190>Jul 08 15:29:36 mail-gw dos[1779]: Flood detected: 203.0.113.10 -> 10.0.1.4 78647 pps SYN flood
+<165>Jul 23 00:05:48 ids-01 lateral[869]: Lateral movement: 203.0.113.18 -> 10.0.2.2 SMB 13 connections anomalous
+<165>Jul 08 01:34:03 fw-gw web_attack[3427]: WAF blocked SQLi/XSS attempt from 203.0.113.11 to 10.0.2.4: ../../../etc/passwd
+<134>Jul 29 19:55:00 mail-gw phishing[3270]: Phishing email blocked: from 203.0.113.12 to user19@corp.local subject=invoice
+<86>Jul 29 17:29:24 ids-01 web_attack[6280]: WAF blocked SQLi/XSS attempt from 203.0.113.3 to 10.0.1.3: union select
+<165>Jul 12 12:06:05 ids-01 web_attack[192]: WAF blocked SQLi/XSS attempt from 203.0.113.18 to 10.0.1.5: <script>alert(1)</script>
+<86>Aug 04 12:50:42 ids-01 web_attack[5034]: WAF blocked SQLi/XSS attempt from 203.0.113.5 to 10.0.1.1: ../../../etc/passwd
+<165>Jul 31 04:44:07 fw-gw phishing[8708]: Phishing email blocked: from 203.0.113.18 to user15@corp.local subject=invoice
+<190>Jul 12 10:58:46 mail-gw policy[1606]: Policy violation: 10.0.1.2 accessed forbidden site from 203.0.113.17
+<134>Jul 18 12:00:25 waf-01 web_attack[8791]: WAF blocked SQLi/XSS attempt from 203.0.113.7 to 10.0.2.1: ../../../etc/passwd
+<134>Jul 18 01:21:28 core-sw policy[4094]: Policy violation: 10.0.1.2 accessed forbidden site from 203.0.113.1
+<165>Jul 19 06:03:48 fw-gw policy[504]: Policy violation: 10.0.2.2 accessed forbidden site from 203.0.113.11
+<86>Jul 21 01:02:01 mail-gw lateral[4956]: Lateral movement: 203.0.113.12 -> 10.0.2.4 SMB 7 connections anomalous
+<86>Aug 05 19:48:19 ids-01 web_attack[1172]: WAF blocked SQLi/XSS attempt from 203.0.113.3 to 10.0.1.2: ' or 1=1 --
+<190>Jul 13 20:15:00 fw-gw dos[1281]: Flood detected: 203.0.113.7 -> 10.0.2.2 25152 pps SYN flood
+<134>Jul 09 20:58:16 fw-gw brute_force[4227]: Failed password for root from 203.0.113.11 port 46574 ssh2 (user=admin attempts=7)
+<190>Jul 19 07:36:58 db-firewall malware[7194]: Malware detected on 10.0.1.5 from 203.0.113.8: trojan.win32.qakbot
+<86>Jul 26 22:03:25 fw-gw brute_force[9694]: Failed password for root from 203.0.113.4 port 12982 ssh2 (user=admin attempts=7)
+<165>Jul 31 06:47:41 waf-01 web_attack[1517]: WAF blocked SQLi/XSS attempt from 203.0.113.17 to 10.0.1.2: <script>alert(1)</script>
+<86>Aug 01 08:09:39 db-firewall dos[7865]: Flood detected: 203.0.113.15 -> 10.0.2.2 25489 pps SYN flood
+<134>Jul 16 12:37:02 mail-gw web_attack[4983]: WAF blocked SQLi/XSS attempt from 203.0.113.5 to 10.0.2.2: <script>alert(1)</script>
+<86>Jul 11 22:01:19 mail-gw policy[182]: Policy violation: 10.0.2.4 accessed forbidden site from 203.0.113.1
+<165>Aug 05 02:03:28 mail-gw malware[3541]: Malware detected on 10.0.2.4 from 203.0.113.13: trojan.win32.njrat
+<134>Aug 03 20:17:05 db-firewall dos[2737]: Flood detected: 203.0.113.12 -> 10.0.1.4 29116 pps SYN flood
+<86>Jul 13 02:48:37 fw-gw brute_force[9092]: Failed password for root from 203.0.113.9 port 40229 ssh2 (user=admin attempts=38)
+<190>Jul 13 14:22:24 fw-gw brute_force[5520]: Failed password for root from 203.0.113.3 port 33405 ssh2 (user=admin attempts=11)
+<134>Jul 26 06:17:02 waf-01 dos[5306]: Flood detected: 203.0.113.8 -> 10.0.1.2 68682 pps SYN flood
+<165>Jul 25 04:50:06 core-sw web_attack[5282]: WAF blocked SQLi/XSS attempt from 203.0.113.20 to 10.0.1.5: ../../../etc/passwd
+<190>Jul 29 01:00:58 ids-01 brute_force[4633]: Failed password for root from 203.0.113.11 port 33559 ssh2 (user=admin attempts=11)
+<165>Jul 21 00:53:25 db-firewall dos[8078]: Flood detected: 203.0.113.11 -> 10.0.2.3 77308 pps SYN flood
+<134>Aug 02 10:30:23 waf-01 brute_force[8924]: Failed password for root from 203.0.113.20 port 22873 ssh2 (user=admin attempts=19)
+<86>Aug 02 03:56:08 fw-gw dos[9633]: Flood detected: 203.0.113.3 -> 10.0.1.2 58101 pps SYN flood
+<190>Jul 15 11:52:35 mail-gw dos[2535]: Flood detected: 203.0.113.7 -> 10.0.1.1 52948 pps SYN flood
+<86>Jul 21 14:49:03 ids-01 web_attack[6600]: WAF blocked SQLi/XSS attempt from 203.0.113.19 to 10.0.1.5: <script>alert(1)</script>
+<134>Jul 12 15:38:24 core-sw web_attack[7410]: WAF blocked SQLi/XSS attempt from 203.0.113.8 to 10.0.2.5: ' or 1=1 --
+<165>Jul 29 15:16:33 core-sw brute_force[762]: Failed password for root from 203.0.113.19 port 24340 ssh2 (user=admin attempts=34)
+<134>Jul 08 23:03:17 ids-01 brute_force[8585]: Failed password for root from 203.0.113.9 port 61869 ssh2 (user=admin attempts=26)
+<165>Aug 06 02:15:26 fw-gw web_attack[1791]: WAF blocked SQLi/XSS attempt from 203.0.113.15 to 10.0.1.1: <script>alert(1)</script>
+<190>Jul 24 18:44:53 mail-gw phishing[6301]: Phishing email blocked: from 203.0.113.9 to user24@corp.local subject=invoice
+<134>Jul 18 23:11:22 waf-01 malware[8560]: Malware detected on 10.0.2.4 from 203.0.113.3: trojan.win32.qakbot
+<86>Aug 03 06:59:47 db-firewall web_attack[8322]: WAF blocked SQLi/XSS attempt from 203.0.113.12 to 10.0.2.3: ' or 1=1 --
+<134>Jul 26 23:32:10 mail-gw web_attack[2561]: WAF blocked SQLi/XSS attempt from 203.0.113.8 to 10.0.1.2: ' or 1=1 --
+<165>Jul 14 14:04:55 core-sw brute_force[1956]: Failed password for root from 203.0.113.20 port 41556 ssh2 (user=admin attempts=33)
+<86>Aug 01 16:15:20 core-sw web_attack[4092]: WAF blocked SQLi/XSS attempt from 203.0.113.19 to 10.0.1.3: union select
+<86>Jul 26 13:30:06 ids-01 brute_force[9476]: Failed password for root from 203.0.113.19 port 19624 ssh2 (user=admin attempts=6)
+<86>Jul 25 15:46:12 db-firewall brute_force[4744]: Failed password for root from 203.0.113.6 port 15619 ssh2 (user=admin attempts=16)
+<190>Jul 14 06:10:29 ids-01 web_attack[9944]: WAF blocked SQLi/XSS attempt from 203.0.113.16 to 10.0.2.3: ' or 1=1 --
+<134>Jul 23 00:00:44 core-sw phishing[5714]: Phishing email blocked: from 203.0.113.6 to user30@corp.local subject=invoice
+<86>Jul 19 05:45:55 db-firewall malware[371]: Malware detected on 10.0.1.4 from 203.0.113.3: trojan.win32.emotet
+<134>Jul 25 20:12:02 ids-01 web_attack[7896]: WAF blocked SQLi/XSS attempt from 203.0.113.17 to 10.0.2.2: union select
+<134>Jul 10 11:19:46 fw-gw lateral[9987]: Lateral movement: 203.0.113.18 -> 10.0.2.4 SMB 18 connections anomalous
+<86>Jul 18 18:54:16 db-firewall phishing[8780]: Phishing email blocked: from 203.0.113.14 to user28@corp.local subject=invoice
+<86>Jul 25 08:20:50 waf-01 brute_force[7071]: Failed password for root from 203.0.113.16 port 18774 ssh2 (user=admin attempts=19)
+<190>Jul 25 15:00:11 waf-01 web_attack[4323]: WAF blocked SQLi/XSS attempt from 203.0.113.8 to 10.0.1.2: ' or 1=1 --
+<86>Jul 11 05:04:09 mail-gw brute_force[6244]: Failed password for root from 203.0.113.1 port 52896 ssh2 (user=admin attempts=16)
+<190>Jul 10 20:58:21 waf-01 dos[9690]: Flood detected: 203.0.113.11 -> 10.0.2.2 38244 pps SYN flood
+<165>Jul 18 15:29:47 mail-gw brute_force[6611]: Failed password for root from 203.0.113.18 port 59477 ssh2 (user=admin attempts=16)
+<190>Jul 18 18:47:10 ids-01 web_attack[4257]: WAF blocked SQLi/XSS attempt from 203.0.113.18 to 10.0.2.3: <script>alert(1)</script>
+<134>Jul 11 05:58:28 core-sw malware[7417]: Malware detected on 10.0.1.3 from 203.0.113.13: trojan.win32.njrat
+<165>Jul 19 16:38:11 mail-gw policy[9120]: Policy violation: 10.0.1.4 accessed forbidden site from 203.0.113.4
+<86>Aug 05 14:43:24 db-firewall malware[1592]: Malware detected on 10.0.1.3 from 203.0.113.2: trojan.win32.emotet
+<134>Jul 09 14:22:14 fw-gw web_attack[6175]: WAF blocked SQLi/XSS attempt from 203.0.113.20 to 10.0.2.2: union select
+<165>Jul 27 08:40:44 mail-gw malware[9888]: Malware detected on 10.0.2.2 from 203.0.113.13: trojan.win32.emotet
+<165>Jul 07 23:56:39 db-firewall policy[3290]: Policy violation: 10.0.2.3 accessed forbidden site from 203.0.113.6
+<134>Jul 28 15:06:59 mail-gw brute_force[690]: Failed password for root from 203.0.113.20 port 33575 ssh2 (user=admin attempts=18)
+<165>Jul 31 01:35:50 waf-01 malware[6574]: Malware detected on 10.0.1.2 from 203.0.113.6: trojan.win32.qakbot
+<86>Jul 28 18:50:26 core-sw malware[9104]: Malware detected on 10.0.1.1 from 203.0.113.17: trojan.win32.qakbot
+<165>Jul 18 02:24:53 waf-01 dos[3807]: Flood detected: 203.0.113.18 -> 10.0.2.5 30496 pps SYN flood
+<190>Jul 15 12:13:48 fw-gw web_attack[8394]: WAF blocked SQLi/XSS attempt from 203.0.113.13 to 10.0.2.5: union select
+<165>Aug 05 02:05:02 waf-01 malware[8913]: Malware detected on 10.0.1.5 from 203.0.113.17: trojan.win32.njrat
+<134>Jul 22 04:26:46 mail-gw brute_force[5665]: Failed password for root from 203.0.113.15 port 60829 ssh2 (user=admin attempts=32)
+<86>Jul 11 03:56:45 db-firewall dos[6369]: Flood detected: 203.0.113.19 -> 10.0.1.1 33885 pps SYN flood
+<86>Aug 05 08:09:13 db-firewall dos[4414]: Flood detected: 203.0.113.8 -> 10.0.2.1 37539 pps SYN flood
+<134>Jul 24 07:30:35 fw-gw brute_force[7907]: Failed password for root from 203.0.113.13 port 30569 ssh2 (user=admin attempts=25)
+<134>Aug 05 02:09:28 ids-01 brute_force[8275]: Failed password for root from 203.0.113.19 port 58307 ssh2 (user=admin attempts=15)
+<134>Jul 14 13:15:43 ids-01 brute_force[5933]: Failed password for root from 203.0.113.8 port 20223 ssh2 (user=admin attempts=9)
+<86>Jul 07 21:00:06 mail-gw brute_force[8001]: Failed password for root from 203.0.113.3 port 34326 ssh2 (user=admin attempts=23)
+<165>Jul 13 03:54:01 db-firewall web_attack[6618]: WAF blocked SQLi/XSS attempt from 203.0.113.19 to 10.0.1.5: ' or 1=1 --
+<190>Jul 31 15:42:25 mail-gw dos[8959]: Flood detected: 203.0.113.5 -> 10.0.1.1 9268 pps SYN flood
+<190>Aug 05 23:19:04 db-firewall web_attack[5271]: WAF blocked SQLi/XSS attempt from 203.0.113.13 to 10.0.1.3: union select
+<165>Jul 10 16:46:16 mail-gw brute_force[4354]: Failed password for root from 203.0.113.7 port 22265 ssh2 (user=admin attempts=38)
+<134>Jul 17 23:15:44 mail-gw brute_force[8271]: Failed password for root from 203.0.113.9 port 37783 ssh2 (user=admin attempts=16)
+<134>Jul 16 01:33:57 db-firewall web_attack[9461]: WAF blocked SQLi/XSS attempt from 203.0.113.12 to 10.0.2.1: ' or 1=1 --
+<134>Jul 15 18:35:46 core-sw policy[9198]: Policy violation: 10.0.1.2 accessed forbidden site from 203.0.113.8
+<134>Jul 31 16:15:35 ids-01 web_attack[7849]: WAF blocked SQLi/XSS attempt from 203.0.113.13 to 10.0.1.4: union select
+<165>Jul 23 04:28:40 core-sw brute_force[8072]: Failed password for root from 203.0.113.16 port 29663 ssh2 (user=admin attempts=19)
+<134>Jul 10 15:29:40 db-firewall malware[1083]: Malware detected on 10.0.1.1 from 203.0.113.19: trojan.win32.emotet
+<165>Jul 30 00:20:23 db-firewall phishing[6014]: Phishing email blocked: from 203.0.113.16 to user24@corp.local subject=invoice
+<165>Jul 20 00:42:02 fw-gw malware[3359]: Malware detected on 10.0.2.1 from 203.0.113.9: trojan.win32.njrat
+<190>Jul 18 07:54:40 waf-01 malware[7422]: Malware detected on 10.0.1.3 from 203.0.113.18: trojan.win32.emotet
+<134>Aug 05 08:58:50 core-sw web_attack[5627]: WAF blocked SQLi/XSS attempt from 203.0.113.10 to 10.0.2.3: ../../../etc/passwd
+<165>Jul 10 01:11:36 fw-gw malware[3839]: Malware detected on 10.0.2.2 from 203.0.113.19: trojan.win32.qakbot
+<165>Jul 27 00:22:36 mail-gw web_attack[7389]: WAF blocked SQLi/XSS attempt from 203.0.113.10 to 10.0.1.5: <script>alert(1)</script>
+<86>Jul 12 16:42:06 db-firewall dos[2148]: Flood detected: 203.0.113.17 -> 10.0.2.3 35753 pps SYN flood
+<86>Jul 19 14:06:20 ids-01 malware[1145]: Malware detected on 10.0.1.4 from 203.0.113.3: trojan.win32.qakbot
+<86>Jul 30 15:01:48 mail-gw web_attack[1802]: WAF blocked SQLi/XSS attempt from 203.0.113.1 to 10.0.2.2: <script>alert(1)</script>
+<165>Jul 14 13:22:08 waf-01 malware[7360]: Malware detected on 10.0.2.2 from 203.0.113.3: trojan.win32.njrat
+<165>Jul 08 17:32:39 fw-gw brute_force[5428]: Failed password for root from 203.0.113.17 port 41205 ssh2 (user=admin attempts=32)
+<134>Jul 21 00:31:16 mail-gw policy[9780]: Policy violation: 10.0.1.5 accessed forbidden site from 203.0.113.18
+<165>Jul 26 20:52:44 mail-gw malware[5788]: Malware detected on 10.0.2.2 from 203.0.113.19: trojan.win32.qakbot
+<165>Jul 18 15:35:48 waf-01 web_attack[2651]: WAF blocked SQLi/XSS attempt from 203.0.113.3 to 10.0.2.3: <script>alert(1)</script>
+<86>Jul 16 06:42:05 waf-01 brute_force[8159]: Failed password for root from 203.0.113.17 port 59510 ssh2 (user=admin attempts=33)
+<86>Jul 14 14:42:28 mail-gw brute_force[9081]: Failed password for root from 203.0.113.14 port 34487 ssh2 (user=admin attempts=15)
+<190>Jul 15 04:09:28 db-firewall web_attack[6299]: WAF blocked SQLi/XSS attempt from 203.0.113.18 to 10.0.2.2: ' or 1=1 --
+<165>Jul 30 14:42:01 mail-gw brute_force[4764]: Failed password for root from 203.0.113.14 port 52497 ssh2 (user=admin attempts=37)
+<165>Jul 13 03:33:57 fw-gw phishing[1908]: Phishing email blocked: from 203.0.113.14 to user41@corp.local subject=invoice
+<134>Jul 26 08:36:55 core-sw web_attack[5353]: WAF blocked SQLi/XSS attempt from 203.0.113.15 to 10.0.1.5: union select
+<165>Aug 05 20:18:44 ids-01 brute_force[4510]: Failed password for root from 203.0.113.18 port 18194 ssh2 (user=admin attempts=31)
+<134>Jul 08 02:50:04 ids-01 dos[5701]: Flood detected: 203.0.113.8 -> 10.0.1.2 60082 pps SYN flood
+<86>Jul 28 14:01:33 db-firewall web_attack[5510]: WAF blocked SQLi/XSS attempt from 203.0.113.16 to 10.0.2.1: union select
+<86>Jul 30 22:42:10 waf-01 phishing[8999]: Phishing email blocked: from 203.0.113.5 to user31@corp.local subject=invoice
+<134>Jul 11 08:02:42 fw-gw brute_force[6404]: Failed password for root from 203.0.113.9 port 60543 ssh2 (user=admin attempts=31)
+<86>Jul 29 17:39:54 db-firewall brute_force[8638]: Failed password for root from 203.0.113.2 port 53647 ssh2 (user=admin attempts=16)
+<86>Jul 26 13:13:51 ids-01 web_attack[9104]: WAF blocked SQLi/XSS attempt from 203.0.113.10 to 10.0.2.1: union select
+<134>Aug 03 07:14:48 waf-01 brute_force[1950]: Failed password for root from 203.0.113.10 port 25464 ssh2 (user=admin attempts=30)
+<134>Jul 11 06:22:49 mail-gw web_attack[246]: WAF blocked SQLi/XSS attempt from 203.0.113.6 to 10.0.1.5: union select
+<86>Jul 18 19:38:23 ids-01 malware[4175]: Malware detected on 10.0.2.5 from 203.0.113.16: trojan.win32.emotet
+<165>Jul 09 11:28:13 core-sw web_attack[2621]: WAF blocked SQLi/XSS attempt from 203.0.113.20 to 10.0.2.1: union select
+<165>Jul 31 07:59:50 mail-gw brute_force[7287]: Failed password for root from 203.0.113.8 port 58050 ssh2 (user=admin attempts=15)
+<86>Jul 11 17:14:23 core-sw brute_force[8051]: Failed password for root from 203.0.113.13 port 56309 ssh2 (user=admin attempts=31)
+<165>Jul 24 16:15:28 ids-01 malware[5403]: Malware detected on 10.0.2.3 from 203.0.113.18: trojan.win32.njrat
+<134>Jul 09 17:49:26 ids-01 web_attack[7462]: WAF blocked SQLi/XSS attempt from 203.0.113.20 to 10.0.2.4: <script>alert(1)</script>
+<190>Jul 07 16:45:03 db-firewall phishing[3139]: Phishing email blocked: from 203.0.113.18 to user2@corp.local subject=invoice
+<86>Jul 17 07:07:57 ids-01 malware[8930]: Malware detected on 10.0.2.5 from 203.0.113.12: trojan.win32.qakbot
+<165>Jul 26 01:37:15 ids-01 brute_force[6814]: Failed password for root from 203.0.113.16 port 52002 ssh2 (user=admin attempts=23)
+<134>Aug 01 17:34:19 fw-gw brute_force[3026]: Failed password for root from 203.0.113.17 port 12049 ssh2 (user=admin attempts=15)
+<190>Jul 24 19:21:41 fw-gw brute_force[8126]: Failed password for root from 203.0.113.7 port 44460 ssh2 (user=admin attempts=40)
+<86>Jul 29 05:04:52 mail-gw brute_force[3519]: Failed password for root from 203.0.113.12 port 52975 ssh2 (user=admin attempts=34)
+<190>Jul 09 11:56:12 core-sw lateral[6146]: Lateral movement: 203.0.113.3 -> 10.0.2.3 SMB 2 connections anomalous
+<165>Jul 29 16:55:44 fw-gw phishing[1376]: Phishing email blocked: from 203.0.113.9 to user14@corp.local subject=invoice
+<190>Jul 14 14:33:56 core-sw policy[3204]: Policy violation: 10.0.1.2 accessed forbidden site from 203.0.113.4
+<190>Aug 05 02:26:06 core-sw brute_force[1828]: Failed password for root from 203.0.113.8 port 60219 ssh2 (user=admin attempts=39)
+<134>Jul 12 16:20:07 fw-gw web_attack[9110]: WAF blocked SQLi/XSS attempt from 203.0.113.15 to 10.0.2.2: ../../../etc/passwd
+<165>Jul 20 23:12:05 mail-gw web_attack[5263]: WAF blocked SQLi/XSS attempt from 203.0.113.6 to 10.0.2.4: <script>alert(1)</script>
+<134>Jul 17 09:07:02 core-sw phishing[9326]: Phishing email blocked: from 203.0.113.14 to user35@corp.local subject=invoice
+<190>Aug 05 12:37:19 waf-01 brute_force[6605]: Failed password for root from 203.0.113.18 port 10012 ssh2 (user=admin attempts=5)
+<165>Jul 11 17:29:40 mail-gw policy[207]: Policy violation: 10.0.1.1 accessed forbidden site from 203.0.113.20
+<165>Jul 08 07:51:27 waf-01 web_attack[9171]: WAF blocked SQLi/XSS attempt from 203.0.113.8 to 10.0.1.4: ' or 1=1 --
+<165>Jul 11 19:53:12 ids-01 brute_force[9638]: Failed password for root from 203.0.113.15 port 26374 ssh2 (user=admin attempts=17)
+<134>Jul 19 16:05:15 mail-gw brute_force[1364]: Failed password for root from 203.0.113.10 port 57420 ssh2 (user=admin attempts=23)
+<86>Jul 28 18:16:59 core-sw phishing[9852]: Phishing email blocked: from 203.0.113.6 to user42@corp.local subject=invoice
+<165>Jul 31 01:55:13 fw-gw web_attack[5800]: WAF blocked SQLi/XSS attempt from 203.0.113.19 to 10.0.2.2: ../../../etc/passwd
+<86>Jul 27 06:14:01 core-sw web_attack[6366]: WAF blocked SQLi/XSS attempt from 203.0.113.4 to 10.0.1.4: union select
+<165>Jul 24 14:58:12 mail-gw web_attack[8331]: WAF blocked SQLi/XSS attempt from 203.0.113.2 to 10.0.2.1: ' or 1=1 --
+<86>Jul 24 22:24:58 mail-gw brute_force[3738]: Failed password for root from 203.0.113.13 port 38307 ssh2 (user=admin attempts=21)
+<86>Jul 10 03:39:54 waf-01 phishing[9080]: Phishing email blocked: from 203.0.113.5 to user26@corp.local subject=invoice
+<134>Jul 30 21:23:12 db-firewall brute_force[2309]: Failed password for root from 203.0.113.13 port 41517 ssh2 (user=admin attempts=38)
+<134>Jul 24 12:16:24 ids-01 brute_force[4070]: Failed password for root from 203.0.113.13 port 14695 ssh2 (user=admin attempts=20)
+<190>Jul 11 01:15:15 fw-gw phishing[7039]: Phishing email blocked: from 203.0.113.11 to user24@corp.local subject=invoice
+<165>Jul 27 08:07:40 mail-gw web_attack[2873]: WAF blocked SQLi/XSS attempt from 203.0.113.11 to 10.0.2.1: <script>alert(1)</script>
+<134>Jul 20 21:21:59 ids-01 malware[3371]: Malware detected on 10.0.2.5 from 203.0.113.15: trojan.win32.njrat
+<134>Jul 09 07:30:00 core-sw web_attack[4813]: WAF blocked SQLi/XSS attempt from 203.0.113.3 to 10.0.1.2: union select
+<165>Jul 21 19:29:23 db-firewall web_attack[3524]: WAF blocked SQLi/XSS attempt from 203.0.113.4 to 10.0.1.5: ' or 1=1 --
+<134>Jul 22 04:00:42 mail-gw brute_force[401]: Failed password for root from 203.0.113.17 port 34681 ssh2 (user=admin attempts=40)
+<165>Jul 12 18:51:46 waf-01 lateral[3388]: Lateral movement: 203.0.113.17 -> 10.0.1.1 SMB 20 connections anomalous
+<165>Jul 19 08:03:26 fw-gw brute_force[6001]: Failed password for root from 203.0.113.15 port 17070 ssh2 (user=admin attempts=4)
+<86>Jul 22 22:22:54 db-firewall brute_force[5268]: Failed password for root from 203.0.113.13 port 41762 ssh2 (user=admin attempts=37)
+<86>Jul 24 11:55:40 db-firewall brute_force[751]: Failed password for root from 203.0.113.7 port 26213 ssh2 (user=admin attempts=36)
+<165>Jul 12 09:16:35 core-sw web_attack[5865]: WAF blocked SQLi/XSS attempt from 203.0.113.16 to 10.0.2.2: <script>alert(1)</script>
+<165>Aug 01 00:47:44 waf-01 malware[6443]: Malware detected on 10.0.2.4 from 203.0.113.8: trojan.win32.emotet
+<190>Jul 17 22:19:07 ids-01 policy[2348]: Policy violation: 10.0.1.4 accessed forbidden site from 203.0.113.9
+<134>Jul 26 01:11:44 core-sw brute_force[6937]: Failed password for root from 203.0.113.13 port 25752 ssh2 (user=admin attempts=39)
+<134>Jul 21 03:38:04 waf-01 brute_force[3487]: Failed password for root from 203.0.113.10 port 52760 ssh2 (user=admin attempts=11)
+<134>Jul 28 07:58:33 waf-01 malware[7146]: Malware detected on 10.0.1.3 from 203.0.113.7: trojan.win32.emotet
+<86>Jul 09 17:03:31 waf-01 malware[3116]: Malware detected on 10.0.1.3 from 203.0.113.19: trojan.win32.qakbot
+<190>Aug 03 01:55:39 waf-01 phishing[6837]: Phishing email blocked: from 203.0.113.5 to user20@corp.local subject=invoice
+<134>Jul 10 21:06:29 ids-01 web_attack[529]: WAF blocked SQLi/XSS attempt from 203.0.113.9 to 10.0.1.3: <script>alert(1)</script>
+<86>Jul 14 15:24:15 mail-gw malware[5986]: Malware detected on 10.0.1.4 from 203.0.113.20: trojan.win32.emotet
+<190>Aug 02 01:27:08 mail-gw dos[6226]: Flood detected: 203.0.113.16 -> 10.0.1.3 29114 pps SYN flood
+<134>Jul 12 14:09:32 ids-01 lateral[628]: Lateral movement: 203.0.113.16 -> 10.0.2.3 SMB 14 connections anomalous
+<134>Jul 14 08:28:18 db-firewall dos[3451]: Flood detected: 203.0.113.1 -> 10.0.1.5 13668 pps SYN flood
+<190>Jul 28 07:29:38 db-firewall brute_force[4143]: Failed password for root from 203.0.113.15 port 38020 ssh2 (user=admin attempts=28)
+<86>Jul 17 01:31:08 core-sw phishing[8630]: Phishing email blocked: from 203.0.113.20 to user7@corp.local subject=invoice
+<86>Jul 23 19:29:54 mail-gw web_attack[9237]: WAF blocked SQLi/XSS attempt from 203.0.113.2 to 10.0.1.4: ../../../etc/passwd
+<165>Jul 20 20:42:41 waf-01 web_attack[4784]: WAF blocked SQLi/XSS attempt from 203.0.113.2 to 10.0.1.4: ../../../etc/passwd
+<134>Jul 28 08:59:56 fw-gw brute_force[7695]: Failed password for root from 203.0.113.10 port 64387 ssh2 (user=admin attempts=31)
+<134>Jul 31 00:55:09 ids-01 brute_force[6540]: Failed password for root from 203.0.113.17 port 37103 ssh2 (user=admin attempts=23)
+<134>Aug 03 13:47:50 mail-gw web_attack[7549]: WAF blocked SQLi/XSS attempt from 203.0.113.6 to 10.0.2.3: union select
+<190>Jul 11 02:25:53 fw-gw brute_force[6046]: Failed password for root from 203.0.113.6 port 15590 ssh2 (user=admin attempts=36)
+<190>Jul 19 00:52:53 ids-01 dos[819]: Flood detected: 203.0.113.17 -> 10.0.2.5 27398 pps SYN flood
+<134>Aug 02 17:46:55 ids-01 lateral[940]: Lateral movement: 203.0.113.19 -> 10.0.1.3 SMB 14 connections anomalous
+<134>Jul 13 02:20:02 core-sw web_attack[3423]: WAF blocked SQLi/XSS attempt from 203.0.113.15 to 10.0.1.5: union select
+<190>Jul 22 14:31:28 db-firewall malware[9004]: Malware detected on 10.0.1.1 from 203.0.113.9: trojan.win32.emotet
+<190>Jul 25 08:12:49 ids-01 malware[7534]: Malware detected on 10.0.1.4 from 203.0.113.16: trojan.win32.qakbot
+<165>Jul 15 00:25:34 fw-gw web_attack[9234]: WAF blocked SQLi/XSS attempt from 203.0.113.20 to 10.0.2.5: ' or 1=1 --
+<134>Jul 18 03:31:37 core-sw brute_force[631]: Failed password for root from 203.0.113.5 port 53712 ssh2 (user=admin attempts=39)
+<190>Jul 09 03:32:07 fw-gw phishing[3020]: Phishing email blocked: from 203.0.113.10 to user11@corp.local subject=invoice
+<134>Jul 31 07:05:39 mail-gw dos[7560]: Flood detected: 203.0.113.20 -> 10.0.2.5 52210 pps SYN flood
+<190>Jul 18 17:36:09 waf-01 policy[1208]: Policy violation: 10.0.1.5 accessed forbidden site from 203.0.113.3
+<86>Jul 21 19:13:15 waf-01 dos[4596]: Flood detected: 203.0.113.18 -> 10.0.1.2 48150 pps SYN flood
+<86>Jul 13 22:44:58 core-sw web_attack[1890]: WAF blocked SQLi/XSS attempt from 203.0.113.17 to 10.0.1.4: union select
+<165>Jul 25 22:36:03 db-firewall web_attack[4354]: WAF blocked SQLi/XSS attempt from 203.0.113.20 to 10.0.1.5: <script>alert(1)</script>
+<190>Jul 23 06:25:15 db-firewall lateral[8169]: Lateral movement: 203.0.113.20 -> 10.0.2.5 SMB 6 connections anomalous
+<86>Jul 07 17:22:15 ids-01 lateral[7716]: Lateral movement: 203.0.113.8 -> 10.0.1.5 SMB 4 connections anomalous
+<165>Jul 20 02:20:32 db-firewall dos[5828]: Flood detected: 203.0.113.7 -> 10.0.2.5 78454 pps SYN flood
+<165>Jul 13 17:05:15 core-sw phishing[4268]: Phishing email blocked: from 203.0.113.7 to user5@corp.local subject=invoice
+<86>Jul 30 16:29:46 waf-01 web_attack[5560]: WAF blocked SQLi/XSS attempt from 203.0.113.17 to 10.0.2.4: <script>alert(1)</script>
+<134>Aug 01 15:18:12 fw-gw web_attack[5515]: WAF blocked SQLi/XSS attempt from 203.0.113.19 to 10.0.2.5: <script>alert(1)</script>
+<190>Jul 27 01:06:08 fw-gw lateral[2645]: Lateral movement: 203.0.113.16 -> 10.0.2.3 SMB 15 connections anomalous
+<190>Jul 31 04:42:17 db-firewall lateral[1017]: Lateral movement: 203.0.113.18 -> 10.0.2.1 SMB 17 connections anomalous
+<165>Jul 08 05:42:36 mail-gw brute_force[5893]: Failed password for root from 203.0.113.11 port 14339 ssh2 (user=admin attempts=12)
+<134>Jul 26 11:19:14 db-firewall brute_force[9454]: Failed password for root from 203.0.113.1 port 49694 ssh2 (user=admin attempts=27)
+<86>Aug 02 09:51:46 core-sw brute_force[4548]: Failed password for root from 203.0.113.4 port 37123 ssh2 (user=admin attempts=8)
+<165>Aug 01 13:26:31 db-firewall web_attack[3641]: WAF blocked SQLi/XSS attempt from 203.0.113.8 to 10.0.2.1: <script>alert(1)</script>
+<190>Aug 04 01:50:51 ids-01 brute_force[8390]: Failed password for root from 203.0.113.12 port 11634 ssh2 (user=admin attempts=33)
+<165>Aug 04 09:15:04 waf-01 lateral[5463]: Lateral movement: 203.0.113.5 -> 10.0.1.4 SMB 5 connections anomalous
+<134>Aug 06 10:59:29 core-sw dos[698]: Flood detected: 203.0.113.4 -> 10.0.2.4 65210 pps SYN flood
+<86>Jul 17 00:08:21 fw-gw web_attack[9836]: WAF blocked SQLi/XSS attempt from 203.0.113.17 to 10.0.1.2: union select
+<165>Jul 30 15:52:57 mail-gw web_attack[468]: WAF blocked SQLi/XSS attempt from 203.0.113.2 to 10.0.1.2: <script>alert(1)</script>
+<165>Jul 13 10:51:56 ids-01 malware[8820]: Malware detected on 10.0.2.1 from 203.0.113.7: trojan.win32.qakbot
+<86>Jul 12 09:37:47 ids-01 phishing[349]: Phishing email blocked: from 203.0.113.4 to user40@corp.local subject=invoice
+<165>Jul 18 04:27:42 mail-gw malware[4540]: Malware detected on 10.0.1.4 from 203.0.113.4: trojan.win32.emotet
+<165>Jul 12 19:33:02 ids-01 policy[5649]: Policy violation: 10.0.2.5 accessed forbidden site from 203.0.113.10
+<86>Jul 21 19:09:44 fw-gw web_attack[1835]: WAF blocked SQLi/XSS attempt from 203.0.113.2 to 10.0.1.3: ../../../etc/passwd
+<190>Jul 28 19:36:02 ids-01 brute_force[5926]: Failed password for root from 203.0.113.14 port 30476 ssh2 (user=admin attempts=24)
+<86>Jul 24 17:02:27 db-firewall phishing[7772]: Phishing email blocked: from 203.0.113.18 to user7@corp.local subject=invoice
+<134>Aug 05 02:23:43 ids-01 web_attack[4327]: WAF blocked SQLi/XSS attempt from 203.0.113.15 to 10.0.2.3: <script>alert(1)</script>
+<86>Jul 22 07:14:15 db-firewall web_attack[7887]: WAF blocked SQLi/XSS attempt from 203.0.113.11 to 10.0.2.1: union select
+<134>Jul 30 17:09:02 waf-01 web_attack[8422]: WAF blocked SQLi/XSS attempt from 203.0.113.15 to 10.0.1.3: union select
+<165>Jul 27 03:50:16 mail-gw web_attack[8828]: WAF blocked SQLi/XSS attempt from 203.0.113.4 to 10.0.2.1: ../../../etc/passwd
+<134>Jul 14 23:41:25 mail-gw web_attack[8003]: WAF blocked SQLi/XSS attempt from 203.0.113.14 to 10.0.1.4: ../../../etc/passwd
+<190>Jul 31 04:56:19 db-firewall brute_force[9393]: Failed password for root from 203.0.113.7 port 61598 ssh2 (user=admin attempts=24)
+<190>Jul 27 18:20:54 core-sw web_attack[1973]: WAF blocked SQLi/XSS attempt from 203.0.113.8 to 10.0.1.3: ../../../etc/passwd
+<190>Jul 16 22:01:06 ids-01 web_attack[1240]: WAF blocked SQLi/XSS attempt from 203.0.113.4 to 10.0.2.3: union select
+<86>Jul 22 12:07:31 waf-01 dos[1583]: Flood detected: 203.0.113.20 -> 10.0.2.2 33522 pps SYN flood
+<190>Jul 27 12:04:02 ids-01 phishing[8804]: Phishing email blocked: from 203.0.113.19 to user19@corp.local subject=invoice
+<165>Jul 13 20:18:33 ids-01 web_attack[5010]: WAF blocked SQLi/XSS attempt from 203.0.113.19 to 10.0.2.3: <script>alert(1)</script>
+<190>Jul 25 03:47:46 fw-gw lateral[2189]: Lateral movement: 203.0.113.14 -> 10.0.2.1 SMB 10 connections anomalous
+<165>Jul 28 18:38:51 fw-gw brute_force[1897]: Failed password for root from 203.0.113.18 port 28494 ssh2 (user=admin attempts=4)
+<190>Jul 17 05:17:03 core-sw brute_force[6752]: Failed password for root from 203.0.113.19 port 35006 ssh2 (user=admin attempts=30)
+<190>Jul 13 07:45:21 ids-01 web_attack[6002]: WAF blocked SQLi/XSS attempt from 203.0.113.6 to 10.0.2.3: ../../../etc/passwd
+<86>Jul 09 19:53:23 fw-gw brute_force[2459]: Failed password for root from 203.0.113.5 port 57273 ssh2 (user=admin attempts=34)
+<190>Jul 26 22:38:51 ids-01 malware[7571]: Malware detected on 10.0.1.2 from 203.0.113.5: trojan.win32.njrat
+<190>Jul 21 07:23:48 ids-01 malware[9144]: Malware detected on 10.0.2.5 from 203.0.113.14: trojan.win32.qakbot
+<190>Jul 25 19:31:31 db-firewall web_attack[3978]: WAF blocked SQLi/XSS attempt from 203.0.113.8 to 10.0.1.3: <script>alert(1)</script>
+<86>Jul 08 16:19:31 waf-01 web_attack[9408]: WAF blocked SQLi/XSS attempt from 203.0.113.18 to 10.0.2.5: ../../../etc/passwd
+<86>Aug 05 12:41:02 db-firewall dos[2427]: Flood detected: 203.0.113.4 -> 10.0.2.5 73997 pps SYN flood
+<86>Jul 10 00:33:42 mail-gw policy[4117]: Policy violation: 10.0.2.3 accessed forbidden site from 203.0.113.9
+<86>Jul 17 01:13:57 mail-gw web_attack[5728]: WAF blocked SQLi/XSS attempt from 203.0.113.3 to 10.0.2.4: union select
+<190>Jul 29 16:34:45 mail-gw web_attack[5882]: WAF blocked SQLi/XSS attempt from 203.0.113.17 to 10.0.2.3: <script>alert(1)</script>
+<165>Jul 16 19:09:49 core-sw brute_force[1106]: Failed password for root from 203.0.113.2 port 51241 ssh2 (user=admin attempts=33)
+<86>Aug 06 09:17:43 core-sw malware[4799]: Malware detected on 10.0.1.1 from 203.0.113.19: trojan.win32.qakbot
+<165>Jul 15 05:42:34 waf-01 brute_force[4609]: Failed password for root from 203.0.113.17 port 26839 ssh2 (user=admin attempts=3)
+<190>Jul 29 20:17:21 mail-gw dos[6158]: Flood detected: 203.0.113.20 -> 10.0.1.3 27989 pps SYN flood
+<86>Jul 31 15:46:50 ids-01 brute_force[5717]: Failed password for root from 203.0.113.8 port 15531 ssh2 (user=admin attempts=12)
+<134>Jul 30 18:53:51 db-firewall malware[7311]: Malware detected on 10.0.2.3 from 203.0.113.5: trojan.win32.njrat
+<86>Aug 01 22:21:09 core-sw malware[4431]: Malware detected on 10.0.2.5 from 203.0.113.7: trojan.win32.emotet
+<134>Jul 16 17:13:01 db-firewall brute_force[6322]: Failed password for root from 203.0.113.15 port 54794 ssh2 (user=admin attempts=27)
+<190>Jul 08 00:46:26 db-firewall web_attack[6358]: WAF blocked SQLi/XSS attempt from 203.0.113.5 to 10.0.2.4: <script>alert(1)</script>
+<190>Jul 26 19:10:41 mail-gw policy[4566]: Policy violation: 10.0.1.2 accessed forbidden site from 203.0.113.2
+<190>Jul 27 07:21:35 waf-01 web_attack[7654]: WAF blocked SQLi/XSS attempt from 203.0.113.9 to 10.0.1.2: ' or 1=1 --
+<134>Jul 17 19:09:55 mail-gw dos[5232]: Flood detected: 203.0.113.19 -> 10.0.1.4 76776 pps SYN flood
+<86>Jul 20 00:19:54 fw-gw brute_force[7406]: Failed password for root from 203.0.113.1 port 33036 ssh2 (user=admin attempts=17)
+<86>Jul 08 09:17:49 fw-gw dos[1031]: Flood detected: 203.0.113.9 -> 10.0.1.4 33419 pps SYN flood
+<134>Aug 02 08:52:12 fw-gw policy[6259]: Policy violation: 10.0.1.2 accessed forbidden site from 203.0.113.4
+<165>Jul 28 13:06:12 fw-gw malware[4926]: Malware detected on 10.0.1.3 from 203.0.113.19: trojan.win32.qakbot
+<165>Jul 30 18:10:16 waf-01 malware[4316]: Malware detected on 10.0.2.3 from 203.0.113.3: trojan.win32.emotet
+<86>Jul 19 08:01:04 db-firewall phishing[4330]: Phishing email blocked: from 203.0.113.9 to user17@corp.local subject=invoice
+<134>Jul 25 23:39:00 ids-01 brute_force[8161]: Failed password for root from 203.0.113.3 port 17106 ssh2 (user=admin attempts=12)
+<190>Jul 26 23:26:10 mail-gw web_attack[4343]: WAF blocked SQLi/XSS attempt from 203.0.113.14 to 10.0.1.4: union select
+<190>Jul 15 04:39:43 core-sw brute_force[407]: Failed password for root from 203.0.113.3 port 42617 ssh2 (user=admin attempts=12)
+<134>Jul 19 09:22:52 core-sw malware[5503]: Malware detected on 10.0.1.1 from 203.0.113.1: trojan.win32.qakbot
+<86>Jul 20 18:11:39 db-firewall malware[8949]: Malware detected on 10.0.2.3 from 203.0.113.17: trojan.win32.emotet
+<165>Jul 23 17:39:06 mail-gw brute_force[5563]: Failed password for root from 203.0.113.16 port 54684 ssh2 (user=admin attempts=22)
+<165>Aug 02 06:38:20 mail-gw web_attack[1418]: WAF blocked SQLi/XSS attempt from 203.0.113.3 to 10.0.2.1: ../../../etc/passwd
+<190>Jul 24 07:27:18 ids-01 dos[3229]: Flood detected: 203.0.113.10 -> 10.0.1.4 44173 pps SYN flood
+<190>Jul 10 05:20:01 db-firewall dos[3204]: Flood detected: 203.0.113.4 -> 10.0.2.1 23342 pps SYN flood
+<86>Jul 22 08:28:48 ids-01 brute_force[8956]: Failed password for root from 203.0.113.1 port 52166 ssh2 (user=admin attempts=22)
+<165>Jul 17 20:31:04 fw-gw web_attack[801]: WAF blocked SQLi/XSS attempt from 203.0.113.15 to 10.0.1.1: ../../../etc/passwd
+<134>Aug 02 18:46:36 core-sw brute_force[9592]: Failed password for root from 203.0.113.17 port 25268 ssh2 (user=admin attempts=7)
+<86>Jul 08 05:57:29 core-sw brute_force[4076]: Failed password for root from 203.0.113.5 port 55960 ssh2 (user=admin attempts=11)
+<134>Jul 21 08:41:08 fw-gw brute_force[9783]: Failed password for root from 203.0.113.2 port 14191 ssh2 (user=admin attempts=9)
+<134>Jul 09 13:40:19 ids-01 brute_force[7083]: Failed password for root from 203.0.113.20 port 32108 ssh2 (user=admin attempts=28)
+<134>Jul 17 07:46:38 ids-01 web_attack[846]: WAF blocked SQLi/XSS attempt from 203.0.113.19 to 10.0.2.4: ' or 1=1 --
+<134>Jul 30 09:40:07 ids-01 web_attack[6160]: WAF blocked SQLi/XSS attempt from 203.0.113.4 to 10.0.1.5: ' or 1=1 --
+<190>Jul 10 16:12:34 ids-01 web_attack[2684]: WAF blocked SQLi/XSS attempt from 203.0.113.19 to 10.0.1.1: union select
+<86>Jul 13 01:24:36 fw-gw lateral[9827]: Lateral movement: 203.0.113.3 -> 10.0.1.1 SMB 10 connections anomalous
+<165>Jul 11 23:15:21 ids-01 web_attack[8670]: WAF blocked SQLi/XSS attempt from 203.0.113.16 to 10.0.1.3: ../../../etc/passwd
+<134>Jul 08 19:19:12 core-sw web_attack[8290]: WAF blocked SQLi/XSS attempt from 203.0.113.6 to 10.0.2.5: union select
+<134>Jul 07 19:31:23 db-firewall malware[3244]: Malware detected on 10.0.2.1 from 203.0.113.10: trojan.win32.emotet
+<134>Aug 02 13:23:56 waf-01 policy[7705]: Policy violation: 10.0.2.5 accessed forbidden site from 203.0.113.4
+<134>Jul 13 11:42:37 fw-gw phishing[7872]: Phishing email blocked: from 203.0.113.7 to user32@corp.local subject=invoice
+<134>Jul 18 14:27:06 core-sw brute_force[7221]: Failed password for root from 203.0.113.2 port 26474 ssh2 (user=admin attempts=24)
+<134>Jul 29 21:19:58 fw-gw malware[2689]: Malware detected on 10.0.1.1 from 203.0.113.15: trojan.win32.emotet
+<165>Jul 29 07:38:34 ids-01 web_attack[6965]: WAF blocked SQLi/XSS attempt from 203.0.113.4 to 10.0.1.2: ' or 1=1 --
+<86>Jul 17 11:02:52 fw-gw dos[3984]: Flood detected: 203.0.113.11 -> 10.0.1.4 59079 pps SYN flood
+<190>Jul 21 19:20:44 fw-gw lateral[990]: Lateral movement: 203.0.113.13 -> 10.0.1.4 SMB 14 connections anomalous
+<134>Jul 19 07:06:38 ids-01 brute_force[7599]: Failed password for root from 203.0.113.20 port 57174 ssh2 (user=admin attempts=15)
+<86>Jul 11 11:49:30 waf-01 malware[4697]: Malware detected on 10.0.1.4 from 203.0.113.9: trojan.win32.emotet
+<165>Jul 12 19:29:51 db-firewall brute_force[3702]: Failed password for root from 203.0.113.15 port 29343 ssh2 (user=admin attempts=13)
+<134>Aug 05 18:43:50 mail-gw phishing[1516]: Phishing email blocked: from 203.0.113.20 to user27@corp.local subject=invoice
+<190>Jul 21 21:08:41 mail-gw lateral[4673]: Lateral movement: 203.0.113.16 -> 10.0.1.4 SMB 1 connections anomalous
+<134>Jul 20 16:53:30 waf-01 dos[9795]: Flood detected: 203.0.113.8 -> 10.0.1.4 24525 pps SYN flood
+<190>Jul 08 21:04:30 fw-gw lateral[8361]: Lateral movement: 203.0.113.1 -> 10.0.2.2 SMB 2 connections anomalous
+<190>Aug 01 07:33:45 core-sw web_attack[8214]: WAF blocked SQLi/XSS attempt from 203.0.113.13 to 10.0.2.3: ' or 1=1 --
+<165>Jul 11 15:47:07 ids-01 brute_force[4016]: Failed password for root from 203.0.113.1 port 52443 ssh2 (user=admin attempts=8)
+<86>Jul 21 10:54:59 core-sw brute_force[7552]: Failed password for root from 203.0.113.10 port 40393 ssh2 (user=admin attempts=11)
+<86>Jul 26 11:32:11 waf-01 lateral[1258]: Lateral movement: 203.0.113.13 -> 10.0.1.3 SMB 13 connections anomalous
+<165>Jul 16 13:46:39 fw-gw lateral[8987]: Lateral movement: 203.0.113.11 -> 10.0.2.4 SMB 19 connections anomalous
+<86>Jul 29 17:58:49 waf-01 phishing[8533]: Phishing email blocked: from 203.0.113.3 to user44@corp.local subject=invoice
+<86>Jul 18 15:27:29 db-firewall web_attack[6089]: WAF blocked SQLi/XSS attempt from 203.0.113.2 to 10.0.1.2: <script>alert(1)</script>
+<134>Jul 28 22:57:19 mail-gw brute_force[2367]: Failed password for root from 203.0.113.18 port 31949 ssh2 (user=admin attempts=18)
+<134>Jul 13 23:17:03 core-sw web_attack[5350]: WAF blocked SQLi/XSS attempt from 203.0.113.16 to 10.0.2.5: <script>alert(1)</script>
+<165>Jul 09 07:26:38 waf-01 lateral[5756]: Lateral movement: 203.0.113.17 -> 10.0.2.2 SMB 15 connections anomalous
+<165>Jul 28 23:18:25 db-firewall web_attack[7505]: WAF blocked SQLi/XSS attempt from 203.0.113.17 to 10.0.1.2: <script>alert(1)</script>
+<190>Jul 10 07:05:42 db-firewall phishing[3029]: Phishing email blocked: from 203.0.113.3 to user19@corp.local subject=invoice
+<134>Jul 15 22:54:41 ids-01 policy[8231]: Policy violation: 10.0.1.2 accessed forbidden site from 203.0.113.3
+<190>Jul 08 08:34:11 core-sw brute_force[8970]: Failed password for root from 203.0.113.7 port 18652 ssh2 (user=admin attempts=33)
+<86>Jul 13 08:21:23 waf-01 web_attack[3906]: WAF blocked SQLi/XSS attempt from 203.0.113.15 to 10.0.1.1: <script>alert(1)</script>
+<190>Jul 25 11:27:00 db-firewall web_attack[7603]: WAF blocked SQLi/XSS attempt from 203.0.113.11 to 10.0.2.1: <script>alert(1)</script>
+<165>Jul 14 11:30:56 waf-01 malware[4820]: Malware detected on 10.0.1.3 from 203.0.113.10: trojan.win32.emotet
+<134>Jul 26 05:38:47 ids-01 brute_force[8870]: Failed password for root from 203.0.113.10 port 28693 ssh2 (user=admin attempts=14)
+<165>Jul 11 04:24:47 ids-01 policy[9513]: Policy violation: 10.0.1.3 accessed forbidden site from 203.0.113.5
+<86>Jul 13 19:56:40 ids-01 brute_force[5292]: Failed password for root from 203.0.113.9 port 32534 ssh2 (user=admin attempts=12)
+<86>Jul 16 17:21:20 mail-gw web_attack[6728]: WAF blocked SQLi/XSS attempt from 203.0.113.18 to 10.0.1.3: ../../../etc/passwd
+<165>Jul 07 19:19:28 ids-01 dos[4942]: Flood detected: 203.0.113.15 -> 10.0.2.1 67116 pps SYN flood
+<190>Jul 29 12:47:03 mail-gw lateral[5649]: Lateral movement: 203.0.113.19 -> 10.0.1.3 SMB 4 connections anomalous
+<165>Jul 24 04:55:26 core-sw dos[506]: Flood detected: 203.0.113.2 -> 10.0.1.3 57642 pps SYN flood
+<86>Jul 10 10:49:09 waf-01 malware[3297]: Malware detected on 10.0.2.3 from 203.0.113.8: trojan.win32.njrat
+<190>Jul 10 04:25:02 fw-gw web_attack[1531]: WAF blocked SQLi/XSS attempt from 203.0.113.9 to 10.0.1.4: ../../../etc/passwd
+<86>Jul 23 00:33:10 mail-gw brute_force[6015]: Failed password for root from 203.0.113.11 port 36054 ssh2 (user=admin attempts=12)
+<165>Jul 18 20:40:16 db-firewall dos[5751]: Flood detected: 203.0.113.14 -> 10.0.2.1 51052 pps SYN flood
+<190>Jul 14 03:31:59 fw-gw web_attack[6909]: WAF blocked SQLi/XSS attempt from 203.0.113.15 to 10.0.2.4: ../../../etc/passwd
+<86>Aug 01 17:48:03 ids-01 brute_force[2453]: Failed password for root from 203.0.113.14 port 23617 ssh2 (user=admin attempts=22)
+<190>Aug 04 16:06:10 fw-gw web_attack[1549]: WAF blocked SQLi/XSS attempt from 203.0.113.17 to 10.0.2.1: union select
+<134>Jul 24 08:25:07 ids-01 web_attack[3364]: WAF blocked SQLi/XSS attempt from 203.0.113.9 to 10.0.2.2: ' or 1=1 --
+<165>Jul 08 22:38:25 db-firewall phishing[9688]: Phishing email blocked: from 203.0.113.10 to user20@corp.local subject=invoice
+<134>Jul 31 09:54:39 fw-gw web_attack[4403]: WAF blocked SQLi/XSS attempt from 203.0.113.15 to 10.0.1.4: <script>alert(1)</script>
+<165>Jul 27 15:41:25 core-sw policy[6934]: Policy violation: 10.0.1.2 accessed forbidden site from 203.0.113.16
+<190>Jul 30 14:49:47 fw-gw brute_force[1193]: Failed password for root from 203.0.113.8 port 49248 ssh2 (user=admin attempts=26)
+<190>Jul 26 12:23:23 waf-01 malware[2059]: Malware detected on 10.0.2.2 from 203.0.113.19: trojan.win32.qakbot
+<86>Jul 12 13:28:58 waf-01 web_attack[2494]: WAF blocked SQLi/XSS attempt from 203.0.113.19 to 10.0.1.1: <script>alert(1)</script>
+<165>Jul 09 06:18:44 ids-01 web_attack[6973]: WAF blocked SQLi/XSS attempt from 203.0.113.5 to 10.0.2.1: <script>alert(1)</script>
+<134>Aug 04 18:22:51 core-sw brute_force[3102]: Failed password for root from 203.0.113.10 port 60114 ssh2 (user=admin attempts=9)
+<165>Aug 02 20:23:30 waf-01 malware[4547]: Malware detected on 10.0.2.4 from 203.0.113.6: trojan.win32.njrat
+<134>Jul 25 01:51:58 mail-gw dos[311]: Flood detected: 203.0.113.12 -> 10.0.1.2 22950 pps SYN flood
+<134>Jul 17 21:15:29 db-firewall web_attack[1778]: WAF blocked SQLi/XSS attempt from 203.0.113.12 to 10.0.2.3: ' or 1=1 --
+<86>Jul 26 01:54:04 mail-gw brute_force[6937]: Failed password for root from 203.0.113.8 port 40178 ssh2 (user=admin attempts=7)
+<165>Jul 18 02:56:38 db-firewall brute_force[2377]: Failed password for root from 203.0.113.5 port 63545 ssh2 (user=admin attempts=31)
+<165>Jul 12 20:13:18 waf-01 lateral[571]: Lateral movement: 203.0.113.20 -> 10.0.2.4 SMB 4 connections anomalous
+<134>Jul 11 10:28:50 waf-01 brute_force[1387]: Failed password for root from 203.0.113.5 port 37840 ssh2 (user=admin attempts=10)
+<86>Jul 13 13:36:19 fw-gw brute_force[8512]: Failed password for root from 203.0.113.16 port 48874 ssh2 (user=admin attempts=6)
+<86>Jul 16 17:25:03 fw-gw web_attack[1681]: WAF blocked SQLi/XSS attempt from 203.0.113.9 to 10.0.1.1: union select
+<165>Jul 13 05:16:32 ids-01 lateral[579]: Lateral movement: 203.0.113.7 -> 10.0.2.5 SMB 3 connections anomalous
+<134>Jul 18 05:49:08 waf-01 brute_force[8372]: Failed password for root from 203.0.113.9 port 47370 ssh2 (user=admin attempts=7)
+<134>Jul 14 04:28:17 mail-gw brute_force[4717]: Failed password for root from 203.0.113.19 port 21257 ssh2 (user=admin attempts=37)
+<190>Aug 02 05:09:59 mail-gw brute_force[6104]: Failed password for root from 203.0.113.4 port 55752 ssh2 (user=admin attempts=40)
+<190>Aug 06 02:46:10 waf-01 brute_force[3610]: Failed password for root from 203.0.113.4 port 43701 ssh2 (user=admin attempts=17)
+<134>Jul 10 23:39:37 db-firewall web_attack[8223]: WAF blocked SQLi/XSS attempt from 203.0.113.11 to 10.0.1.2: <script>alert(1)</script>
+<86>Jul 17 12:28:33 fw-gw dos[6404]: Flood detected: 203.0.113.18 -> 10.0.1.1 42173 pps SYN flood
+<165>Jul 24 07:03:07 ids-01 web_attack[7111]: WAF blocked SQLi/XSS attempt from 203.0.113.10 to 10.0.2.3: ' or 1=1 --
+<190>Jul 08 01:26:18 ids-01 lateral[1823]: Lateral movement: 203.0.113.16 -> 10.0.2.1 SMB 13 connections anomalous
+<86>Jul 19 12:29:49 ids-01 web_attack[2864]: WAF blocked SQLi/XSS attempt from 203.0.113.3 to 10.0.1.2: union select
+<190>Jul 25 12:36:16 ids-01 web_attack[2111]: WAF blocked SQLi/XSS attempt from 203.0.113.7 to 10.0.2.1: ' or 1=1 --
+<165>Jul 30 15:43:57 core-sw phishing[6657]: Phishing email blocked: from 203.0.113.16 to user23@corp.local subject=invoice
+<134>Jul 23 00:27:04 db-firewall web_attack[7548]: WAF blocked SQLi/XSS attempt from 203.0.113.20 to 10.0.2.2: union select
+<134>Jul 26 12:39:35 ids-01 brute_force[586]: Failed password for root from 203.0.113.16 port 16527 ssh2 (user=admin attempts=6)
+<165>Jul 19 03:43:42 ids-01 phishing[2602]: Phishing email blocked: from 203.0.113.16 to user20@corp.local subject=invoice
+<190>Jul 30 05:23:30 core-sw malware[7735]: Malware detected on 10.0.1.2 from 203.0.113.4: trojan.win32.emotet
+<165>Jul 15 12:37:54 mail-gw brute_force[8956]: Failed password for root from 203.0.113.16 port 45823 ssh2 (user=admin attempts=4)
+<165>Jul 19 04:26:46 fw-gw policy[6265]: Policy violation: 10.0.2.2 accessed forbidden site from 203.0.113.2
+<165>Jul 24 09:01:57 ids-01 web_attack[2789]: WAF blocked SQLi/XSS attempt from 203.0.113.2 to 10.0.1.1: ../../../etc/passwd
+<190>Jul 30 14:19:14 db-firewall web_attack[9173]: WAF blocked SQLi/XSS attempt from 203.0.113.10 to 10.0.2.2: ../../../etc/passwd
+<190>Jul 19 10:01:47 fw-gw web_attack[9783]: WAF blocked SQLi/XSS attempt from 203.0.113.6 to 10.0.2.4: ../../../etc/passwd
+<86>Jul 09 12:27:28 waf-01 malware[2200]: Malware detected on 10.0.1.5 from 203.0.113.12: trojan.win32.qakbot
+<86>Jul 17 21:56:14 core-sw web_attack[7114]: WAF blocked SQLi/XSS attempt from 203.0.113.19 to 10.0.1.1: <script>alert(1)</script>
+<134>Jul 27 12:19:32 fw-gw policy[3944]: Policy violation: 10.0.2.1 accessed forbidden site from 203.0.113.14
+<165>Jul 09 15:23:34 core-sw malware[1975]: Malware detected on 10.0.1.2 from 203.0.113.19: trojan.win32.qakbot
+<190>Jul 21 12:05:15 fw-gw brute_force[9406]: Failed password for root from 203.0.113.18 port 43735 ssh2 (user=admin attempts=29)
+<190>Aug 06 05:59:00 fw-gw brute_force[9444]: Failed password for root from 203.0.113.16 port 35578 ssh2 (user=admin attempts=23)
+<165>Jul 27 22:18:46 core-sw malware[8238]: Malware detected on 10.0.1.2 from 203.0.113.16: trojan.win32.njrat
+<190>Jul 16 15:53:16 mail-gw phishing[3405]: Phishing email blocked: from 203.0.113.11 to user32@corp.local subject=invoice
+<86>Jul 16 07:07:43 ids-01 malware[4971]: Malware detected on 10.0.2.4 from 203.0.113.3: trojan.win32.njrat
+<86>Aug 05 09:57:01 core-sw web_attack[9797]: WAF blocked SQLi/XSS attempt from 203.0.113.8 to 10.0.2.5: <script>alert(1)</script>
+<165>Jul 20 11:44:56 db-firewall brute_force[1356]: Failed password for root from 203.0.113.19 port 52699 ssh2 (user=admin attempts=22)
+<134>Jul 23 20:59:42 core-sw web_attack[6888]: WAF blocked SQLi/XSS attempt from 203.0.113.10 to 10.0.2.2: ../../../etc/passwd
+<134>Jul 30 13:54:40 core-sw brute_force[404]: Failed password for root from 203.0.113.17 port 51146 ssh2 (user=admin attempts=36)
+<190>Jul 27 12:00:47 ids-01 lateral[4489]: Lateral movement: 203.0.113.19 -> 10.0.2.3 SMB 18 connections anomalous
+<134>Jul 26 11:29:55 core-sw phishing[6068]: Phishing email blocked: from 203.0.113.14 to user30@corp.local subject=invoice
+<86>Jul 19 23:37:12 db-firewall brute_force[3435]: Failed password for root from 203.0.113.5 port 37029 ssh2 (user=admin attempts=20)
+<190>Jul 25 17:07:12 core-sw phishing[4007]: Phishing email blocked: from 203.0.113.6 to user8@corp.local subject=invoice
+<190>Jul 21 14:25:39 waf-01 brute_force[7014]: Failed password for root from 203.0.113.1 port 52396 ssh2 (user=admin attempts=5)
+<165>Jul 15 10:16:42 fw-gw brute_force[9122]: Failed password for root from 203.0.113.9 port 21533 ssh2 (user=admin attempts=5)
+<86>Aug 02 11:07:59 fw-gw policy[5243]: Policy violation: 10.0.1.1 accessed forbidden site from 203.0.113.16
+<86>Jul 27 19:50:12 waf-01 malware[6602]: Malware detected on 10.0.2.2 from 203.0.113.3: trojan.win32.njrat
+<86>Jul 29 17:03:31 mail-gw phishing[8651]: Phishing email blocked: from 203.0.113.8 to user43@corp.local subject=invoice
+<134>Aug 03 05:07:10 db-firewall phishing[9927]: Phishing email blocked: from 203.0.113.17 to user8@corp.local subject=invoice
+<134>Jul 29 19:02:34 mail-gw phishing[7028]: Phishing email blocked: from 203.0.113.11 to user14@corp.local subject=invoice
+<165>Jul 20 20:39:18 waf-01 brute_force[9758]: Failed password for root from 203.0.113.6 port 13665 ssh2 (user=admin attempts=34)
+<134>Jul 20 09:21:19 mail-gw web_attack[4650]: WAF blocked SQLi/XSS attempt from 203.0.113.4 to 10.0.2.1: ' or 1=1 --
+<86>Jul 27 00:55:08 fw-gw web_attack[995]: WAF blocked SQLi/XSS attempt from 203.0.113.12 to 10.0.1.5: ' or 1=1 --
+<165>Aug 05 10:20:27 core-sw brute_force[2099]: Failed password for root from 203.0.113.13 port 45055 ssh2 (user=admin attempts=18)
+<165>Aug 04 12:02:17 db-firewall lateral[5029]: Lateral movement: 203.0.113.13 -> 10.0.1.1 SMB 3 connections anomalous
+<134>Aug 02 11:00:46 ids-01 policy[7290]: Policy violation: 10.0.1.5 accessed forbidden site from 203.0.113.8
+<190>Aug 02 16:04:22 waf-01 malware[7818]: Malware detected on 10.0.1.1 from 203.0.113.14: trojan.win32.njrat
+<165>Aug 01 09:48:05 fw-gw web_attack[8395]: WAF blocked SQLi/XSS attempt from 203.0.113.11 to 10.0.2.2: union select
+<86>Jul 17 11:30:21 core-sw web_attack[953]: WAF blocked SQLi/XSS attempt from 203.0.113.20 to 10.0.2.4: ' or 1=1 --
+<165>Jul 13 16:17:13 db-firewall malware[5240]: Malware detected on 10.0.1.1 from 203.0.113.5: trojan.win32.njrat
+<134>Jul 29 01:59:55 mail-gw brute_force[9832]: Failed password for root from 203.0.113.6 port 54941 ssh2 (user=admin attempts=29)
+<134>Aug 02 21:09:25 db-firewall phishing[4370]: Phishing email blocked: from 203.0.113.11 to user12@corp.local subject=invoice
+<165>Jul 10 05:00:00 ids-01 dos[3080]: Flood detected: 203.0.113.11 -> 10.0.1.5 56576 pps SYN flood
+<134>Aug 05 02:52:17 fw-gw lateral[1557]: Lateral movement: 203.0.113.19 -> 10.0.1.4 SMB 15 connections anomalous
+<165>Jul 26 05:11:44 db-firewall brute_force[2545]: Failed password for root from 203.0.113.6 port 15836 ssh2 (user=admin attempts=26)
+<190>Jul 29 05:36:46 fw-gw brute_force[7533]: Failed password for root from 203.0.113.19 port 64215 ssh2 (user=admin attempts=34)
+<190>Jul 16 07:33:55 waf-01 brute_force[6359]: Failed password for root from 203.0.113.7 port 18532 ssh2 (user=admin attempts=30)
+<134>Jul 29 11:27:45 waf-01 lateral[6953]: Lateral movement: 203.0.113.20 -> 10.0.1.4 SMB 6 connections anomalous
+<134>Aug 05 23:02:42 waf-01 web_attack[7488]: WAF blocked SQLi/XSS attempt from 203.0.113.5 to 10.0.1.1: ' or 1=1 --
+<165>Jul 21 17:49:39 fw-gw web_attack[6613]: WAF blocked SQLi/XSS attempt from 203.0.113.15 to 10.0.1.2: ' or 1=1 --
+<86>Jul 09 20:49:58 waf-01 dos[953]: Flood detected: 203.0.113.14 -> 10.0.2.5 48628 pps SYN flood
+<86>Aug 04 20:32:40 mail-gw policy[187]: Policy violation: 10.0.2.1 accessed forbidden site from 203.0.113.16
+<165>Aug 06 00:02:59 waf-01 brute_force[2266]: Failed password for root from 203.0.113.20 port 46671 ssh2 (user=admin attempts=5)
+<165>Jul 22 11:04:38 mail-gw malware[7769]: Malware detected on 10.0.1.3 from 203.0.113.9: trojan.win32.emotet
+<165>Jul 15 11:43:30 ids-01 brute_force[823]: Failed password for root from 203.0.113.17 port 18380 ssh2 (user=admin attempts=34)
+<165>Jul 16 03:56:20 db-firewall lateral[4421]: Lateral movement: 203.0.113.9 -> 10.0.2.1 SMB 17 connections anomalous
+<134>Aug 06 12:19:10 core-sw web_attack[9204]: WAF blocked SQLi/XSS attempt from 203.0.113.6 to 10.0.2.1: ../../../etc/passwd
+<190>Jul 13 04:05:40 ids-01 brute_force[4363]: Failed password for root from 203.0.113.5 port 20718 ssh2 (user=admin attempts=32)
+<190>Jul 18 08:55:38 db-firewall web_attack[7599]: WAF blocked SQLi/XSS attempt from 203.0.113.16 to 10.0.1.1: ../../../etc/passwd
+<165>Jul 10 11:36:31 waf-01 brute_force[3059]: Failed password for root from 203.0.113.5 port 64719 ssh2 (user=admin attempts=13)
+<86>Jul 25 05:55:13 core-sw dos[8718]: Flood detected: 203.0.113.9 -> 10.0.2.5 79814 pps SYN flood
+<165>Jul 27 23:36:24 db-firewall brute_force[525]: Failed password for root from 203.0.113.3 port 28630 ssh2 (user=admin attempts=10)
+<86>Jul 12 06:57:04 waf-01 web_attack[7640]: WAF blocked SQLi/XSS attempt from 203.0.113.19 to 10.0.1.2: ../../../etc/passwd
+<86>Jul 07 20:24:45 core-sw web_attack[7523]: WAF blocked SQLi/XSS attempt from 203.0.113.9 to 10.0.2.5: <script>alert(1)</script>
+<165>Aug 02 13:47:36 ids-01 policy[5394]: Policy violation: 10.0.1.3 accessed forbidden site from 203.0.113.19
+<190>Jul 19 02:50:03 mail-gw phishing[4280]: Phishing email blocked: from 203.0.113.3 to user12@corp.local subject=invoice
+<134>Aug 02 05:55:18 fw-gw brute_force[6465]: Failed password for root from 203.0.113.13 port 61084 ssh2 (user=admin attempts=28)
+<190>Jul 22 09:38:28 waf-01 brute_force[5180]: Failed password for root from 203.0.113.5 port 54889 ssh2 (user=admin attempts=11)
+<190>Jul 13 16:08:24 mail-gw web_attack[6458]: WAF blocked SQLi/XSS attempt from 203.0.113.4 to 10.0.2.1: ../../../etc/passwd
+<165>Jul 30 08:54:21 fw-gw brute_force[3153]: Failed password for root from 203.0.113.20 port 38449 ssh2 (user=admin attempts=30)
+<134>Jul 27 23:16:10 db-firewall brute_force[8215]: Failed password for root from 203.0.113.17 port 44555 ssh2 (user=admin attempts=36)
+<190>Aug 03 21:25:20 fw-gw brute_force[5021]: Failed password for root from 203.0.113.15 port 19739 ssh2 (user=admin attempts=11)
+<86>Jul 20 12:11:58 mail-gw dos[9127]: Flood detected: 203.0.113.10 -> 10.0.1.4 15031 pps SYN flood
+<86>Jul 20 10:10:13 mail-gw lateral[7712]: Lateral movement: 203.0.113.17 -> 10.0.1.2 SMB 19 connections anomalous
+<86>Jul 10 03:06:24 mail-gw phishing[1966]: Phishing email blocked: from 203.0.113.12 to user48@corp.local subject=invoice
+<190>Jul 09 00:49:08 db-firewall malware[4976]: Malware detected on 10.0.1.3 from 203.0.113.6: trojan.win32.qakbot
+<165>Jul 31 21:52:23 mail-gw malware[3166]: Malware detected on 10.0.2.3 from 203.0.113.15: trojan.win32.emotet
+<86>Jul 10 20:47:27 core-sw brute_force[195]: Failed password for root from 203.0.113.20 port 35882 ssh2 (user=admin attempts=10)
+<190>Jul 19 19:53:55 core-sw brute_force[5061]: Failed password for root from 203.0.113.16 port 50533 ssh2 (user=admin attempts=26)
+<86>Jul 11 10:17:49 fw-gw dos[3226]: Flood detected: 203.0.113.13 -> 10.0.1.5 19668 pps SYN flood
+<134>Jul 22 02:38:13 ids-01 phishing[4061]: Phishing email blocked: from 203.0.113.7 to user28@corp.local subject=invoice
+<190>Jul 16 16:53:37 fw-gw phishing[2527]: Phishing email blocked: from 203.0.113.18 to user31@corp.local subject=invoice
+<190>Jul 29 20:09:18 ids-01 web_attack[8047]: WAF blocked SQLi/XSS attempt from 203.0.113.4 to 10.0.1.3: ../../../etc/passwd
+<190>Jul 13 17:11:47 ids-01 brute_force[934]: Failed password for root from 203.0.113.15 port 31879 ssh2 (user=admin attempts=3)
+<165>Jul 29 18:55:44 db-firewall brute_force[706]: Failed password for root from 203.0.113.14 port 41948 ssh2 (user=admin attempts=28)
+<190>Aug 03 19:53:07 core-sw web_attack[3899]: WAF blocked SQLi/XSS attempt from 203.0.113.19 to 10.0.2.5: union select
+<165>Jul 24 06:34:36 waf-01 web_attack[6934]: WAF blocked SQLi/XSS attempt from 203.0.113.14 to 10.0.2.5: ../../../etc/passwd
+<86>Jul 28 14:26:35 db-firewall brute_force[2743]: Failed password for root from 203.0.113.20 port 28875 ssh2 (user=admin attempts=15)
+<165>Jul 14 06:25:06 mail-gw web_attack[9964]: WAF blocked SQLi/XSS attempt from 203.0.113.15 to 10.0.1.4: ../../../etc/passwd
+<165>Aug 01 16:03:03 db-firewall brute_force[7838]: Failed password for root from 203.0.113.10 port 62412 ssh2 (user=admin attempts=13)
+<134>Jul 22 03:54:48 core-sw malware[3368]: Malware detected on 10.0.1.2 from 203.0.113.10: trojan.win32.emotet
+<134>Jul 16 18:51:43 db-firewall malware[9223]: Malware detected on 10.0.2.2 from 203.0.113.4: trojan.win32.emotet
+<134>Jul 27 23:37:15 waf-01 policy[8348]: Policy violation: 10.0.1.5 accessed forbidden site from 203.0.113.12
+<134>Jul 11 02:17:26 db-firewall brute_force[2077]: Failed password for root from 203.0.113.3 port 46830 ssh2 (user=admin attempts=17)
+<165>Jul 30 18:42:03 fw-gw web_attack[2576]: WAF blocked SQLi/XSS attempt from 203.0.113.11 to 10.0.2.1: union select
+<86>Aug 05 21:59:16 fw-gw dos[9315]: Flood detected: 203.0.113.15 -> 10.0.2.3 10501 pps SYN flood
+<134>Aug 04 00:08:33 ids-01 web_attack[4886]: WAF blocked SQLi/XSS attempt from 203.0.113.6 to 10.0.1.2: ../../../etc/passwd
+<165>Jul 27 02:08:22 ids-01 dos[2357]: Flood detected: 203.0.113.16 -> 10.0.1.2 21119 pps SYN flood
+<190>Jul 15 00:51:37 fw-gw phishing[5692]: Phishing email blocked: from 203.0.113.15 to user19@corp.local subject=invoice
+<190>Jul 29 03:10:35 waf-01 web_attack[6008]: WAF blocked SQLi/XSS attempt from 203.0.113.3 to 10.0.1.5: ' or 1=1 --
+<190>Jul 11 19:35:19 ids-01 brute_force[6873]: Failed password for root from 203.0.113.17 port 36824 ssh2 (user=admin attempts=32)
+<86>Jul 20 22:53:21 fw-gw policy[8576]: Policy violation: 10.0.2.1 accessed forbidden site from 203.0.113.17
+<134>Jul 19 17:25:17 waf-01 policy[7211]: Policy violation: 10.0.2.1 accessed forbidden site from 203.0.113.3
+<165>Jul 09 09:51:21 mail-gw brute_force[6969]: Failed password for root from 203.0.113.2 port 36345 ssh2 (user=admin attempts=38)
+<134>Aug 01 11:40:31 fw-gw lateral[6718]: Lateral movement: 203.0.113.11 -> 10.0.2.1 SMB 15 connections anomalous
+<165>Jul 27 05:41:58 mail-gw malware[6727]: Malware detected on 10.0.2.5 from 203.0.113.18: trojan.win32.emotet
+<134>Jul 17 17:04:03 mail-gw lateral[8627]: Lateral movement: 203.0.113.3 -> 10.0.1.1 SMB 18 connections anomalous
+<165>Jul 17 01:03:16 mail-gw brute_force[2721]: Failed password for root from 203.0.113.3 port 11534 ssh2 (user=admin attempts=4)
+<165>Jul 14 21:59:50 waf-01 lateral[7026]: Lateral movement: 203.0.113.18 -> 10.0.2.5 SMB 17 connections anomalous
+<165>Jul 26 11:39:54 waf-01 brute_force[2128]: Failed password for root from 203.0.113.2 port 13128 ssh2 (user=admin attempts=10)
+<134>Jul 17 20:17:54 db-firewall web_attack[9628]: WAF blocked SQLi/XSS attempt from 203.0.113.19 to 10.0.1.1: ' or 1=1 --
+<190>Jul 11 21:00:44 core-sw web_attack[8614]: WAF blocked SQLi/XSS attempt from 203.0.113.10 to 10.0.2.5: ' or 1=1 --
+<165>Aug 01 08:40:46 ids-01 brute_force[7543]: Failed password for root from 203.0.113.17 port 16421 ssh2 (user=admin attempts=12)
+<134>Jul 09 13:00:43 fw-gw dos[7902]: Flood detected: 203.0.113.14 -> 10.0.1.2 33152 pps SYN flood
+<190>Jul 25 07:45:54 db-firewall web_attack[4420]: WAF blocked SQLi/XSS attempt from 203.0.113.12 to 10.0.2.4: ../../../etc/passwd
+<134>Aug 05 20:59:20 core-sw malware[2464]: Malware detected on 10.0.2.3 from 203.0.113.15: trojan.win32.njrat
+<86>Jul 23 01:43:34 core-sw brute_force[3583]: Failed password for root from 203.0.113.15 port 39847 ssh2 (user=admin attempts=33)
+<86>Aug 04 07:51:17 waf-01 brute_force[9956]: Failed password for root from 203.0.113.6 port 36779 ssh2 (user=admin attempts=10)
+<86>Jul 23 08:37:57 fw-gw brute_force[6186]: Failed password for root from 203.0.113.19 port 29983 ssh2 (user=admin attempts=26)
+<190>Jul 11 22:34:24 ids-01 web_attack[897]: WAF blocked SQLi/XSS attempt from 203.0.113.16 to 10.0.1.1: <script>alert(1)</script>
+<86>Jul 22 08:09:51 core-sw lateral[9070]: Lateral movement: 203.0.113.7 -> 10.0.1.3 SMB 12 connections anomalous
+<190>Jul 24 20:50:07 db-firewall brute_force[5634]: Failed password for root from 203.0.113.2 port 61206 ssh2 (user=admin attempts=27)
+<190>Jul 22 19:39:45 ids-01 web_attack[7471]: WAF blocked SQLi/XSS attempt from 203.0.113.20 to 10.0.1.3: ../../../etc/passwd
+<190>Jul 27 14:40:27 mail-gw brute_force[6444]: Failed password for root from 203.0.113.11 port 25258 ssh2 (user=admin attempts=28)
+<86>Jul 15 23:56:34 core-sw web_attack[2813]: WAF blocked SQLi/XSS attempt from 203.0.113.2 to 10.0.2.3: union select
+<86>Jul 11 09:21:19 core-sw malware[3252]: Malware detected on 10.0.2.4 from 203.0.113.10: trojan.win32.njrat
+<190>Jul 13 08:35:52 mail-gw web_attack[8335]: WAF blocked SQLi/XSS attempt from 203.0.113.2 to 10.0.2.5: union select
+<134>Jul 15 22:12:20 fw-gw brute_force[4118]: Failed password for root from 203.0.113.18 port 64374 ssh2 (user=admin attempts=40)
+<86>Jul 19 17:31:38 waf-01 web_attack[8152]: WAF blocked SQLi/XSS attempt from 203.0.113.18 to 10.0.2.5: union select
+<165>Aug 02 11:10:46 fw-gw web_attack[6358]: WAF blocked SQLi/XSS attempt from 203.0.113.6 to 10.0.2.2: <script>alert(1)</script>
+<134>Jul 16 05:41:09 ids-01 brute_force[4287]: Failed password for root from 203.0.113.4 port 60351 ssh2 (user=admin attempts=8)
+<165>Jul 26 02:39:18 fw-gw brute_force[3073]: Failed password for root from 203.0.113.14 port 11780 ssh2 (user=admin attempts=6)
+<165>Jul 20 01:27:54 ids-01 brute_force[4325]: Failed password for root from 203.0.113.4 port 34609 ssh2 (user=admin attempts=10)
+<190>Jul 14 18:30:22 mail-gw brute_force[1985]: Failed password for root from 203.0.113.8 port 27648 ssh2 (user=admin attempts=6)
+<190>Jul 22 04:50:10 fw-gw web_attack[3929]: WAF blocked SQLi/XSS attempt from 203.0.113.18 to 10.0.2.2: union select
+<134>Jul 30 13:34:37 ids-01 brute_force[5090]: Failed password for root from 203.0.113.19 port 47240 ssh2 (user=admin attempts=29)
+<134>Jul 18 21:00:45 ids-01 web_attack[4116]: WAF blocked SQLi/XSS attempt from 203.0.113.17 to 10.0.1.4: ../../../etc/passwd
+<190>Jul 07 16:57:12 fw-gw policy[4839]: Policy violation: 10.0.2.3 accessed forbidden site from 203.0.113.18
+<190>Aug 04 16:21:27 fw-gw malware[4577]: Malware detected on 10.0.1.1 from 203.0.113.6: trojan.win32.njrat
+<165>Jul 14 01:24:56 core-sw brute_force[845]: Failed password for root from 203.0.113.13 port 20578 ssh2 (user=admin attempts=37)
+<134>Jul 28 15:06:06 db-firewall malware[9217]: Malware detected on 10.0.1.2 from 203.0.113.10: trojan.win32.qakbot
+<165>Aug 05 09:34:23 mail-gw lateral[5713]: Lateral movement: 203.0.113.7 -> 10.0.2.5 SMB 9 connections anomalous
+<165>Jul 27 13:04:20 ids-01 policy[5697]: Policy violation: 10.0.1.5 accessed forbidden site from 203.0.113.15
+<134>Aug 04 02:19:33 fw-gw brute_force[133]: Failed password for root from 203.0.113.20 port 49897 ssh2 (user=admin attempts=33)
+<190>Jul 24 08:24:07 db-firewall brute_force[6535]: Failed password for root from 203.0.113.1 port 45266 ssh2 (user=admin attempts=8)
+<190>Aug 03 10:53:05 fw-gw phishing[2122]: Phishing email blocked: from 203.0.113.3 to user23@corp.local subject=invoice
+<86>Jul 19 06:41:36 waf-01 policy[2144]: Policy violation: 10.0.2.5 accessed forbidden site from 203.0.113.13
+<86>Jul 14 07:43:39 fw-gw web_attack[4706]: WAF blocked SQLi/XSS attempt from 203.0.113.7 to 10.0.2.3: <script>alert(1)</script>
+<190>Jul 14 07:27:32 core-sw brute_force[6047]: Failed password for root from 203.0.113.20 port 12411 ssh2 (user=admin attempts=20)
+<190>Jul 13 13:24:54 fw-gw web_attack[1917]: WAF blocked SQLi/XSS attempt from 203.0.113.20 to 10.0.1.4: <script>alert(1)</script>
+<134>Jul 13 11:44:50 mail-gw malware[1170]: Malware detected on 10.0.1.3 from 203.0.113.16: trojan.win32.njrat
+<134>Aug 04 16:23:54 waf-01 brute_force[8670]: Failed password for root from 203.0.113.3 port 57769 ssh2 (user=admin attempts=20)
+<190>Jul 15 06:20:09 mail-gw brute_force[132]: Failed password for root from 203.0.113.1 port 37991 ssh2 (user=admin attempts=6)
+<190>Jul 15 21:32:18 db-firewall lateral[8219]: Lateral movement: 203.0.113.11 -> 10.0.2.2 SMB 12 connections anomalous
+<190>Jul 16 00:20:40 fw-gw web_attack[8823]: WAF blocked SQLi/XSS attempt from 203.0.113.2 to 10.0.1.4: ../../../etc/passwd
+<86>Jul 10 03:08:06 waf-01 web_attack[3796]: WAF blocked SQLi/XSS attempt from 203.0.113.13 to 10.0.1.4: ../../../etc/passwd
+<86>Jul 17 13:16:28 ids-01 policy[1684]: Policy violation: 10.0.1.4 accessed forbidden site from 203.0.113.8
+<165>Jul 31 14:13:54 mail-gw brute_force[4202]: Failed password for root from 203.0.113.14 port 26197 ssh2 (user=admin attempts=9)
+<134>Jul 23 06:23:55 waf-01 web_attack[1294]: WAF blocked SQLi/XSS attempt from 203.0.113.11 to 10.0.1.1: ../../../etc/passwd
+<86>Jul 10 05:49:03 fw-gw dos[646]: Flood detected: 203.0.113.15 -> 10.0.2.5 54465 pps SYN flood
+<190>Aug 04 05:59:46 fw-gw web_attack[997]: WAF blocked SQLi/XSS attempt from 203.0.113.3 to 10.0.1.3: <script>alert(1)</script>
+<86>Jul 28 00:04:45 fw-gw malware[4931]: Malware detected on 10.0.1.2 from 203.0.113.14: trojan.win32.qakbot
+<86>Aug 02 14:43:56 ids-01 web_attack[7528]: WAF blocked SQLi/XSS attempt from 203.0.113.20 to 10.0.2.2: ../../../etc/passwd
+<86>Jul 10 17:09:10 mail-gw web_attack[7539]: WAF blocked SQLi/XSS attempt from 203.0.113.14 to 10.0.2.5: <script>alert(1)</script>
+<86>Jul 25 12:45:31 fw-gw malware[9813]: Malware detected on 10.0.1.2 from 203.0.113.4: trojan.win32.emotet
+<190>Jul 18 08:06:52 waf-01 lateral[7384]: Lateral movement: 203.0.113.5 -> 10.0.2.4 SMB 6 connections anomalous
+<190>Jul 17 00:37:58 ids-01 brute_force[8507]: Failed password for root from 203.0.113.2 port 52710 ssh2 (user=admin attempts=25)
+<165>Jul 21 18:17:23 ids-01 web_attack[4868]: WAF blocked SQLi/XSS attempt from 203.0.113.18 to 10.0.1.3: <script>alert(1)</script>
+<86>Jul 28 00:36:32 core-sw policy[3989]: Policy violation: 10.0.2.5 accessed forbidden site from 203.0.113.17
+<134>Jul 17 23:46:49 db-firewall web_attack[3397]: WAF blocked SQLi/XSS attempt from 203.0.113.18 to 10.0.1.1: union select
+<165>Jul 28 10:46:14 mail-gw web_attack[5009]: WAF blocked SQLi/XSS attempt from 203.0.113.16 to 10.0.2.3: ../../../etc/passwd
+<86>Jul 22 13:18:10 fw-gw web_attack[3754]: WAF blocked SQLi/XSS attempt from 203.0.113.4 to 10.0.2.3: ' or 1=1 --
+<165>Jul 29 17:08:05 db-firewall web_attack[6258]: WAF blocked SQLi/XSS attempt from 203.0.113.7 to 10.0.1.4: ' or 1=1 --
+<86>Jul 09 21:19:09 fw-gw web_attack[9188]: WAF blocked SQLi/XSS attempt from 203.0.113.1 to 10.0.2.1: union select
+<165>Jul 25 05:55:37 core-sw brute_force[819]: Failed password for root from 203.0.113.15 port 11945 ssh2 (user=admin attempts=15)
+<165>Jul 29 05:47:42 waf-01 brute_force[9185]: Failed password for root from 203.0.113.6 port 26119 ssh2 (user=admin attempts=14)
+<134>Jul 08 07:20:53 fw-gw brute_force[6308]: Failed password for root from 203.0.113.6 port 52917 ssh2 (user=admin attempts=10)
+<165>Jul 14 21:08:26 db-firewall web_attack[2907]: WAF blocked SQLi/XSS attempt from 203.0.113.7 to 10.0.1.5: ../../../etc/passwd
+<134>Aug 03 03:47:36 ids-01 lateral[3207]: Lateral movement: 203.0.113.3 -> 10.0.1.2 SMB 7 connections anomalous
+<134>Jul 20 13:30:06 mail-gw web_attack[856]: WAF blocked SQLi/XSS attempt from 203.0.113.12 to 10.0.2.1: ' or 1=1 --
+<165>Jul 15 02:11:46 waf-01 lateral[2171]: Lateral movement: 203.0.113.10 -> 10.0.1.3 SMB 17 connections anomalous
+<190>Jul 10 02:50:46 core-sw policy[1162]: Policy violation: 10.0.1.4 accessed forbidden site from 203.0.113.16
+<190>Jul 22 15:12:57 waf-01 brute_force[3032]: Failed password for root from 203.0.113.13 port 31091 ssh2 (user=admin attempts=26)
+<190>Jul 15 17:26:03 db-firewall web_attack[9667]: WAF blocked SQLi/XSS attempt from 203.0.113.16 to 10.0.2.3: union select
+<165>Jul 19 13:16:50 ids-01 brute_force[7063]: Failed password for root from 203.0.113.7 port 34712 ssh2 (user=admin attempts=39)
+<86>Jul 10 05:15:33 mail-gw brute_force[4934]: Failed password for root from 203.0.113.12 port 39131 ssh2 (user=admin attempts=36)
+<165>Jul 23 01:03:41 db-firewall web_attack[7081]: WAF blocked SQLi/XSS attempt from 203.0.113.19 to 10.0.1.1: ../../../etc/passwd
+<190>Jul 17 04:29:14 db-firewall web_attack[504]: WAF blocked SQLi/XSS attempt from 203.0.113.14 to 10.0.2.1: ' or 1=1 --
+<165>Aug 03 17:17:43 waf-01 web_attack[8320]: WAF blocked SQLi/XSS attempt from 203.0.113.9 to 10.0.1.2: union select
+<86>Jul 09 19:36:13 fw-gw phishing[9046]: Phishing email blocked: from 203.0.113.8 to user13@corp.local subject=invoice
+<165>Jul 30 00:47:05 waf-01 web_attack[3223]: WAF blocked SQLi/XSS attempt from 203.0.113.11 to 10.0.1.5: ' or 1=1 --
+<165>Jul 30 18:41:15 fw-gw policy[5779]: Policy violation: 10.0.1.5 accessed forbidden site from 203.0.113.18
+<86>Jul 30 09:51:11 mail-gw phishing[7833]: Phishing email blocked: from 203.0.113.13 to user42@corp.local subject=invoice
+<134>Jul 14 11:37:10 ids-01 web_attack[7873]: WAF blocked SQLi/XSS attempt from 203.0.113.5 to 10.0.2.2: ' or 1=1 --
+<165>Aug 01 02:35:56 core-sw web_attack[1506]: WAF blocked SQLi/XSS attempt from 203.0.113.18 to 10.0.2.3: <script>alert(1)</script>
+<86>Jul 20 20:04:58 ids-01 phishing[6239]: Phishing email blocked: from 203.0.113.14 to user9@corp.local subject=invoice
+<165>Jul 07 23:12:11 core-sw malware[5667]: Malware detected on 10.0.1.5 from 203.0.113.5: trojan.win32.emotet
+<86>Jul 17 11:00:36 waf-01 web_attack[9399]: WAF blocked SQLi/XSS attempt from 203.0.113.13 to 10.0.2.4: union select
+<190>Jul 26 13:43:01 mail-gw lateral[6347]: Lateral movement: 203.0.113.5 -> 10.0.2.1 SMB 7 connections anomalous
+<86>Jul 13 07:50:11 db-firewall policy[5487]: Policy violation: 10.0.2.4 accessed forbidden site from 203.0.113.3
+<134>Jul 12 19:39:28 fw-gw malware[625]: Malware detected on 10.0.1.5 from 203.0.113.15: trojan.win32.njrat
+<190>Jul 09 18:15:58 ids-01 malware[4750]: Malware detected on 10.0.1.3 from 203.0.113.1: trojan.win32.emotet
+<86>Jul 09 09:35:56 db-firewall brute_force[2915]: Failed password for root from 203.0.113.17 port 31415 ssh2 (user=admin attempts=29)
+<86>Jul 20 05:29:25 mail-gw web_attack[6473]: WAF blocked SQLi/XSS attempt from 203.0.113.4 to 10.0.1.3: ' or 1=1 --
+<190>Aug 01 05:07:04 db-firewall brute_force[2701]: Failed password for root from 203.0.113.7 port 49564 ssh2 (user=admin attempts=39)
+<190>Jul 29 04:18:31 mail-gw policy[4612]: Policy violation: 10.0.1.4 accessed forbidden site from 203.0.113.19
+<134>Aug 01 09:55:56 fw-gw brute_force[8715]: Failed password for root from 203.0.113.5 port 31554 ssh2 (user=admin attempts=39)
+<86>Jul 08 20:22:25 mail-gw lateral[4817]: Lateral movement: 203.0.113.15 -> 10.0.2.3 SMB 15 connections anomalous
+<134>Aug 01 09:06:07 mail-gw web_attack[6900]: WAF blocked SQLi/XSS attempt from 203.0.113.10 to 10.0.2.2: ' or 1=1 --
+<134>Jul 19 05:11:29 db-firewall brute_force[9416]: Failed password for root from 203.0.113.20 port 16260 ssh2 (user=admin attempts=28)
+<165>Jul 15 21:21:06 ids-01 dos[1193]: Flood detected: 203.0.113.2 -> 10.0.1.4 33476 pps SYN flood
+<86>Aug 06 12:51:38 fw-gw lateral[1823]: Lateral movement: 203.0.113.14 -> 10.0.2.4 SMB 17 connections anomalous
+<134>Jul 12 14:55:00 db-firewall dos[8391]: Flood detected: 203.0.113.11 -> 10.0.2.2 10850 pps SYN flood
+<190>Jul 17 23:39:58 db-firewall web_attack[3285]: WAF blocked SQLi/XSS attempt from 203.0.113.3 to 10.0.2.3: ../../../etc/passwd
+<165>Aug 04 04:34:17 core-sw brute_force[7706]: Failed password for root from 203.0.113.9 port 41769 ssh2 (user=admin attempts=32)
+<134>Aug 05 04:14:45 core-sw brute_force[7813]: Failed password for root from 203.0.113.18 port 63767 ssh2 (user=admin attempts=20)
+<165>Jul 10 16:36:13 mail-gw phishing[2134]: Phishing email blocked: from 203.0.113.6 to user35@corp.local subject=invoice
+<165>Jul 30 14:01:00 core-sw dos[2614]: Flood detected: 203.0.113.6 -> 10.0.1.2 62757 pps SYN flood
+<190>Jul 23 15:29:16 core-sw web_attack[882]: WAF blocked SQLi/XSS attempt from 203.0.113.7 to 10.0.1.1: union select
+<86>Jul 25 14:56:26 fw-gw web_attack[6283]: WAF blocked SQLi/XSS attempt from 203.0.113.10 to 10.0.2.3: ' or 1=1 --
+<190>Jul 10 10:01:51 ids-01 lateral[557]: Lateral movement: 203.0.113.12 -> 10.0.1.4 SMB 1 connections anomalous
+<86>Aug 05 10:31:45 ids-01 web_attack[2850]: WAF blocked SQLi/XSS attempt from 203.0.113.7 to 10.0.1.2: ' or 1=1 --
+<134>Jul 17 08:33:43 waf-01 brute_force[3493]: Failed password for root from 203.0.113.17 port 45501 ssh2 (user=admin attempts=28)
+<165>Jul 10 20:28:12 ids-01 policy[2944]: Policy violation: 10.0.1.4 accessed forbidden site from 203.0.113.4
+<134>Jul 14 01:25:32 db-firewall brute_force[1181]: Failed password for root from 203.0.113.11 port 53120 ssh2 (user=admin attempts=20)
+<190>Aug 03 05:45:50 fw-gw malware[5040]: Malware detected on 10.0.1.1 from 203.0.113.12: trojan.win32.njrat
+<86>Jul 12 19:41:00 mail-gw web_attack[9928]: WAF blocked SQLi/XSS attempt from 203.0.113.4 to 10.0.2.4: <script>alert(1)</script>
+<165>Jul 12 22:28:16 waf-01 policy[7999]: Policy violation: 10.0.1.3 accessed forbidden site from 203.0.113.13
+<134>Jul 21 03:26:56 mail-gw brute_force[8348]: Failed password for root from 203.0.113.1 port 48500 ssh2 (user=admin attempts=3)
+<190>Jul 14 18:26:17 waf-01 brute_force[4090]: Failed password for root from 203.0.113.20 port 50616 ssh2 (user=admin attempts=8)
+<190>Jul 13 17:40:52 waf-01 brute_force[3448]: Failed password for root from 203.0.113.12 port 52076 ssh2 (user=admin attempts=5)
+<134>Aug 02 23:54:42 core-sw brute_force[4656]: Failed password for root from 203.0.113.20 port 30810 ssh2 (user=admin attempts=5)
+<165>Jul 14 13:07:11 fw-gw web_attack[5715]: WAF blocked SQLi/XSS attempt from 203.0.113.14 to 10.0.1.5: ' or 1=1 --
+<134>Jul 28 13:33:10 core-sw brute_force[6350]: Failed password for root from 203.0.113.2 port 44175 ssh2 (user=admin attempts=23)
+<134>Jul 09 18:37:18 db-firewall brute_force[953]: Failed password for root from 203.0.113.1 port 51573 ssh2 (user=admin attempts=12)
+<134>Jul 25 10:55:36 ids-01 policy[3971]: Policy violation: 10.0.1.2 accessed forbidden site from 203.0.113.5
+<134>Jul 12 14:25:37 waf-01 web_attack[4112]: WAF blocked SQLi/XSS attempt from 203.0.113.14 to 10.0.2.3: ../../../etc/passwd
+<134>Jul 24 23:15:23 waf-01 brute_force[4554]: Failed password for root from 203.0.113.8 port 61202 ssh2 (user=admin attempts=33)
+<190>Jul 12 17:01:27 db-firewall brute_force[7025]: Failed password for root from 203.0.113.12 port 43114 ssh2 (user=admin attempts=30)
+<86>Jul 20 11:57:31 db-firewall dos[5018]: Flood detected: 203.0.113.16 -> 10.0.1.1 75411 pps SYN flood
+<190>Jul 21 14:03:42 db-firewall brute_force[4740]: Failed password for root from 203.0.113.6 port 34585 ssh2 (user=admin attempts=38)
+<134>Jul 29 02:56:03 ids-01 malware[2635]: Malware detected on 10.0.2.1 from 203.0.113.3: trojan.win32.emotet
+<190>Jul 19 19:30:45 db-firewall brute_force[6565]: Failed password for root from 203.0.113.17 port 58640 ssh2 (user=admin attempts=26)
+<86>Jul 19 22:33:35 fw-gw web_attack[2139]: WAF blocked SQLi/XSS attempt from 203.0.113.10 to 10.0.2.5: ../../../etc/passwd
+<165>Aug 05 09:20:33 db-firewall policy[8449]: Policy violation: 10.0.1.4 accessed forbidden site from 203.0.113.6
+<190>Jul 19 05:40:21 core-sw dos[4143]: Flood detected: 203.0.113.12 -> 10.0.1.1 36765 pps SYN flood
+<134>Jul 27 15:31:09 core-sw web_attack[4381]: WAF blocked SQLi/XSS attempt from 203.0.113.12 to 10.0.1.1: ../../../etc/passwd
+<134>Jul 25 17:46:49 ids-01 policy[302]: Policy violation: 10.0.1.5 accessed forbidden site from 203.0.113.5
+<86>Jul 28 20:36:10 db-firewall brute_force[8595]: Failed password for root from 203.0.113.3 port 22374 ssh2 (user=admin attempts=30)
+<190>Jul 16 17:49:51 core-sw brute_force[9702]: Failed password for root from 203.0.113.14 port 30183 ssh2 (user=admin attempts=29)
+<165>Jul 24 20:30:47 core-sw dos[2438]: Flood detected: 203.0.113.3 -> 10.0.1.2 40261 pps SYN flood
+<190>Aug 06 06:53:28 fw-gw dos[125]: Flood detected: 203.0.113.13 -> 10.0.1.5 17697 pps SYN flood
+<190>Jul 27 07:29:16 db-firewall brute_force[2895]: Failed password for root from 203.0.113.14 port 21560 ssh2 (user=admin attempts=26)
+<86>Jul 13 03:15:41 db-firewall brute_force[7483]: Failed password for root from 203.0.113.5 port 47164 ssh2 (user=admin attempts=16)
+<190>Jul 15 10:57:58 ids-01 brute_force[7320]: Failed password for root from 203.0.113.2 port 51080 ssh2 (user=admin attempts=9)
+<86>Jul 10 05:56:30 waf-01 lateral[4634]: Lateral movement: 203.0.113.6 -> 10.0.1.2 SMB 3 connections anomalous
+<86>Jul 22 05:34:21 db-firewall web_attack[255]: WAF blocked SQLi/XSS attempt from 203.0.113.19 to 10.0.1.4: union select
+<86>Jul 10 13:57:32 fw-gw brute_force[6254]: Failed password for root from 203.0.113.1 port 49517 ssh2 (user=admin attempts=36)
+<190>Jul 30 09:12:32 db-firewall policy[5614]: Policy violation: 10.0.2.3 accessed forbidden site from 203.0.113.9
+<190>Aug 04 21:44:46 ids-01 web_attack[6300]: WAF blocked SQLi/XSS attempt from 203.0.113.11 to 10.0.2.1: union select
+<190>Jul 21 09:12:52 fw-gw policy[2375]: Policy violation: 10.0.1.2 accessed forbidden site from 203.0.113.11
+<134>Aug 05 04:59:50 waf-01 brute_force[6136]: Failed password for root from 203.0.113.4 port 39616 ssh2 (user=admin attempts=33)
+<165>Aug 05 09:40:00 core-sw web_attack[372]: WAF blocked SQLi/XSS attempt from 203.0.113.7 to 10.0.1.1: <script>alert(1)</script>
+<190>Jul 25 21:06:07 ids-01 lateral[1433]: Lateral movement: 203.0.113.11 -> 10.0.2.3 SMB 12 connections anomalous
+<134>Jul 19 05:19:51 core-sw web_attack[2445]: WAF blocked SQLi/XSS attempt from 203.0.113.16 to 10.0.1.2: union select
+<190>Aug 06 13:34:19 core-sw brute_force[2853]: Failed password for root from 203.0.113.3 port 39247 ssh2 (user=admin attempts=10)
+<86>Jul 14 00:36:51 ids-01 web_attack[1828]: WAF blocked SQLi/XSS attempt from 203.0.113.18 to 10.0.1.4: ../../../etc/passwd
+<165>Aug 03 18:08:22 waf-01 policy[3710]: Policy violation: 10.0.1.3 accessed forbidden site from 203.0.113.1
+<190>Jul 11 17:58:38 core-sw dos[1581]: Flood detected: 203.0.113.16 -> 10.0.1.2 48620 pps SYN flood
+<190>Jul 26 23:54:11 fw-gw lateral[6352]: Lateral movement: 203.0.113.19 -> 10.0.2.5 SMB 18 connections anomalous
+<165>Jul 15 10:46:49 ids-01 policy[1536]: Policy violation: 10.0.1.4 accessed forbidden site from 203.0.113.14
+<86>Jul 30 00:21:27 ids-01 brute_force[9485]: Failed password for root from 203.0.113.11 port 34100 ssh2 (user=admin attempts=11)
+<86>Jul 07 17:26:28 core-sw lateral[9767]: Lateral movement: 203.0.113.13 -> 10.0.2.5 SMB 18 connections anomalous
+<134>Jul 30 19:33:18 waf-01 brute_force[8615]: Failed password for root from 203.0.113.13 port 53499 ssh2 (user=admin attempts=40)
+<165>Aug 02 05:56:00 mail-gw brute_force[2470]: Failed password for root from 203.0.113.13 port 63487 ssh2 (user=admin attempts=21)
+<134>Jul 25 17:17:16 ids-01 phishing[662]: Phishing email blocked: from 203.0.113.16 to user39@corp.local subject=invoice
+<190>Aug 06 13:57:49 waf-01 web_attack[3634]: WAF blocked SQLi/XSS attempt from 203.0.113.17 to 10.0.1.2: ../../../etc/passwd
+<134>Jul 12 06:10:42 waf-01 brute_force[3787]: Failed password for root from 203.0.113.13 port 55901 ssh2 (user=admin attempts=6)
+<134>Jul 19 10:20:03 core-sw lateral[453]: Lateral movement: 203.0.113.6 -> 10.0.2.3 SMB 18 connections anomalous
+<190>Jul 30 09:47:13 waf-01 web_attack[1276]: WAF blocked SQLi/XSS attempt from 203.0.113.14 to 10.0.2.3: <script>alert(1)</script>
+<165>Jul 10 14:18:10 db-firewall brute_force[9609]: Failed password for root from 203.0.113.7 port 62761 ssh2 (user=admin attempts=6)
+<134>Jul 12 14:05:34 core-sw phishing[7339]: Phishing email blocked: from 203.0.113.10 to user45@corp.local subject=invoice
+<134>Jul 31 19:22:15 ids-01 web_attack[249]: WAF blocked SQLi/XSS attempt from 203.0.113.5 to 10.0.1.4: <script>alert(1)</script>
+<134>Jul 31 05:47:32 core-sw dos[6269]: Flood detected: 203.0.113.19 -> 10.0.1.2 60982 pps SYN flood
+<190>Jul 18 08:15:11 fw-gw dos[3043]: Flood detected: 203.0.113.6 -> 10.0.1.1 11877 pps SYN flood
+<134>Jul 20 16:35:03 mail-gw brute_force[6719]: Failed password for root from 203.0.113.17 port 26056 ssh2 (user=admin attempts=5)
+<134>Jul 28 07:34:52 waf-01 brute_force[6250]: Failed password for root from 203.0.113.13 port 60846 ssh2 (user=admin attempts=8)
+<165>Jul 27 06:32:00 core-sw phishing[290]: Phishing email blocked: from 203.0.113.13 to user8@corp.local subject=invoice
+<134>Jul 27 17:45:47 core-sw brute_force[477]: Failed password for root from 203.0.113.4 port 48459 ssh2 (user=admin attempts=39)
+<134>Jul 30 00:53:29 core-sw policy[6390]: Policy violation: 10.0.1.5 accessed forbidden site from 203.0.113.16
+<165>Jul 11 10:24:10 mail-gw web_attack[1140]: WAF blocked SQLi/XSS attempt from 203.0.113.14 to 10.0.1.5: ' or 1=1 --
+<190>Aug 01 04:48:21 mail-gw web_attack[1147]: WAF blocked SQLi/XSS attempt from 203.0.113.1 to 10.0.2.2: union select
+<134>Aug 02 12:52:30 ids-01 dos[187]: Flood detected: 203.0.113.7 -> 10.0.1.2 77708 pps SYN flood
+<134>Jul 11 12:58:49 fw-gw web_attack[2741]: WAF blocked SQLi/XSS attempt from 203.0.113.11 to 10.0.1.2: union select
+<165>Jul 22 20:39:34 fw-gw malware[9019]: Malware detected on 10.0.1.2 from 203.0.113.2: trojan.win32.emotet
+<165>Jul 09 01:28:20 waf-01 web_attack[8850]: WAF blocked SQLi/XSS attempt from 203.0.113.1 to 10.0.1.4: ../../../etc/passwd
+<165>Aug 03 23:59:47 mail-gw brute_force[8918]: Failed password for root from 203.0.113.16 port 43462 ssh2 (user=admin attempts=16)
+<165>Jul 13 07:38:44 fw-gw dos[3626]: Flood detected: 203.0.113.2 -> 10.0.1.4 22590 pps SYN flood
+<190>Jul 15 23:57:27 waf-01 malware[1318]: Malware detected on 10.0.2.5 from 203.0.113.7: trojan.win32.njrat
+<165>Jul 21 08:36:05 db-firewall brute_force[7068]: Failed password for root from 203.0.113.13 port 55515 ssh2 (user=admin attempts=12)
+<134>Jul 28 13:55:51 core-sw web_attack[6197]: WAF blocked SQLi/XSS attempt from 203.0.113.3 to 10.0.1.5: ' or 1=1 --
+<134>Jul 19 01:04:15 db-firewall web_attack[1370]: WAF blocked SQLi/XSS attempt from 203.0.113.5 to 10.0.2.1: <script>alert(1)</script>
+<86>Jul 09 15:43:24 db-firewall brute_force[6044]: Failed password for root from 203.0.113.4 port 31857 ssh2 (user=admin attempts=20)
+<134>Jul 10 14:45:16 fw-gw brute_force[6303]: Failed password for root from 203.0.113.8 port 16881 ssh2 (user=admin attempts=10)
+<165>Jul 10 13:01:19 db-firewall brute_force[9474]: Failed password for root from 203.0.113.10 port 28480 ssh2 (user=admin attempts=38)
+<190>Jul 17 05:11:24 ids-01 brute_force[3060]: Failed password for root from 203.0.113.4 port 32621 ssh2 (user=admin attempts=37)
+<86>Jul 11 12:05:05 mail-gw malware[8514]: Malware detected on 10.0.2.3 from 203.0.113.13: trojan.win32.njrat
+<165>Jul 24 16:52:35 db-firewall brute_force[966]: Failed password for root from 203.0.113.5 port 57541 ssh2 (user=admin attempts=26)
+<134>Jul 28 21:07:09 db-firewall dos[7291]: Flood detected: 203.0.113.8 -> 10.0.2.5 51399 pps SYN flood
+<134>Aug 05 06:06:59 waf-01 phishing[5100]: Phishing email blocked: from 203.0.113.17 to user41@corp.local subject=invoice
+<86>Aug 02 00:48:34 waf-01 lateral[1356]: Lateral movement: 203.0.113.10 -> 10.0.2.2 SMB 8 connections anomalous
+<165>Jul 10 05:08:02 fw-gw policy[9179]: Policy violation: 10.0.2.5 accessed forbidden site from 203.0.113.6
+<134>Jul 22 22:29:02 core-sw lateral[7958]: Lateral movement: 203.0.113.1 -> 10.0.2.2 SMB 16 connections anomalous
+<134>Jul 08 02:14:27 db-firewall web_attack[219]: WAF blocked SQLi/XSS attempt from 203.0.113.18 to 10.0.1.2: ../../../etc/passwd
+<86>Jul 27 12:16:41 core-sw dos[7450]: Flood detected: 203.0.113.12 -> 10.0.1.4 27089 pps SYN flood
+<134>Jul 09 22:19:15 ids-01 dos[8516]: Flood detected: 203.0.113.17 -> 10.0.1.4 51306 pps SYN flood
+<86>Jul 12 18:58:52 db-firewall policy[5637]: Policy violation: 10.0.2.3 accessed forbidden site from 203.0.113.14
+<190>Jul 16 09:04:45 fw-gw lateral[4909]: Lateral movement: 203.0.113.8 -> 10.0.2.4 SMB 9 connections anomalous
+<86>Aug 04 08:50:00 ids-01 brute_force[7686]: Failed password for root from 203.0.113.19 port 50484 ssh2 (user=admin attempts=34)
+<165>Jul 17 12:47:24 db-firewall brute_force[1855]: Failed password for root from 203.0.113.1 port 10337 ssh2 (user=admin attempts=25)
+<190>Jul 07 22:36:52 waf-01 lateral[8161]: Lateral movement: 203.0.113.6 -> 10.0.2.2 SMB 7 connections anomalous
+<190>Jul 11 09:23:58 db-firewall brute_force[213]: Failed password for root from 203.0.113.17 port 20199 ssh2 (user=admin attempts=19)
+<134>Jul 18 14:40:10 waf-01 brute_force[8888]: Failed password for root from 203.0.113.13 port 63185 ssh2 (user=admin attempts=20)
+<190>Jul 11 20:56:32 ids-01 brute_force[195]: Failed password for root from 203.0.113.15 port 33542 ssh2 (user=admin attempts=15)
+<165>Jul 19 12:18:21 ids-01 brute_force[617]: Failed password for root from 203.0.113.10 port 20506 ssh2 (user=admin attempts=15)
+<190>Jul 22 08:21:41 db-firewall policy[2187]: Policy violation: 10.0.1.2 accessed forbidden site from 203.0.113.9
+<190>Aug 04 09:11:48 core-sw web_attack[2253]: WAF blocked SQLi/XSS attempt from 203.0.113.13 to 10.0.2.4: union select
+<86>Jul 17 23:59:58 ids-01 policy[3974]: Policy violation: 10.0.1.3 accessed forbidden site from 203.0.113.1
+<190>Jul 29 19:11:00 mail-gw brute_force[7967]: Failed password for root from 203.0.113.11 port 28970 ssh2 (user=admin attempts=21)
+<134>Jul 12 06:01:46 mail-gw web_attack[4187]: WAF blocked SQLi/XSS attempt from 203.0.113.14 to 10.0.1.4: <script>alert(1)</script>
+<134>Aug 01 07:04:17 core-sw dos[7864]: Flood detected: 203.0.113.9 -> 10.0.1.4 18508 pps SYN flood
