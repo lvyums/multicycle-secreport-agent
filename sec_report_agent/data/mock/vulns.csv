@@ -1,61 +1,121 @@
 asset_ip,asset_name,vuln_name,cvss,risk_level,status,discover_time,source_name
-10.0.1.4,server-8,Tomcat 弱口令 + 后台部署,5.7,MEDIUM,unfixed,2026-02-25,nessus-scan
-10.0.2.4,server-3,OpenSSH 弱口令爆破风险,4.8,MEDIUM,unfixed,2026-05-16,nessus-scan
-10.0.1.4,server-26,MySQL 未授权访问,6.0,MEDIUM,fixed,2026-07-12,nessus-scan
-10.0.2.3,server-22,Tomcat 弱口令 + 后台部署,9.0,HIGH,unfixed,2026-02-28,nessus-scan
-10.0.1.2,server-16,Windows SMB 远程代码执行 (CVE-2020-0796),3.6,LOW,fixed,2026-03-13,nessus-scan
-10.0.1.4,server-12,Apache Log4j2 远程代码执行 (CVE-2021-44228),4.9,MEDIUM,unfixed,2026-05-03,nessus-scan
-10.0.2.3,server-2,Elasticsearch 未授权访问,6.6,MEDIUM,unfixed,2026-03-05,nessus-scan
-10.0.2.3,server-20,MySQL 未授权访问,9.7,HIGH,fixed,2026-02-17,nessus-scan
-10.0.2.3,server-22,Nginx 目录遍历漏洞 (CVE-2022-41741),3.3,LOW,unfixed,2026-07-14,nessus-scan
-10.0.1.3,server-10,OpenSSH 弱口令爆破风险,9.6,HIGH,fixed,2026-05-01,nessus-scan
-10.0.1.4,server-29,Tomcat 弱口令 + 后台部署,5.3,MEDIUM,unfixed,2026-07-02,nessus-scan
-10.0.1.3,server-12,MySQL 未授权访问,6.1,MEDIUM,unfixed,2026-06-16,nessus-scan
-10.0.2.5,server-25,Apache Log4j2 远程代码执行 (CVE-2021-44228),3.9,LOW,fixed,2026-06-05,nessus-scan
-10.0.1.5,server-6,Tomcat 弱口令 + 后台部署,3.9,LOW,unfixed,2026-02-14,nessus-scan
-10.0.2.1,server-25,Nginx 目录遍历漏洞 (CVE-2022-41741),9.5,HIGH,fixed,2026-04-26,nessus-scan
-10.0.2.1,server-6,MySQL 未授权访问,8.9,HIGH,unfixed,2026-06-03,nessus-scan
-10.0.2.1,server-7,Redis 未授权访问,3.1,LOW,fixed,2026-04-13,nessus-scan
-10.0.2.2,server-27,Windows SMB 远程代码执行 (CVE-2020-0796),8.8,HIGH,unfixed,2026-03-18,nessus-scan
-10.0.2.1,server-24,OpenSSH 弱口令爆破风险,4.3,MEDIUM,unfixed,2026-07-13,nessus-scan
-10.0.1.4,server-21,Elasticsearch 未授权访问,4.6,MEDIUM,fixed,2026-06-10,nessus-scan
-10.0.1.4,server-25,OpenSSH 弱口令爆破风险,9.1,HIGH,fixed,2026-07-23,nessus-scan
-10.0.1.2,server-29,MySQL 未授权访问,5.7,MEDIUM,unfixed,2026-04-14,nessus-scan
-10.0.2.1,server-26,Redis 未授权访问,3.5,LOW,unfixed,2026-04-18,nessus-scan
-10.0.1.5,server-14,Nginx 目录遍历漏洞 (CVE-2022-41741),9.5,HIGH,unfixed,2026-06-27,nessus-scan
-10.0.2.5,server-28,Nginx 目录遍历漏洞 (CVE-2022-41741),5.0,MEDIUM,fixed,2026-05-22,nessus-scan
-10.0.1.4,server-12,Elasticsearch 未授权访问,4.4,MEDIUM,unfixed,2026-01-22,nessus-scan
-10.0.1.4,server-29,Windows SMB 远程代码执行 (CVE-2020-0796),7.9,HIGH,ignored,2026-06-22,nessus-scan
-10.0.2.2,server-24,Nginx 目录遍历漏洞 (CVE-2022-41741),8.5,HIGH,unfixed,2026-07-28,nessus-scan
-10.0.2.2,server-1,MySQL 未授权访问,5.9,MEDIUM,fixed,2026-01-17,nessus-scan
-10.0.1.3,server-17,MySQL 未授权访问,3.0,LOW,unfixed,2026-07-26,nessus-scan
-10.0.2.2,server-15,Elasticsearch 未授权访问,9.5,HIGH,unfixed,2026-05-17,nessus-scan
-10.0.1.2,server-26,Redis 未授权访问,4.4,MEDIUM,unfixed,2026-03-03,nessus-scan
-10.0.2.1,server-18,Apache Log4j2 远程代码执行 (CVE-2021-44228),9.7,HIGH,unfixed,2026-06-23,nessus-scan
-10.0.2.2,server-13,Redis 未授权访问,4.4,MEDIUM,unfixed,2026-07-06,nessus-scan
-10.0.1.3,server-29,Redis 未授权访问,6.2,MEDIUM,unfixed,2026-04-28,nessus-scan
-10.0.1.3,server-12,Tomcat 弱口令 + 后台部署,5.9,MEDIUM,ignored,2026-03-07,nessus-scan
-10.0.2.2,server-6,Redis 未授权访问,6.2,MEDIUM,fixed,2026-07-16,nessus-scan
-10.0.2.4,server-8,Elasticsearch 未授权访问,7.7,HIGH,ignored,2026-04-17,nessus-scan
-10.0.1.2,server-11,Apache Log4j2 远程代码执行 (CVE-2021-44228),3.8,LOW,fixed,2026-06-24,nessus-scan
-10.0.1.1,server-19,Apache Log4j2 远程代码执行 (CVE-2021-44228),7.0,HIGH,unfixed,2026-03-14,nessus-scan
-10.0.1.1,server-13,Redis 未授权访问,4.2,MEDIUM,unfixed,2026-01-02,nessus-scan
-10.0.1.5,server-6,Windows SMB 远程代码执行 (CVE-2020-0796),6.6,MEDIUM,unfixed,2026-07-15,nessus-scan
-10.0.1.4,server-4,Apache Log4j2 远程代码执行 (CVE-2021-44228),7.9,HIGH,unfixed,2026-04-06,nessus-scan
-10.0.2.4,server-30,Redis 未授权访问,4.9,MEDIUM,unfixed,2026-02-25,nessus-scan
-10.0.2.4,server-3,Nginx 目录遍历漏洞 (CVE-2022-41741),7.9,HIGH,fixed,2026-06-22,nessus-scan
-10.0.1.3,server-18,OpenSSH 弱口令爆破风险,8.1,HIGH,fixed,2026-01-02,nessus-scan
-10.0.1.4,server-20,Tomcat 弱口令 + 后台部署,4.2,MEDIUM,fixed,2026-05-25,nessus-scan
-10.0.2.1,server-26,Nginx 目录遍历漏洞 (CVE-2022-41741),5.4,MEDIUM,unfixed,2026-06-14,nessus-scan
-10.0.1.3,server-16,MySQL 未授权访问,5.2,MEDIUM,fixed,2026-06-17,nessus-scan
-10.0.1.2,server-26,Apache Log4j2 远程代码执行 (CVE-2021-44228),4.6,MEDIUM,ignored,2026-07-08,nessus-scan
-10.0.1.2,server-29,Elasticsearch 未授权访问,8.1,HIGH,fixed,2026-07-06,nessus-scan
-10.0.2.1,server-19,Nginx 目录遍历漏洞 (CVE-2022-41741),8.4,HIGH,unfixed,2026-01-19,nessus-scan
-10.0.1.3,server-1,Tomcat 弱口令 + 后台部署,3.1,LOW,ignored,2026-03-26,nessus-scan
-10.0.1.2,server-2,Redis 未授权访问,5.0,MEDIUM,unfixed,2026-03-06,nessus-scan
-10.0.1.1,server-13,Windows SMB 远程代码执行 (CVE-2020-0796),8.9,HIGH,fixed,2026-07-09,nessus-scan
-10.0.1.1,server-25,MySQL 未授权访问,6.8,MEDIUM,fixed,2026-07-10,nessus-scan
-10.0.1.4,server-6,Tomcat 弱口令 + 后台部署,5.9,MEDIUM,fixed,2026-05-14,nessus-scan
-10.0.1.3,server-27,Apache Log4j2 远程代码执行 (CVE-2021-44228),4.5,MEDIUM,fixed,2026-05-04,nessus-scan
-10.0.1.4,server-5,Tomcat 弱口令 + 后台部署,3.0,LOW,ignored,2026-02-21,nessus-scan
-10.0.1.3,server-19,Redis 未授权访问,3.4,LOW,fixed,2026-07-14,nessus-scan
+10.0.1.4,server-5,Tomcat 弱口令 + 后台部署,5.7,MEDIUM,unfixed,2025-02-09,nessus-scan
+10.0.2.5,server-16,Tomcat 弱口令 + 后台部署,6.7,MEDIUM,fixed,2025-04-14,nessus-scan
+10.0.1.4,server-5,MySQL 未授权访问,8.5,HIGH,fixed,2026-08-22,nessus-scan
+10.0.2.3,server-11,Nginx 目录遍历漏洞 (CVE-2022-41741),8.9,HIGH,unfixed,2025-07-02,nessus-scan
+10.0.2.4,server-3,Redis 未授权访问,6.9,MEDIUM,unfixed,2026-08-17,nessus-scan
+10.0.1.3,server-7,MySQL 未授权访问,7.2,HIGH,ignored,2026-12-06,nessus-scan
+10.0.1.1,server-4,Elasticsearch 未授权访问,7.2,HIGH,ignored,2025-01-06,nessus-scan
+10.0.1.2,server-5,Elasticsearch 未授权访问,7.8,HIGH,unfixed,2026-05-20,nessus-scan
+10.0.1.4,server-29,Apache Log4j2 远程代码执行 (CVE-2021-44228),5.7,MEDIUM,unfixed,2026-01-21,nessus-scan
+10.0.2.1,server-23,MySQL 未授权访问,6.1,MEDIUM,unfixed,2025-08-02,nessus-scan
+10.0.2.5,server-14,Nginx 目录遍历漏洞 (CVE-2022-41741),8.2,HIGH,fixed,2025-02-04,nessus-scan
+10.0.2.2,server-5,OpenSSH 弱口令爆破风险,4.0,MEDIUM,unfixed,2025-04-18,nessus-scan
+10.0.1.2,server-28,Windows SMB 远程代码执行 (CVE-2020-0796),8.4,HIGH,fixed,2026-06-06,nessus-scan
+10.0.2.1,server-7,OpenSSH 弱口令爆破风险,6.5,MEDIUM,unfixed,2025-07-13,nessus-scan
+10.0.2.1,server-18,Windows SMB 远程代码执行 (CVE-2020-0796),8.8,HIGH,unfixed,2026-02-06,nessus-scan
+10.0.2.3,server-8,Apache Log4j2 远程代码执行 (CVE-2021-44228),9.5,HIGH,fixed,2026-05-28,nessus-scan
+10.0.1.4,server-25,MySQL 未授权访问,7.6,HIGH,unfixed,2026-12-22,nessus-scan
+10.0.2.3,server-14,MySQL 未授权访问,5.7,MEDIUM,unfixed,2025-05-03,nessus-scan
+10.0.2.4,server-5,Redis 未授权访问,9.4,HIGH,fixed,2026-05-14,nessus-scan
+10.0.1.5,server-13,Redis 未授权访问,5.9,MEDIUM,fixed,2025-11-22,nessus-scan
+10.0.2.1,server-1,Elasticsearch 未授权访问,4.4,MEDIUM,unfixed,2025-11-12,nessus-scan
+10.0.1.5,server-22,Redis 未授权访问,9.8,HIGH,unfixed,2025-07-24,nessus-scan
+10.0.1.1,server-4,MySQL 未授权访问,5.9,MEDIUM,fixed,2026-09-18,nessus-scan
+10.0.2.4,server-26,MySQL 未授权访问,3.0,LOW,unfixed,2025-08-07,nessus-scan
+10.0.2.4,server-17,Redis 未授权访问,8.2,HIGH,fixed,2026-11-20,nessus-scan
+10.0.1.5,server-3,Redis 未授权访问,4.4,MEDIUM,unfixed,2025-10-02,nessus-scan
+10.0.1.4,server-25,Apache Log4j2 远程代码执行 (CVE-2021-44228),5.9,MEDIUM,unfixed,2026-02-28,nessus-scan
+10.0.2.1,server-5,Tomcat 弱口令 + 后台部署,5.8,MEDIUM,unfixed,2026-03-15,nessus-scan
+10.0.2.1,server-9,Tomcat 弱口令 + 后台部署,5.9,MEDIUM,ignored,2025-04-09,nessus-scan
+10.0.1.3,server-27,Elasticsearch 未授权访问,7.0,HIGH,fixed,2026-08-19,nessus-scan
+10.0.2.3,server-17,Elasticsearch 未授权访问,7.7,HIGH,ignored,2025-01-04,nessus-scan
+10.0.2.5,server-22,Windows SMB 远程代码执行 (CVE-2020-0796),8.6,HIGH,unfixed,2025-09-09,nessus-scan
+10.0.1.3,server-19,Apache Log4j2 远程代码执行 (CVE-2021-44228),7.1,HIGH,unfixed,2025-01-13,nessus-scan
+10.0.1.3,server-27,Apache Log4j2 远程代码执行 (CVE-2021-44228),3.3,LOW,unfixed,2026-08-02,nessus-scan
+10.0.1.3,server-9,Tomcat 弱口令 + 后台部署,4.6,MEDIUM,unfixed,2026-05-22,nessus-scan
+10.0.2.1,server-21,Windows SMB 远程代码执行 (CVE-2020-0796),3.5,LOW,ignored,2025-09-03,nessus-scan
+10.0.2.4,server-3,OpenSSH 弱口令爆破风险,8.1,HIGH,fixed,2025-01-25,nessus-scan
+10.0.2.5,server-20,Tomcat 弱口令 + 后台部署,4.2,MEDIUM,fixed,2025-10-06,nessus-scan
+10.0.1.4,server-10,Windows SMB 远程代码执行 (CVE-2020-0796),8.4,HIGH,fixed,2026-03-24,nessus-scan
+10.0.1.4,server-13,OpenSSH 弱口令爆破风险,4.0,MEDIUM,fixed,2025-11-26,nessus-scan
+10.0.2.5,server-28,OpenSSH 弱口令爆破风险,8.5,HIGH,ignored,2026-02-27,nessus-scan
+10.0.2.1,server-9,Nginx 目录遍历漏洞 (CVE-2022-41741),9.1,HIGH,fixed,2026-06-19,nessus-scan
+10.0.1.3,server-1,Apache Log4j2 远程代码执行 (CVE-2021-44228),7.1,HIGH,unfixed,2025-05-26,nessus-scan
+10.0.1.1,server-12,Redis 未授权访问,5.0,MEDIUM,unfixed,2025-03-20,nessus-scan
+10.0.2.2,server-27,Windows SMB 远程代码执行 (CVE-2020-0796),8.9,HIGH,fixed,2025-05-20,nessus-scan
+10.0.1.5,server-24,MySQL 未授权访问,6.8,MEDIUM,fixed,2025-07-14,nessus-scan
+10.0.1.4,server-8,MySQL 未授权访问,4.2,MEDIUM,unfixed,2025-11-09,nessus-scan
+10.0.2.5,server-1,Nginx 目录遍历漏洞 (CVE-2022-41741),8.9,HIGH,unfixed,2025-04-05,nessus-scan
+10.0.1.3,server-19,Nginx 目录遍历漏洞 (CVE-2022-41741),7.4,HIGH,unfixed,2026-07-05,nessus-scan
+10.0.2.3,server-3,Apache Log4j2 远程代码执行 (CVE-2021-44228),9.5,HIGH,unfixed,2026-03-19,nessus-scan
+10.0.2.1,server-17,MySQL 未授权访问,5.4,MEDIUM,unfixed,2025-03-08,nessus-scan
+10.0.2.5,server-7,Elasticsearch 未授权访问,4.5,MEDIUM,fixed,2026-03-05,nessus-scan
+10.0.1.3,server-21,Elasticsearch 未授权访问,8.2,HIGH,unfixed,2026-09-22,nessus-scan
+10.0.2.2,server-17,OpenSSH 弱口令爆破风险,4.6,MEDIUM,unfixed,2026-09-03,nessus-scan
+10.0.2.3,server-7,MySQL 未授权访问,4.8,MEDIUM,fixed,2026-02-26,nessus-scan
+10.0.1.4,server-30,Apache Log4j2 远程代码执行 (CVE-2021-44228),9.6,HIGH,unfixed,2026-01-22,nessus-scan
+10.0.1.1,server-19,Redis 未授权访问,4.3,MEDIUM,ignored,2026-09-10,nessus-scan
+10.0.2.2,server-5,MySQL 未授权访问,8.1,HIGH,unfixed,2026-12-10,nessus-scan
+10.0.2.1,server-8,Redis 未授权访问,4.4,MEDIUM,unfixed,2025-03-20,nessus-scan
+10.0.2.1,server-29,OpenSSH 弱口令爆破风险,8.8,HIGH,unfixed,2026-07-08,nessus-scan
+10.0.1.4,server-8,Nginx 目录遍历漏洞 (CVE-2022-41741),8.5,HIGH,unfixed,2025-06-20,nessus-scan
+10.0.2.2,server-4,Redis 未授权访问,8.3,HIGH,unfixed,2025-11-14,nessus-scan
+10.0.2.3,server-14,OpenSSH 弱口令爆破风险,7.8,HIGH,ignored,2026-09-13,nessus-scan
+10.0.1.5,server-17,Redis 未授权访问,5.3,MEDIUM,unfixed,2025-04-03,nessus-scan
+10.0.1.5,server-29,Apache Log4j2 远程代码执行 (CVE-2021-44228),4.5,MEDIUM,unfixed,2025-05-20,nessus-scan
+10.0.2.5,server-24,MySQL 未授权访问,4.5,MEDIUM,fixed,2025-05-03,nessus-scan
+10.0.2.3,server-14,Tomcat 弱口令 + 后台部署,3.9,LOW,unfixed,2026-06-17,nessus-scan
+10.0.1.5,server-13,MySQL 未授权访问,7.2,HIGH,unfixed,2025-04-03,nessus-scan
+10.0.1.1,server-2,Redis 未授权访问,6.2,MEDIUM,unfixed,2025-10-03,nessus-scan
+10.0.1.1,server-4,Nginx 目录遍历漏洞 (CVE-2022-41741),9.0,HIGH,unfixed,2025-06-07,nessus-scan
+10.0.2.2,server-27,MySQL 未授权访问,7.7,HIGH,ignored,2025-05-06,nessus-scan
+10.0.2.2,server-4,Nginx 目录遍历漏洞 (CVE-2022-41741),8.7,HIGH,fixed,2025-05-27,nessus-scan
+10.0.1.2,server-9,Nginx 目录遍历漏洞 (CVE-2022-41741),8.3,HIGH,unfixed,2025-09-10,nessus-scan
+10.0.1.2,server-2,Redis 未授权访问,8.9,HIGH,fixed,2026-12-20,nessus-scan
+10.0.2.5,server-16,OpenSSH 弱口令爆破风险,4.8,MEDIUM,unfixed,2026-04-28,nessus-scan
+10.0.1.3,server-15,Redis 未授权访问,8.8,HIGH,unfixed,2026-05-05,nessus-scan
+10.0.2.5,server-12,MySQL 未授权访问,5.3,MEDIUM,unfixed,2025-10-17,nessus-scan
+10.0.2.5,server-1,OpenSSH 弱口令爆破风险,4.6,MEDIUM,unfixed,2025-06-24,nessus-scan
+10.0.1.2,server-14,Tomcat 弱口令 + 后台部署,7.1,HIGH,unfixed,2026-08-04,nessus-scan
+10.0.1.4,server-10,OpenSSH 弱口令爆破风险,3.0,LOW,fixed,2025-04-04,nessus-scan
+10.0.2.4,server-22,Nginx 目录遍历漏洞 (CVE-2022-41741),8.1,HIGH,fixed,2025-11-07,nessus-scan
+10.0.1.5,server-13,OpenSSH 弱口令爆破风险,7.3,HIGH,unfixed,2025-06-17,nessus-scan
+10.0.2.4,server-20,Apache Log4j2 远程代码执行 (CVE-2021-44228),6.1,MEDIUM,ignored,2026-06-07,nessus-scan
+10.0.1.4,server-26,Windows SMB 远程代码执行 (CVE-2020-0796),3.9,LOW,fixed,2025-11-17,nessus-scan
+10.0.2.4,server-6,Tomcat 弱口令 + 后台部署,8.0,HIGH,ignored,2026-12-17,nessus-scan
+10.0.1.3,server-5,Redis 未授权访问,3.1,LOW,fixed,2026-07-02,nessus-scan
+10.0.2.1,server-6,OpenSSH 弱口令爆破风险,6.7,MEDIUM,ignored,2026-09-11,nessus-scan
+10.0.2.2,server-7,OpenSSH 弱口令爆破风险,8.1,HIGH,unfixed,2026-11-06,nessus-scan
+10.0.2.2,server-28,Apache Log4j2 远程代码执行 (CVE-2021-44228),4.2,MEDIUM,unfixed,2026-09-18,nessus-scan
+10.0.1.5,server-4,Tomcat 弱口令 + 后台部署,5.6,MEDIUM,fixed,2026-04-25,nessus-scan
+10.0.1.1,server-12,Windows SMB 远程代码执行 (CVE-2020-0796),3.9,LOW,unfixed,2025-07-11,nessus-scan
+10.0.1.5,server-14,MySQL 未授权访问,7.2,HIGH,fixed,2026-03-05,nessus-scan
+10.0.2.4,server-17,Nginx 目录遍历漏洞 (CVE-2022-41741),5.0,MEDIUM,fixed,2025-09-09,nessus-scan
+10.0.1.5,server-10,Nginx 目录遍历漏洞 (CVE-2022-41741),4.7,MEDIUM,unfixed,2025-07-24,nessus-scan
+10.0.2.3,server-8,Tomcat 弱口令 + 后台部署,3.6,LOW,ignored,2025-08-21,nessus-scan
+10.0.1.3,server-15,OpenSSH 弱口令爆破风险,6.5,MEDIUM,unfixed,2025-02-12,nessus-scan
+10.0.2.4,server-2,Nginx 目录遍历漏洞 (CVE-2022-41741),9.8,HIGH,ignored,2026-02-01,nessus-scan
+10.0.1.4,server-21,MySQL 未授权访问,8.1,HIGH,ignored,2026-09-25,nessus-scan
+10.0.1.1,server-20,Elasticsearch 未授权访问,6.5,MEDIUM,fixed,2025-04-05,nessus-scan
+10.0.1.5,server-27,Tomcat 弱口令 + 后台部署,4.3,MEDIUM,unfixed,2026-10-01,nessus-scan
+10.0.2.5,server-13,Apache Log4j2 远程代码执行 (CVE-2021-44228),5.1,MEDIUM,fixed,2025-06-25,nessus-scan
+10.0.1.3,server-23,Elasticsearch 未授权访问,8.3,HIGH,unfixed,2026-01-26,nessus-scan
+10.0.2.2,server-22,Windows SMB 远程代码执行 (CVE-2020-0796),7.0,HIGH,unfixed,2025-05-06,nessus-scan
+10.0.1.5,server-20,Redis 未授权访问,6.4,MEDIUM,unfixed,2026-05-16,nessus-scan
+10.0.1.5,server-8,Apache Log4j2 远程代码执行 (CVE-2021-44228),6.9,MEDIUM,fixed,2025-03-22,nessus-scan
+10.0.1.5,server-11,Apache Log4j2 远程代码执行 (CVE-2021-44228),4.1,MEDIUM,fixed,2026-07-12,nessus-scan
+10.0.1.1,server-5,Tomcat 弱口令 + 后台部署,4.1,MEDIUM,unfixed,2025-09-15,nessus-scan
+10.0.1.3,server-11,Elasticsearch 未授权访问,4.9,MEDIUM,fixed,2026-10-05,nessus-scan
+10.0.2.3,server-7,Apache Log4j2 远程代码执行 (CVE-2021-44228),6.5,MEDIUM,unfixed,2025-09-04,nessus-scan
+10.0.2.1,server-7,Tomcat 弱口令 + 后台部署,9.9,HIGH,fixed,2026-12-03,nessus-scan
+10.0.2.2,server-6,OpenSSH 弱口令爆破风险,4.6,MEDIUM,fixed,2025-04-23,nessus-scan
+10.0.1.3,server-2,Tomcat 弱口令 + 后台部署,9.7,HIGH,unfixed,2025-12-02,nessus-scan
+10.0.2.3,server-11,OpenSSH 弱口令爆破风险,7.4,HIGH,unfixed,2026-09-01,nessus-scan
+10.0.2.5,server-28,Nginx 目录遍历漏洞 (CVE-2022-41741),7.6,HIGH,ignored,2026-11-14,nessus-scan
+10.0.2.3,server-19,Windows SMB 远程代码执行 (CVE-2020-0796),4.9,MEDIUM,ignored,2025-06-23,nessus-scan
+10.0.1.3,server-15,Nginx 目录遍历漏洞 (CVE-2022-41741),9.7,HIGH,ignored,2026-11-17,nessus-scan
+10.0.2.5,server-15,Elasticsearch 未授权访问,7.2,HIGH,unfixed,2026-02-16,nessus-scan
+10.0.1.4,server-4,Apache Log4j2 远程代码执行 (CVE-2021-44228),9.8,HIGH,ignored,2026-06-16,nessus-scan
+10.0.1.1,server-24,Apache Log4j2 远程代码执行 (CVE-2021-44228),5.7,MEDIUM,fixed,2026-04-05,nessus-scan
+10.0.1.2,server-5,OpenSSH 弱口令爆破风险,9.5,HIGH,unfixed,2025-10-24,nessus-scan

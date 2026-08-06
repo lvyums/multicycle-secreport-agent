@@ -191,15 +191,61 @@ class ReportService:
 
     @classmethod
     async def _aggregate(cls, cycle: str, ws: str, we: str, cleaned: list):
-        """指标聚合（模板方法 + 缓存代理；重跑先失效缓存防脏数据）"""
+        """指标聚合（模板方法 + 缓存代理；重跑先失效缓存防脏数据）
+
+        从清洗结果提取 history_metric 事件（历史报告源），计算环比挂到 trend.compare
+        """
         from capability.metric.aggregator import MetricAggregator
         from capability.metric.metric_base import CachedMetricProxy
 
+        # 分离历史环比事件（不参与告警统计）
+        history_events = [e for e in cleaned if getattr(e, "event_type", "") == "history_metric"]
+        real_events = [e for e in cleaned if getattr(e, "event_type", "") != "history_metric"]
+
         aggregator = CachedMetricProxy(MetricAggregator(cycle), ttl=600)
         aggregator.invalidate(ws, we)  # 始终以最新清洗结果为准
-        metric = aggregator.build(cleaned, [], ws, we)
-        logger.info(f"[PIPE] 指标聚合完成: total={metric.alert.get('total', 0)}")
+        metric = aggregator.build(real_events, [], ws, we)
+
+        # 环比对比（上一周期指标快照 → 本期）
+        if history_events:
+            prev = (history_events[0].extra or {}).get("prev_metrics")
+            if prev:
+                metric.trend["compare"] = cls._build_compare(prev, metric.to_dict())
+        logger.info(f"[PIPE] 指标聚合完成: total={metric.alert.get('total', 0)} "
+                    f"compare={'有' if metric.trend.get('compare') else '无'}")
         return metric
+
+    @staticmethod
+    def _build_compare(prev: dict, cur: dict) -> dict:
+        """构建环比对比表（本期 vs 上期，含增量与百分比）"""
+
+        def _delta(p, c):
+            if p is None or p == 0:
+                return f"{c}（无上期）" if c else "0"
+            diff = round(c - p, 2)
+            pct = round(diff / p * 100, 1)
+            return f"{c}（{'+' if diff >= 0 else ''}{diff} / {pct:+.1f}%）"
+
+        def _delta_rate(p, c):
+            """百分比指标（close_rate 小数 0-1）"""
+            if p is None or p == 0:
+                return f"{c * 100:.1f}%（无上期）"
+            diff = round(c - p, 4)
+            pct = round(diff / p * 100, 1)
+            return f"{c * 100:.1f}%（{'+' if diff >= 0 else ''}{diff * 100:.1f}pp / {pct:+.1f}%）"
+
+        pa, ca = prev.get("alert", {}), cur.get("alert", {})
+        pv, cv = prev.get("vuln", {}), cur.get("vuln", {})
+        return {
+            "alert_total": {"cur": ca.get("total", 0), "prev": pa.get("total", 0),
+                            "delta": _delta(pa.get("total", 0), ca.get("total", 0))},
+            "alert_high": {"cur": ca.get("high", 0), "prev": pa.get("high", 0),
+                           "delta": _delta(pa.get("high", 0), ca.get("high", 0))},
+            "close_rate": {"cur": ca.get("close_rate", 0), "prev": pa.get("close_rate", 0),
+                           "delta": _delta_rate(pa.get("close_rate", 0), ca.get("close_rate", 0))},
+            "unfixed_high": {"cur": cv.get("unfixed_high", 0), "prev": pv.get("unfixed_high", 0),
+                             "delta": _delta(pv.get("unfixed_high", 0), cv.get("unfixed_high", 0))},
+        }
 
     @classmethod
     async def _judge(cls, metric, cycle: str, ws: str, we: str):

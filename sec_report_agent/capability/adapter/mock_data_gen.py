@@ -1,9 +1,13 @@
-"""Mock 数据生成器 — 确定性生成三类数据源原始数据（seed 固定，结果可复现）
+"""Mock 数据生成器 — 确定性生成五类数据源原始数据（seed 固定，结果可复现）
+
+覆盖窗口：2025-01-01 ～ 当前（全周期可验证：日报取昨天、年报取 2025 全年均有数据）
 
 输出：
 - Syslog 日志行（RFC3164 简化格式）→ data/mock/syslog.log
 - API 告警 JSON 行 → data/mock/api_alerts.jsonl
 - DB 漏洞台账 CSV → data/mock/vulns.csv
+- Excel 威胁情报台账 → data/mock/threat_intel.xlsx
+- 情报 IOC JSONL → data/mock/intel_iocs.jsonl
 """
 
 import csv
@@ -17,6 +21,12 @@ from common.logger.logger import LogManager
 logger = LogManager.get_logger()
 
 MOCK_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "data", "mock")
+
+# 全年覆盖窗口（V1.2 全周期：日报/周报/月报/季报/年报均有数据）
+FULL_START = "2025-01-01 00:00:00"
+# 每日目标密度（约 40 条/天 syslog，20 条/天 api）
+SYSLOG_PER_DAY = 40
+API_PER_DAY = 20
 
 # ── 事件类型池 ──
 EVENT_TYPES = [
@@ -35,6 +45,9 @@ ASSET_IPS = ["10.0.{}.{}".format(seg, host) for seg in range(1, 3) for host in r
 DEVICES = ["fw-gw", "ids-01", "waf-01", "db-firewall", "mail-gw", "core-sw"]
 
 RISK_WEIGHTS = {"HIGH": 15, "MEDIUM": 30, "LOW": 40, "INFO": 15}
+
+INTEL_TYPES = ["勒索软件", "APT组织", "挖矿木马", "供应链攻击", "数据泄露", "0day漏洞"]
+IOC_SOURCES = ["微步在线", "奇安信威胁情报", "AlienVault OTX", "自家蜜罐", "沙箱分析"]
 
 
 def _pick_event_type(rng: random.Random) -> dict:
@@ -75,6 +88,12 @@ def _syslog_message(rng: random.Random, etype: dict, src_ip: str, asset_ip: str)
     if t == "lateral":
         return f"Lateral movement: {src_ip} -> {asset_ip} SMB {rng.randint(1, 20)} connections anomalous"
     return f"Policy violation: {asset_ip} accessed forbidden site from {src_ip}"
+
+
+def _full_window() -> tuple[str, str]:
+    """全年覆盖窗口：2025-01-01 ～ now"""
+    end = datetime.now()
+    return FULL_START, end.strftime("%Y-%m-%d %H:%M:%S")
 
 
 def generate_syslog_lines(count: int, window_start: str, window_end: str, seed: int = 42) -> list[str]:
@@ -124,7 +143,7 @@ def generate_api_alerts(count: int, window_start: str, window_end: str, seed: in
 
 
 def generate_vulns(count: int, seed: int = 99) -> list[dict]:
-    """生成漏洞台账（资产/漏洞维度）"""
+    """生成漏洞台账（资产/漏洞维度，发现时间覆盖 2025~2026 全年）"""
     rng = random.Random(seed)
     vuln_names = [
         "Apache Log4j2 远程代码执行 (CVE-2021-44228)",
@@ -142,6 +161,7 @@ def generate_vulns(count: int, seed: int = 99) -> list[dict]:
         cvss = round(rng.uniform(3.0, 10.0), 1)
         risk = "HIGH" if cvss >= 7 else ("MEDIUM" if cvss >= 4 else "LOW")
         status = rng.choices(["unfixed", "fixed", "ignored"], weights=[60, 30, 10])[0]
+        year = rng.choice([2025, 2026])
         items.append({
             "asset_ip": rng.choice(ASSET_IPS),
             "asset_name": f"server-{rng.randint(1, 30)}",
@@ -149,44 +169,125 @@ def generate_vulns(count: int, seed: int = 99) -> list[dict]:
             "cvss": cvss,
             "risk_level": risk,
             "status": status,
-            "discover_time": f"2026-0{rng.randint(1, 7)}-{rng.randint(1, 28):02d}",
+            "discover_time": f"{year}-{rng.randint(1, 12):02d}-{rng.randint(1, 28):02d}",
             "source_name": "nessus-scan",
         })
     return items
 
 
-def ensure_mock_files() -> dict:
-    """生成并落盘 mock 数据文件（幂等），返回文件路径映射"""
+def generate_threat_intel(count: int, seed: int = 2025) -> list[dict]:
+    """生成威胁情报台账（Excel 数据源用）"""
+    rng = random.Random(seed)
+    items = []
+    for i in range(count):
+        year = rng.choice([2025, 2026])
+        items.append({
+            "情报名称": f"{rng.choice(INTEL_TYPES)}活动通报-{rng.randint(100, 999)}",
+            "情报类型": rng.choice(INTEL_TYPES),
+            "影响资产": rng.choice(ASSET_IPS),
+            "置信度": rng.choice(["高", "中", "低"]),
+            "发布时间": f"{year}-{rng.randint(1, 12):02d}-{rng.randint(1, 28):02d} {rng.randint(0, 23):02d}:{rng.randint(0, 59):02d}:00",
+            "来源": rng.choice(IOC_SOURCES),
+            "处置建议": rng.choice(["封禁IOC", "升级补丁", "隔离主机", "加强监测"]),
+        })
+    return items
+
+
+def generate_intel_iocs(count: int, seed: int = 88) -> list[dict]:
+    """生成情报 IOC 列表（情报源适配器用）"""
+    rng = random.Random(seed)
+    iocs = []
+    for i in range(count):
+        itype = rng.choice(["ip", "domain", "hash"])
+        if itype == "ip":
+            value = f"203.0.113.{rng.randint(1, 254)}"
+        elif itype == "domain":
+            value = f"evil{rng.randint(1, 999)}.example.org"
+        else:
+            value = rng.choice(["a1b2c3d4e5f60718293a4b5c6d7e8f90",
+                                "deadbeef00112233445566778899aabb",
+                                "0123456789abcdef0123456789abcdef"])
+        year = rng.choice([2025, 2026])
+        iocs.append({
+            "ioc_type": itype,
+            "ioc_value": value,
+            "confidence": rng.choice(["high", "medium", "low"]),
+            "source": rng.choice(IOC_SOURCES),
+            "first_seen": f"{year}-{rng.randint(1, 12):02d}-{rng.randint(1, 28):02d} {rng.randint(0, 23):02d}:{rng.randint(0, 59):02d}:00",
+            "tags": rng.sample(["apt", "malware", "botnet", "phishing", "scanner"], k=2),
+        })
+    return iocs
+
+
+def _write_csv(path: str, items: list[dict]):
+    with open(path, "w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=list(items[0].keys()))
+        writer.writeheader()
+        writer.writerows(items)
+
+
+def ensure_mock_files(force: bool = False) -> dict:
+    """生成并落盘 mock 数据文件（覆盖全年窗口），返回文件路径映射
+
+    force=True 时无论文件是否存在都重新生成（保证窗口覆盖最新日期）
+    """
     os.makedirs(MOCK_DIR, exist_ok=True)
-    # 近 30 天窗口（联调默认）
-    end = datetime.now()
-    start = end - timedelta(days=30)
-    ws = start.strftime("%Y-%m-%d %H:%M:%S")
-    we = end.strftime("%Y-%m-%d %H:%M:%S")
+    ws, we = _full_window()
+    days = (datetime.strptime(we, "%Y-%m-%d %H:%M:%S") - datetime.strptime(ws, "%Y-%m-%d %H:%M:%S")).days
+    syslog_count = max(days * SYSLOG_PER_DAY, 500)
+    api_count = max(days * API_PER_DAY, 200)
 
-    syslog_path = os.path.join(MOCK_DIR, "syslog.log")
-    api_path = os.path.join(MOCK_DIR, "api_alerts.jsonl")
-    vuln_path = os.path.join(MOCK_DIR, "vulns.csv")
+    paths = {
+        "syslog": os.path.join(MOCK_DIR, "syslog.log"),
+        "api": os.path.join(MOCK_DIR, "api_alerts.jsonl"),
+        "vuln": os.path.join(MOCK_DIR, "vulns.csv"),
+        "intel": os.path.join(MOCK_DIR, "threat_intel.xlsx"),
+        "ioc": os.path.join(MOCK_DIR, "intel_iocs.jsonl"),
+    }
 
-    if not os.path.exists(syslog_path):
-        lines = generate_syslog_lines(1200, ws, we)
-        with open(syslog_path, "w", encoding="utf-8") as f:
+    if force or not os.path.exists(paths["syslog"]):
+        lines = generate_syslog_lines(syslog_count, ws, we)
+        with open(paths["syslog"], "w", encoding="utf-8") as f:
             f.write("\n".join(lines))
-        logger.info(f"[MOCK] syslog 已生成: {syslog_path} ({len(lines)} 行)")
+        logger.info(f"[MOCK] syslog 已生成: {paths['syslog']} ({len(lines)} 行)")
 
-    if not os.path.exists(api_path):
-        alerts = generate_api_alerts(350, ws, we)
-        with open(api_path, "w", encoding="utf-8") as f:
+    if force or not os.path.exists(paths["api"]):
+        alerts = generate_api_alerts(api_count, ws, we)
+        with open(paths["api"], "w", encoding="utf-8") as f:
             for a in alerts:
                 f.write(json.dumps(a, ensure_ascii=False) + "\n")
-        logger.info(f"[MOCK] api 告警已生成: {api_path} ({len(alerts)} 条)")
+        logger.info(f"[MOCK] api 告警已生成: {paths['api']} ({len(alerts)} 条)")
 
-    if not os.path.exists(vuln_path):
-        vulns = generate_vulns(60)
-        with open(vuln_path, "w", encoding="utf-8", newline="") as f:
-            writer = csv.DictWriter(f, fieldnames=list(vulns[0].keys()))
-            writer.writeheader()
-            writer.writerows(vulns)
-        logger.info(f"[MOCK] 漏洞台账已生成: {vuln_path} ({len(vulns)} 条)")
+    if force or not os.path.exists(paths["vuln"]):
+        _write_csv(paths["vuln"], generate_vulns(120))
+        logger.info(f"[MOCK] 漏洞台账已生成: {paths['vuln']}")
 
-    return {"syslog": syslog_path, "api": api_path, "vuln": vuln_path}
+    if force or not os.path.exists(paths["intel"]):
+        from openpyxl import Workbook
+        items = generate_threat_intel(80)
+        wb = Workbook()
+        ws_obj = wb.active
+        ws_obj.title = "威胁情报"
+        ws_obj.append(list(items[0].keys()))
+        for row in items:
+            ws_obj.append(list(row.values()))
+        wb.save(paths["intel"])
+        logger.info(f"[MOCK] 威胁情报 xlsx 已生成: {paths['intel']} ({len(items)} 条)")
+
+    if force or not os.path.exists(paths["ioc"]):
+        iocs = generate_intel_iocs(150)
+        with open(paths["ioc"], "w", encoding="utf-8") as f:
+            for ioc in iocs:
+                f.write(json.dumps(ioc, ensure_ascii=False) + "\n")
+        logger.info(f"[MOCK] 情报 IOC 已生成: {paths['ioc']} ({len(iocs)} 条)")
+
+    return paths
+
+
+if __name__ == "__main__":
+    import sys
+    force = "--force" in sys.argv
+    paths = ensure_mock_files(force=force)
+    print("mock 文件就绪:")
+    for k, v in paths.items():
+        print(f"  {k}: {v} ({os.path.getsize(v)} bytes)")

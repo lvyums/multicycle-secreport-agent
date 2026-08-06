@@ -25,7 +25,14 @@ class MdRenderer(Renderer):
     ext = "md"
 
     def render(self, data: RenderData) -> str:
-        template = _env.get_template("monthly_report.md.j2")
+        """按周期选择模板：template/<cycle>/<cycle>_report.md.j2"""
+        cycle = (data.cycle or "monthly").lower()
+        template_name = f"{cycle}/{cycle}_report.md.j2"
+        try:
+            template = _env.get_template(template_name)
+        except Exception:
+            logger.warning(f"[RENDER] 模板不存在 {template_name}，回退月报模板")
+            template = _env.get_template("monthly/monthly_report.md.j2")
         context = self._build_context(data)
         return template.render(**context)
 

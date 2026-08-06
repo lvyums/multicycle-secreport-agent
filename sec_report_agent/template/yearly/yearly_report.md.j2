@@ -1,0 +1,54 @@
+# {{ title }}
+
+> 周期：{{ cycle_label }} ｜ 统计窗口：{{ window_start }} ～ {{ window_end }}
+> 生成时间：{{ generated_at }} ｜ 综合风险等级：**{{ risk_level }}**
+
+---
+
+## 一、年度态势总结
+
+{{ sections.overview }}
+
+## 二、告警分析
+
+{{ sections.alert }}
+
+### 告警等级分布
+
+| 等级 | 数量 |
+| ---- | ---- |
+| 高危 | {{ metric.alert.high }} |
+| 中危 | {{ metric.alert.medium }} |
+| 低危 | {{ metric.alert.low }} |
+| 提示 | {{ metric.alert.info }} |
+
+## 三、漏洞与资产风险
+
+{{ sections.vuln }}
+
+## 四、攻击行为研判
+
+{{ sections.attack }}
+
+## 五、年度趋势与同比对比
+
+{{ sections.trend }}
+
+{% if compare %}
+### 同比要点
+
+| 指标 | 本期 | 上期 | 变化 |
+| ---- | ---- | ---- | ---- |
+| 告警总量 | {{ compare.alert_total.cur }} | {{ compare.alert_total.prev }} | {{ compare.alert_total.delta }} |
+| 高危告警 | {{ compare.alert_high.cur }} | {{ compare.alert_high.prev }} | {{ compare.alert_high.delta }} |
+| 事件闭环率 | {{ compare.close_rate.cur }} | {{ compare.close_rate.prev }} | {{ compare.close_rate.delta }} |
+| 未修复高危漏洞 | {{ compare.unfixed_high.cur }} | {{ compare.unfixed_high.prev }} | {{ compare.unfixed_high.delta }} |
+{% endif %}
+
+## 六、安全建议
+
+{{ sections.suggestion }}
+
+---
+
+*本年度报告由多周期网安报告智能体自动生成，数据来源为安全运营平台全年采集日志、资产台账与威胁情报。*

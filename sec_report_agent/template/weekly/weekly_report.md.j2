@@ -1,0 +1,43 @@
+# {{ title }}
+
+> 周期：{{ cycle_label }} ｜ 统计窗口：{{ window_start }} ～ {{ window_end }}
+> 生成时间：{{ generated_at }} ｜ 综合风险等级：**{{ risk_level }}**
+
+---
+
+## 一、本周态势
+
+{{ sections.overview }}
+
+## 二、告警分析
+
+{{ sections.alert }}
+
+### 告警等级分布
+
+| 等级 | 数量 |
+| ---- | ---- |
+| 高危 | {{ metric.alert.high }} |
+| 中危 | {{ metric.alert.medium }} |
+| 低危 | {{ metric.alert.low }} |
+| 提示 | {{ metric.alert.info }} |
+
+## 三、漏洞与资产风险
+
+{{ sections.vuln }}
+
+## 四、攻击行为研判
+
+{{ sections.attack }}
+
+## 五、趋势与预测
+
+{{ sections.trend }}
+
+## 六、安全建议
+
+{{ sections.suggestion }}
+
+---
+
+*本周报由多周期网安报告智能体自动生成，数据来源为安全运营平台采集日志与资产台账。*

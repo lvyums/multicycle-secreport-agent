@@ -246,6 +246,16 @@ class MetricSnapshotRepo:
             .order_by(MetricSnapshot.id.desc())
         ).scalars().first()
 
+    @staticmethod
+    def find_prev_snapshot(db: Session, cycle: str, window_start: str,
+                           window_end: str) -> Optional[MetricSnapshot]:
+        """同周期上一窗口快照：window_end < 当前 we 的最近一个（环比数据源）"""
+        stmt = select(MetricSnapshot).where(
+            MetricSnapshot.cycle == cycle,
+            MetricSnapshot.window_end < window_end,
+        ).order_by(MetricSnapshot.window_end.desc(), MetricSnapshot.id.desc())
+        return db.execute(stmt).scalars().first()
+
 
 # ═══════════ 审计日志 ═══════════
 

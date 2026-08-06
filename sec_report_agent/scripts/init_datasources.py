@@ -1,4 +1,4 @@
-"""初始化脚本 — 幂等：生成 mock 数据文件 + 创建三条数据源配置（MySQL/任意库可用）"""
+"""初始化脚本 — 幂等：生成 mock 数据文件 + 创建六条数据源配置（MySQL/任意库可用）"""
 import sys
 sys.path.insert(0, ".")
 
@@ -7,7 +7,7 @@ from infra.db.session import SessionLocal, init_db
 from infra.db.repositories import DataSourceConfigRepo
 
 init_db()
-paths = ensure_mock_files()
+paths = ensure_mock_files(force=True)  # force: 全年窗口覆盖，保证五周期数据
 print("mock files:", {k: v.split("/")[-1] for k, v in paths.items()})
 
 db = SessionLocal()
@@ -18,6 +18,9 @@ try:
         ("mock-syslog", "SYSLOG", {"file_path": paths["syslog"]}, "Syslog 模拟日志源(SSH爆破/Web攻击等)"),
         ("mock-api", "API", {"file_path": paths["api"]}, "告警平台模拟 API(JSON)"),
         ("mock-db", "DB", {"file_path": paths["vuln"]}, "资产漏洞台账模拟(CSV)"),
+        ("mock-intel-xlsx", "EXCEL", {"file_path": paths["intel"]}, "威胁情报台账模拟(Excel)"),
+        ("mock-intel-ioc", "INTEL", {"file_path": paths["ioc"]}, "外部威胁情报 IOC 模拟(JSONL)"),
+        ("mock-history", "HISTORY", {"cycle": "MONTHLY"}, "历史报告环比源(读指标快照)"),
     ]
     for name, stype, cfg, desc in specs:
         if name in existing:
