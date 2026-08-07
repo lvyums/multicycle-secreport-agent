@@ -164,17 +164,23 @@ def test_adapter_base_fetch_abstract():
 
 def test_api_validate_config(tmp_path):
     from capability.adapter.api_adapter import ApiAdapter
-    # 缺 file_path
+    # 空配置（既无 endpoint 也无 file_path）
     a1 = ApiAdapter(_ds_config("API", {}))
-    assert a1.validate_config() == ["缺少 file_path 配置"]
+    assert "缺少" in a1.validate_config()[0]
     # 文件不存在
     a2 = ApiAdapter(_ds_config("API", {"file_path": "/nonexistent/x.jsonl"}))
     assert any("不存在" in e for e in a2.validate_config())
-    # 合法
+    # 合法文件
     f = tmp_path / "alerts.jsonl"
     f.write_text("", encoding="utf-8")
     a3 = ApiAdapter(_ds_config("API", {"file_path": str(f)}))
     assert a3.validate_config() == []
+    # HTTP 模式: 缺 endpoint
+    a4 = ApiAdapter(_ds_config("API", {"auth_type": "bearer", "token": "x"}))
+    assert any("endpoint" in e for e in a4.validate_config())
+    # HTTP 模式: basic 缺账号
+    a5 = ApiAdapter(_ds_config("API", {"endpoint": "http://x/alerts", "auth_type": "basic"}))
+    assert any("username/password" in e for e in a5.validate_config())
 
 
 def test_api_fetch_missing_file():
@@ -238,12 +244,15 @@ def _write_vuln_csv(path, rows, header=None):
 
 def test_db_validate_config(tmp_path):
     from capability.adapter.db_adapter import DbAdapter
-    assert DbAdapter(_ds_config("DB", {})).validate_config() == ["缺少 file_path 配置"]
+    assert "缺少" in DbAdapter(_ds_config("DB", {})).validate_config()[0]
     assert any("不存在" in e for e in
                DbAdapter(_ds_config("DB", {"file_path": "/nope.csv"})).validate_config())
     f = tmp_path / "v.csv"
     f.write_text("", encoding="utf-8")
     assert DbAdapter(_ds_config("DB", {"file_path": str(f)})).validate_config() == []
+    # db 模式: 缺 table
+    assert any("table" in e for e in
+               DbAdapter(_ds_config("DB", {"db_url": "sqlite:///:memory:"})).validate_config())
 
 
 def test_db_fetch_missing_file():

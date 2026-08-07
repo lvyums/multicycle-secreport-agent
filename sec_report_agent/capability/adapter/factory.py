@@ -3,6 +3,7 @@
 from capability.adapter.adapter_base import DataSourceAdapter
 from capability.adapter.syslog_adapter import SyslogAdapter
 from capability.adapter.api_adapter import ApiAdapter
+from capability.adapter.es_adapter import EsAdapter
 from capability.adapter.db_adapter import DbAdapter
 from capability.adapter.excel_adapter import ExcelAdapter
 from capability.adapter.intel_adapter import IntelAdapter
@@ -31,9 +32,10 @@ class AdapterFactory:
         return list(cls._registry.keys())
 
 
-# 默认注册六类适配器
+# 默认注册七类适配器
 AdapterFactory.register(SyslogAdapter)
 AdapterFactory.register(ApiAdapter)
+AdapterFactory.register(EsAdapter)
 AdapterFactory.register(DbAdapter)
 AdapterFactory.register(ExcelAdapter)
 AdapterFactory.register(IntelAdapter)

@@ -8,43 +8,10 @@ from api.auth_deps import require_login, require_admin, require_analyst
 from infra.db.session import get_db
 from infra.db.repositories import DataSourceConfigRepo
 from capability.adapter.factory import AdapterFactory
+from capability.adapter.meta import TYPE_META
 from common.exception.exception import BusinessError, NotFoundError
 
 router = APIRouter()
-
-# 数据源类型 → 配置表单字段（前端零代码动态表单）
-TYPE_META = {
-    "SYSLOG": {
-        "label": "Syslog 日志文件",
-        "fields": [{"key": "file_path", "label": "日志文件路径", "type": "text"}],
-    },
-    "API": {
-        "label": "API 告警源",
-        "fields": [
-            {"key": "endpoint", "label": "接口地址", "type": "text"},
-            {"key": "token", "label": "Token", "type": "password"},
-        ],
-    },
-    "DB": {
-        "label": "漏洞台账数据库",
-        "fields": [
-            {"key": "db_url", "label": "数据库连接串", "type": "text"},
-            {"key": "vuln_table", "label": "漏洞表名", "type": "text"},
-        ],
-    },
-    "EXCEL": {
-        "label": "Excel 威胁情报台账",
-        "fields": [{"key": "file_path", "label": "xlsx 文件路径", "type": "text"}],
-    },
-    "INTEL": {
-        "label": "威胁情报 IOC 源",
-        "fields": [{"key": "file_path", "label": "IOC 文件路径", "type": "text"}],
-    },
-    "HISTORY": {
-        "label": "历史报告源（环比）",
-        "fields": [{"key": "cycle", "label": "周期（可选）", "type": "text"}],
-    },
-}
 
 
 @router.get("/meta")

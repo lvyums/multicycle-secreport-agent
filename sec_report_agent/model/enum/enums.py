@@ -66,6 +66,7 @@ class DataSourceType(str, Enum):
     """数据源类型"""
     SYSLOG = "SYSLOG"        # Syslog 日志流
     API = "API"              # 告警平台 REST
+    ES = "ES"                # Elasticsearch 日志检索（V2.5）
     DB = "DB"                # 资产/漏洞台账
     EXCEL = "EXCEL"          # Excel 导入（V1.2）
     INTEL = "INTEL"          # 外部威胁情报（V1.2）
@@ -77,6 +78,7 @@ class DataSourceType(str, Enum):
         return {
             "SYSLOG": "Syslog日志",
             "API": "告警平台",
+            "ES": "ES日志检索",
             "DB": "资产台账",
             "EXCEL": "Excel导入",
             "INTEL": "威胁情报",
