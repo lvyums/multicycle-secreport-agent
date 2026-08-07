@@ -76,6 +76,10 @@ export function post<T = any>(url: string, data?: any) {
   return request<T>('POST', url, data)
 }
 
+export function put<T = any>(url: string, data?: any) {
+  return request<T>('PUT', url, data)
+}
+
 /** 统一错误提示 */
 export function notifyError(result: RequestResult) {
   if (!result.success) {

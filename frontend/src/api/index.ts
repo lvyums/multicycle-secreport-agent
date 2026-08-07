@@ -1,5 +1,5 @@
 /** API 模块 — 后端全部接口分组 */
-import { get, post } from './request'
+import { get, post, put } from './request'
 
 export const Api = {
   // ── 健康检查 ──
@@ -14,6 +14,14 @@ export const Api = {
     createUser: (data: Record<string, unknown>) => post('/api/auth/users/create', data),
     toggleUser: (id: number) => post('/api/auth/users/toggle', { id }),
     resetPwd: (data: { id: number; password: string }) => post('/api/auth/users/reset-pwd', data),
+    auditLogs: (params?: Record<string, string | number>) => get('/api/auth/audit-logs', params),
+  },
+
+  // ── 告警规则（V2.4 阈值热更新） ──
+  alert: {
+    rules: () => get('/api/alert/rules'),
+    updateRule: (id: number, data: { threshold: number; enabled: string }) =>
+      put(`/api/alert/rules/${id}`, data),
   },
 
   // ── 报告任务 ──

@@ -42,6 +42,10 @@
           <el-icon><List /></el-icon>
           <span>审计日志</span>
         </el-menu-item>
+        <el-menu-item v-if="canManage" index="/alert-rules">
+          <el-icon><Bell /></el-icon>
+          <span>告警规则</span>
+        </el-menu-item>
       </el-menu>
     </el-aside>
 

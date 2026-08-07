@@ -49,7 +49,14 @@ class Settings(BaseSettings):
     report_root: str = os.path.join(_PROJECT_ROOT, "reports")
     vector_persist_dir: str = os.path.join(_PROJECT_ROOT, "vector_data")
 
-    # ── 推送（V2.3：mock 默认保测试；real 需配 webhook 地址/密钥）──
+    # ── 日志（V2.4：JSON 结构化 + 脱敏字段可配置，逗号分隔） ──
+    sensitive_fields: str = "password,secret,token,authorization,api_key,apikey,cookie,x-api-key"
+
+    # ── 告警（V2.4） ──
+    alert_enabled: bool = True
+    alert_interval_seconds: int = 300
+
+    # ── 推送（V2.3：mock 默认保测试；real 需配 webhook 地址/密钥） ──
     push_mode: str = "mock"                # mock | real
     dingtalk_webhook_url: str = ""         # 钉钉群机器人 webhook 地址
     dingtalk_webhook_secret: str = ""      # 钉钉加签密钥（非空才签名）

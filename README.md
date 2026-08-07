@@ -184,6 +184,7 @@ python3 -m pytest tests/ -q --cov=app --cov=api --cov=capability --cov=infra --c
 | V2.1 | 报告智能问答 + Markdown/Word 导出 + 中文降级问答 |
 | V2.2 | 上线硬门槛：登录失败锁定 / 强制改密 / 任务恢复 / 并发生成上限 / Dockerfile+Systemd+Nginx 部署 / 数据备份 |
 | V2.3 | 运维完善：/health 就绪探针 + /metrics Prometheus 指标 / 推送真实化（钉钉/企微加签+重试）/ 导出审计 + 审计日志页 / 前端路由级角色拦截 |
+| V2.4 | 运维深化：内置自检告警器（阈值 DB 热读，界面热改无需重启 + 30min 防抖 + 钉钉/企微推送）/ 日志 JSON 结构化 + 轮转 + 脱敏（字段可配置）/ Prometheus 告警规则 + Promtail 采集示例 / 告警规则管理页 |
 
 ---
 

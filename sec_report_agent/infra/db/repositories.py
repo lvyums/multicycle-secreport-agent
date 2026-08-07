@@ -11,7 +11,7 @@ from sqlalchemy.orm import Session
 from model.entity.entities import (
     DataSourceConfig, RawEvent, StdEvent, AssetVuln,
     ReportTask, ReportVersion, MetricSnapshot, AuditLog, PushLog,
-    KnowledgeDoc, ReportConfig, User,
+    KnowledgeDoc, ReportConfig, User, AlertRule,
 )
 from model.enum.enums import TaskStatus, DataSourceType
 
@@ -335,6 +335,54 @@ class PushLogRepo:
             select(PushLog).where(PushLog.version_id == version_id)
             .order_by(PushLog.id.desc())
         ).scalars().all()
+
+
+class AlertRuleRepo:
+    """告警规则（V2.4）— 阈值 DB 热读"""
+
+    _SEED = [
+        # (rule_key, name, threshold, window_hours)
+        ("task_fail_count", "任务失败数", 3, 1),
+        ("llm_fallback_rate", "LLM 降级率", 0.5, 1),
+        ("push_fail_count", "推送失败数", 3, 1),
+    ]
+
+    @staticmethod
+    def ensure_seed_rules(db: Session):
+        for key, name, threshold, window in AlertRuleRepo._SEED:
+            existing = AlertRuleRepo.get_by_key(db, key)
+            if existing is None:
+                db.add(AlertRule(rule_key=key, name=name, threshold=threshold,
+                                 window_hours=window, enabled="enabled"))
+        db.commit()
+
+    @staticmethod
+    def get_by_key(db: Session, rule_key: str) -> AlertRule | None:
+        return db.execute(
+            select(AlertRule).where(AlertRule.rule_key == rule_key)
+        ).scalars().first()
+
+    @staticmethod
+    def list_all(db: Session) -> Sequence[AlertRule]:
+        return db.execute(
+            select(AlertRule).order_by(AlertRule.id)
+        ).scalars().all()
+
+    @staticmethod
+    def update(db: Session, rule_id: int, *, threshold: float | None = None,
+               enabled: str | None = None, updated_by: str = "system") -> AlertRule | None:
+        rule = db.get(AlertRule, rule_id)
+        if rule is None:
+            return None
+        if threshold is not None:
+            rule.threshold = threshold
+        if enabled is not None:
+            rule.enabled = enabled
+        rule.updated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        rule.updated_by = updated_by
+        db.commit()
+        db.refresh(rule)
+        return rule
 
 
 # ═══════════ 知识库文档（V1.3） ═══════════

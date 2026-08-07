@@ -1,0 +1,38 @@
+# 多周期网安报告智能体 — Promtail(Loki) 采集示例（V2.4）
+# 适用：有 Loki 的客户；本服务文件日志已是 JSON 结构化（common/logger.py JsonFormatter），
+#       零转换直接采集，Loki 可基于 json 字段（level/trace_id/msg/fields）查询与告警。
+# 路径默认 sec_report_agent/logs/app.log（RotatingFileHandler 10MB × 5）
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+  - url: http://loki:3100/loki/api/v1/push
+
+scrape_configs:
+  - job_name: sec-report-agent
+    static_configs:
+      - targets: [localhost]
+        labels:
+          job: sec-report-agent
+          __path__: /opt/sec-report/logs/app.log
+    pipeline_stages:
+      # JSON 解析：把日志行转成结构化字段
+      - json:
+          expressions:
+            ts: ts
+            level: level
+            logger: logger
+            trace_id: trace_id
+            msg: msg
+            fields: fields
+      - labels:
+          level:
+          trace_id:
+      # 可选：按 level 过滤（只收 >= WARNING，省存储；生产建议全收）
+      # - drop:
+      #     source: level
+      #     expression: "^(DEBUG|INFO)$"

@@ -81,6 +81,12 @@ const routes = [
         meta: { title: '审计日志', roles: ['admin'] },
       },
       {
+        path: 'alert-rules',
+        name: 'alert-rules',
+        component: () => import('@/views/AlertRules.vue'),
+        meta: { title: '告警规则', roles: ['admin'] },
+      },
+      {
         path: '403',
         name: 'forbidden',
         component: () => import('@/views/Forbidden.vue'),

@@ -190,6 +190,20 @@ class PushLog(Base):
     created_at: Mapped[str] = mapped_column(String(32), default=_now)
 
 
+class AlertRule(Base):
+    """告警规则（V2.4）— 阈值 DB 热读，改阈值/开关无需重启"""
+    __tablename__ = "alert_rule"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    rule_key: Mapped[str] = mapped_column(String(64), unique=True, index=True)  # task_fail_count / llm_fallback_rate / push_fail_count
+    name: Mapped[str] = mapped_column(String(128), default="")
+    threshold: Mapped[float] = mapped_column(Float, default=3.0)
+    window_hours: Mapped[int] = mapped_column(Integer, default=1)
+    enabled: Mapped[str] = mapped_column(String(16), default="enabled")  # enabled/disabled
+    updated_at: Mapped[str] = mapped_column(String(32), default=_now)
+    updated_by: Mapped[str] = mapped_column(String(64), default="system")
+
+
 class User(Base):
     """系统用户（RBAC，V2.0）"""
     __tablename__ = "sys_user"

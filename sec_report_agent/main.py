@@ -1,5 +1,6 @@
 """应用入口 — FastAPI 装配：全局异常拦截 / TraceID / CORS / 生命周期 / 路由注册"""
 
+import asyncio
 import time
 from contextlib import asynccontextmanager
 
@@ -88,9 +89,29 @@ async def lifespan(app: FastAPI):
             logger.info("[APP] 五周期调度器已启动")
     except Exception as e:
         logger.warning(f"[APP] 调度器启动失败（不影响主服务）: {e}")
+    # 告警规则种子 + 告警器（V2.4：阈值 DB 热读）
+    try:
+        from infra.db.repositories import AlertRuleRepo
+        _db = SessionLocal()
+        try:
+            AlertRuleRepo.ensure_seed_rules(_db)
+        finally:
+            _db.close()
+        from infra.alert.alerter import get_alerter
+        alerter = get_alerter()
+        app.state.alerter = alerter
+        if settings.alert_enabled:
+            app.state._alert_task = asyncio.create_task(alerter.run_loop())
+            logger.info(f"[APP] 告警器已启动（间隔 {settings.alert_interval_seconds}s）")
+    except Exception as e:
+        logger.warning(f"[APP] 告警器启动失败（不影响主服务）: {e}")
     yield
     try:
         app.state.scheduler.shutdown()
+    except Exception:
+        pass
+    try:
+        app.state._alert_task.cancel()
     except Exception:
         pass
     from capability.judge.llm_factory import LLMFactory
@@ -253,6 +274,8 @@ def register_routers():
     try:
         from api.routers.knowledge import router as kb_router
         app.include_router(kb_router, prefix="/api/kb", tags=["知识库"])
+        from api.routers.alert import router as alert_router
+        app.include_router(alert_router, tags=["告警"])
     except ImportError:
         pass
     try:

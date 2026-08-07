@@ -1,0 +1,49 @@
+# 多周期网安报告智能体 — Prometheus 告警规则示例（V2.4）
+# 适用：有 Prometheus + Alertmanager 的监控栈客户（应用自检告警器已覆盖无监控栈场景）
+# 放置：Prometheus 配置 scrape 到本服务 /metrics 后，rule_files 引入本文件
+groups:
+  - name: sec_report
+    rules:
+      # 1. 任务失败率：近 5 分钟任务终态 FAILED 占比 > 50%
+      - alert: SecReportTaskFailRateHigh
+        expr: |
+          sum(rate(sec_report_task_total{status="FAILED"}[5m]))
+          / (sum(rate(sec_report_task_total[5m])) + 0.001) > 0.5
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "报告任务失败率过高"
+          description: "最近 5 分钟任务失败占比 > 50%，请检查数据源/LLM 链路"
+
+      # 2. LLM 降级率：近 5 分钟 fallback 调用占比 > 50%（模型不可用，报告质量降级）
+      - alert: SecReportLlmFallbackHigh
+        expr: |
+          sum(rate(sec_report_llm_calls_total{mode="fallback"}[5m]))
+          / (sum(rate(sec_report_llm_calls_total[5m])) + 0.001) > 0.5
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "LLM 降级率过高"
+          description: "近 5 分钟 LLM 调用中 fallback 占比 > 50%，模型可能不可用"
+
+      # 3. 推送失败：近 5 分钟推送失败次数 ≥ 3
+      - alert: SecReportPushFail
+        expr: sum(increase(sec_report_push_total{result="fail"}[5m])) >= 3
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "推送失败次数过多"
+          description: "近 5 分钟推送失败 ≥ 3 次，请检查钉钉/企微 webhook 配置"
+
+      # 4. 依赖不可用：就绪探针 degraded（任一核心依赖挂）
+      - alert: SecReportDependencyDown
+        expr: probe_success{job="sec-report"} == 0
+        for: 3m
+        labels:
+          severity: critical
+        annotations:
+          summary: "服务依赖不可用"
+          description: "/health 就绪探针返回 degraded（db/cache/vector 任一挂），流量已被摘除"
