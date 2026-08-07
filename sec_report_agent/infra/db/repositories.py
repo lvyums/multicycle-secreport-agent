@@ -408,10 +408,12 @@ class UserRepo:
 
     @staticmethod
     def create(db: Session, username: str, password_hash: str,
-               role: str = "viewer", display_name: str = "") -> User:
+               role: str = "viewer", display_name: str = "",
+               must_change_pwd: str = "no") -> User:
         user = User(
             username=username, password_hash=password_hash,
             role=role, display_name=display_name,
+            must_change_pwd=must_change_pwd,
         )
         db.add(user)
         db.commit()
@@ -435,16 +437,20 @@ class UserRepo:
 
     @staticmethod
     def ensure_seed_users(db: Session):
-        """幂等创建种子用户（admin/analyst/viewer）"""
+        """幂等创建种子用户（admin/analyst/viewer）；生产环境强制首次登录改密"""
         from app.services import auth_service
+        from config.settings import settings
+
         seeds = [
             ("admin", "admin123", "admin", "系统管理员"),
             ("analyst", "analyst123", "analyst", "安全分析师"),
             ("viewer", "viewer123", "viewer", "只读访客"),
         ]
+        force_change = settings.app_env == "production"
         for username, pwd, role, name in seeds:
             if not UserRepo.get_by_username(db, username):
-                UserRepo.create(db, username, auth_service.hash_password(pwd), role, name)
+                UserRepo.create(db, username, auth_service.hash_password(pwd), role, name,
+                                must_change_pwd="yes" if force_change else "no")
 
 
 class ReportConfigRepo:

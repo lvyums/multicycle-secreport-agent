@@ -1,9 +1,11 @@
-/** 认证状态管理（V2.0 RBAC）— token + 用户信息 localStorage */
+/** 认证状态管理（V2.0 RBAC）— token + 用户信息 localStorage
+ * V2.2：mustChangePwd 强制改密标记 */
 export interface AuthUser {
   id: number
   username: string
   role: string
   displayName: string
+  mustChangePwd?: boolean
 }
 
 const TOKEN_KEY = 'sec_report_token'
@@ -38,6 +40,19 @@ export function clearAuth() {
 
 export function isLoggedIn(): boolean {
   return !!getToken()
+}
+
+/** V2.2：当前用户是否需强制改密（登录后 / 守卫用） */
+export function needsChangePwd(): boolean {
+  return getUser()?.mustChangePwd === true
+}
+
+export function markPwdChanged() {
+  const u = getUser()
+  if (u) {
+    u.mustChangePwd = false
+    setUser(u)
+  }
 }
 
 export function hasRole(...roles: string[]): boolean {

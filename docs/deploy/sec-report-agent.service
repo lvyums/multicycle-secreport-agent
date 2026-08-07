@@ -1,0 +1,28 @@
+[Unit]
+Description=MultiCycle SecReport Agent (多周期网安报告智能体)
+Documentation=file:///opt/sec-report-agent/README.md
+After=network.target mysql.service
+Wants=mysql.service
+
+[Service]
+Type=simple
+User=secreport
+Group=secreport
+WorkingDirectory=/opt/sec-report-agent/sec_report_agent
+# 生产密钥与配置集中管理，不进 git
+EnvironmentFile=/etc/sec-report-agent/env
+# 单进程部署（V2.2 定版）：后台任务与调度器为进程内状态，勿加 --workers
+ExecStart=/opt/sec-report-agent/venv/bin/uvicorn main:app --host 127.0.0.1 --port 8001
+Restart=always
+RestartSec=3
+# 优雅停机：给后台任务收尾时间
+TimeoutStopSec=20
+
+# 资源与安全
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ReadWritePaths=/opt/sec-report-agent/sec_report_agent/reports /opt/sec-report-agent/sec_report_agent/vector_data
+
+[Install]
+WantedBy=multi-user.target

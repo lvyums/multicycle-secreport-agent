@@ -592,16 +592,26 @@ def test_get_cache_redis_ok(monkeypatch):
     class _FakeRedisCache:
         def __init__(self, url):
             created["url"] = url
-            self.probed = False
 
-        def set(self, k, v, ttl=5):
-            self.probed = True
+    class _FakeProbe:
+        def ping(self):
+            return True
+
+    class _FakeRedisLib:
+        class Redis:
+            @staticmethod
+            def from_url(url, decode_responses=False):
+                created["probe_url"] = url
+                return _FakeProbe()
 
     monkeypatch.setattr(cache_mod, "RedisCache", _FakeRedisCache)
+    # cache.py 内是局部 import redis as redis_lib → 注入 sys.modules 让探测走 fake
+    import sys
+    monkeypatch.setitem(sys.modules, "redis", _FakeRedisLib)
     c = get_cache()
     assert isinstance(c, _FakeRedisCache)
-    assert c.probed is True
     assert created["url"] == settings.redis_url
+    assert created["probe_url"] == settings.redis_url
 
 
 # ═══════════════════════════════════════════════════════════════

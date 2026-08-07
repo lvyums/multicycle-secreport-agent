@@ -19,8 +19,52 @@ logger = LogManager.get_logger()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """应用生命周期：启动时建表 + 启动调度器；关闭时回收"""
+    """应用生命周期：启动时建表 + 列迁移 + 任务恢复 + 种子用户 + 调度器；关闭时回收"""
+    # 生产强校验（V2.2）：SECRET_KEY 与 CORS 白名单必须显式配置
+    if settings.app_env == "production":
+        if settings.secret_key == "sec-report-dev-secret-change-me":
+            raise RuntimeError(
+                "[APP] 生产环境必须设置 SECRET_KEY：export SECRET_KEY=$(openssl rand -hex 32)"
+            )
+        if (settings.cors_origins or "*").strip() == "*":
+            raise RuntimeError("[APP] 生产环境必须显式配置 CORS_ORIGINS（逗号分隔白名单）")
     init_db()
+    # 列迁移（V2.2：老库补 sys_user 新列）
+    try:
+        from infra.db.session import SessionLocal
+        from infra.db.migrate import run_migrations
+        _db = SessionLocal()
+        try:
+            applied = run_migrations(_db)
+            if applied:
+                logger.info(f"[APP] 列迁移完成: {', '.join(applied)}")
+        finally:
+            _db.close()
+    except Exception as e:
+        logger.warning(f"[APP] 列迁移失败（不影响主服务）: {e}")
+    # 任务恢复（V2.2 B1）：启动时重置遗留 PENDING/RUNNING → FAILED
+    if settings.recover_on_startup:
+        try:
+            from sqlalchemy import update as sa_update
+            from model.entity.entities import ReportTask
+            _db = SessionLocal()
+            try:
+                n = _db.execute(
+                    sa_update(ReportTask)
+                    .where(ReportTask.status.in_(["PENDING", "RUNNING"]))
+                    .values(
+                        status="FAILED",
+                        error_msg="服务重启中断，请重跑",
+                        finished_at=time.strftime("%Y-%m-%d %H:%M:%S"),
+                    )
+                ).rowcount
+                if n:
+                    _db.commit()
+                    logger.info(f"[APP] 任务恢复：{n} 个遗留任务已重置 FAILED")
+            finally:
+                _db.close()
+        except Exception as e:
+            logger.warning(f"[APP] 任务恢复失败（不影响主服务）: {e}")
     # 种子用户（V2.0 RBAC，幂等）
     try:
         from infra.db.session import SessionLocal
@@ -62,10 +106,17 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS（开发期全放开，前端 vite 默认 5173）
+# CORS（V2.2：白名单配置化，settings.cors_origins 逗号分隔；生产强校验拒绝默认 *）
+def _parse_cors_origins() -> list[str]:
+    raw = (settings.cors_origins or "*").strip()
+    if raw == "*":
+        return ["*"]
+    return [o.strip() for o in raw.split(",") if o.strip()]
+
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=_parse_cors_origins(),
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],

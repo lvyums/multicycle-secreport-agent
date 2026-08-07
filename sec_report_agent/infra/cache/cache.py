@@ -96,14 +96,18 @@ _cache_instance: Optional[BaseCache] = None
 
 
 def get_cache() -> BaseCache:
-    """缓存工厂（单例）：按 settings.cache_backend 返回实现"""
+    """缓存工厂（单例）：按 settings.cache_backend 返回实现
+    V2.2 修复：Redis 探测改用 ping()（RedisCache.set 内部吞异常，
+    原探测 set 永远"成功" → Redis 挂了也不降级，缓存全部静默失效）"""
     global _cache_instance
     if _cache_instance is not None:
         return _cache_instance
     if settings.cache_backend == "redis":
         try:
+            import redis as redis_lib
+            _probe = redis_lib.Redis.from_url(settings.redis_url, decode_responses=True)
+            _probe.ping()  # 连接失败会抛异常
             _cache_instance = RedisCache(settings.redis_url)
-            _cache_instance.set("__probe__", 1, ttl=5)
             logger.info("[CACHE] Redis 缓存就绪")
         except Exception as e:
             logger.warning(f"[CACHE] Redis 不可用，降级内存缓存: {e}")

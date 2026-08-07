@@ -1,4 +1,6 @@
-"""认证服务（V2.0 RBAC）— pbkdf2 密码哈希 + hmac 自签 token，零新增依赖"""
+"""认证服务（V2.0 RBAC）— pbkdf2 密码哈希 + hmac 自签 token，零新增依赖
+V2.2：SECRET_KEY 收口到 settings（生产必须 env 注入强随机值）；登录失败锁定支持。
+"""
 
 import base64
 import hashlib
@@ -7,8 +9,10 @@ import json
 import os
 import time
 
+from config.settings import settings
+
 TOKEN_TTL = 12 * 3600  # 12 小时
-_SECRET = os.environ.get("SECRET_KEY", "sec-report-dev-secret-change-me")
+_SECRET = settings.secret_key
 
 
 def hash_password(password: str) -> str:

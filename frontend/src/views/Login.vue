@@ -53,6 +53,11 @@ async function doLogin() {
   }
   setToken(r.data.token)
   setUser(r.data.user)
+  if (r.data.user.mustChangePwd) {
+    ElMessage.warning('首次登录需修改初始密码')
+    router.replace('/change-pwd')
+    return
+  }
   ElMessage.success(`欢迎，${r.data.user.displayName || r.data.user.username}`)
   router.replace((route.query.redirect as string) || '/dashboard')
 }

@@ -181,7 +181,8 @@ python3 -m pytest tests/ -q --cov=app --cov=api --cov=capability --cov=infra --c
 | V1.2 | 全周期模板（日/周/季/年）+ 新增 4 类数据源适配器 |
 | V1.3 | 前端可视化零代码（数据源 / 知识库 / 报告选配 / 任务日志） |
 | V2.0 | 生产加固：RBAC / 异步生成 / 容错重试 / 知识库 RAG / 覆盖率 94% |
-| **V2.1** | **报告智能问答 + Markdown/Word 导出** |
+| V2.1 | 报告智能问答 + Markdown/Word 导出 + 中文降级问答 |
+| **V2.2** | **上线硬门槛：登录失败锁定 / 强制改密 / 任务恢复 / 并发生成上限 / Dockerfile+Systemd+Nginx 部署 / 数据备份** |
 
 ---
 

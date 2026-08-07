@@ -67,5 +67,16 @@ class Settings(BaseSettings):
     report_max_events: int = 20000        # 单任务最大处理事件数
     llm_max_input_chars: int = 6000       # 送入 LLM 的指标/上下文最大字符数
 
+    # ── 安全（V2.2 上线硬门槛）──
+    secret_key: str = "sec-report-dev-secret-change-me"   # 生产必须通过 env 注入强随机值
+    login_fail_limit: int = 5             # 连续失败 N 次锁定
+    login_lock_minutes: int = 15          # 锁定时长（分钟）
+    pwd_min_length: int = 8               # 改密最小长度（含字母与数字）
+
+    # ── 部署（V2.2）──
+    cors_origins: str = "*"               # 逗号分隔白名单；生产必须显式配置
+    max_concurrent_generation: int = 2    # 并发生成上限（防打爆 LLM 配额）
+    recover_on_startup: bool = True       # 启动时重置遗留 PENDING/RUNNING 任务
+
 
 settings = Settings()

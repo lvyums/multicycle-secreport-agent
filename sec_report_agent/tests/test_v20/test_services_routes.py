@@ -573,8 +573,14 @@ def test_auth_login_failures(client):
     # 缺字段 → 400
     assert client.post("/api/auth/login", json={"username": "", "password": ""}).status_code == 400
     assert client.post("/api/auth/login", json={"username": "admin"}).status_code == 400
-    # 密码错误 → 401
-    r = client.post("/api/auth/login", json={"username": "admin", "password": "wrong"})
+    # 密码错误 → 401（V2.2 起失败会计数并可能锁定，用一次性用户避免污染 admin）
+    from infra.db.session import SessionLocal
+    from infra.db.repositories import UserRepo
+    from app.services import auth_service
+    _db = SessionLocal()
+    _u = UserRepo.create(_db, _uniq("flock"), auth_service.hash_password("pass123"), "viewer", "锁定测试")
+    _db.close()
+    r = client.post("/api/auth/login", json={"username": _u.username, "password": "wrong"})
     assert r.status_code == 401
     # 用户不存在 → 401
     r = client.post("/api/auth/login", json={"username": "no_such_user_xyz", "password": "x"})

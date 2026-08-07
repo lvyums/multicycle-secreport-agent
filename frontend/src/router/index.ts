@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { isLoggedIn } from '../utils/auth'
+import { isLoggedIn, needsChangePwd } from '../utils/auth'
 
 const routes = [
   {
@@ -7,6 +7,12 @@ const routes = [
     name: 'login',
     component: () => import('@/views/Login.vue'),
     meta: { title: '登录' },
+  },
+  {
+    path: '/change-pwd',
+    name: 'change-pwd',
+    component: () => import('@/views/ChangePwd.vue'),
+    meta: { title: '修改密码' },
   },
   {
     path: '/',
@@ -81,6 +87,13 @@ router.beforeEach((to) => {
     return { path: '/login', query: { redirect: to.fullPath } }
   }
   if (to.path === '/login' && isLoggedIn()) {
+    return { path: '/dashboard' }
+  }
+  // V2.2：强制改密——未改密用户只能访问改密页
+  if (to.path !== '/change-pwd' && needsChangePwd()) {
+    return { path: '/change-pwd' }
+  }
+  if (to.path === '/change-pwd' && !needsChangePwd() && isLoggedIn()) {
     return { path: '/dashboard' }
   }
   return true

@@ -5,6 +5,17 @@ export const Api = {
   // ── 健康检查 ──
   health: () => get('/health'),
 
+  // ── 认证（V2.2 含改密） ──
+  auth: {
+    login: (data: { username: string; password: string }) => post('/api/auth/login', data),
+    me: () => get('/api/auth/me'),
+    changePwd: (data: { oldPwd: string; newPwd: string }) => post('/api/auth/change-pwd', data),
+    users: () => get('/api/auth/users'),
+    createUser: (data: Record<string, unknown>) => post('/api/auth/users/create', data),
+    toggleUser: (id: number) => post('/api/auth/users/toggle', { id }),
+    resetPwd: (data: { id: number; password: string }) => post('/api/auth/users/reset-pwd', data),
+  },
+
   // ── 报告任务 ──
   report: {
     list: (params?: Record<string, string | number>) => get('/api/report/list', params),

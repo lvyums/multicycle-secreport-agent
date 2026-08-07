@@ -31,6 +31,37 @@ services:
       timeout: 3s
       retries: 20
 
+  # V2.2 应用服务（生产镜像）：docker compose --env-file .env.prod up -d app
+  app:
+    build: ./sec_report_agent
+    container_name: sec-report-app
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      APP_ENV: ${APP_ENV:-production}
+      # 生产部署必须 --env-file .env.prod 提供真实值（默认值仅保证开发/本地可解析）
+      SECRET_KEY: ${SECRET_KEY:-dev-only-not-for-production-change-me}
+      CORS_ORIGINS: ${CORS_ORIGINS:-*}
+      DATABASE_URL: mysql+pymysql://sec_report:sec_report_dev@mysql:3306/sec_report?charset=utf8mb4
+      CACHE_BACKEND: memory
+      SCHEDULER_ENABLED: "true"
+      RECOVER_ON_STARTUP: "true"
+    ports:
+      - "8001:8001"
+    volumes:
+      - report-files:/app/reports
+      - vector-data:/app/vector_data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8001/health', timeout=3)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
 volumes:
   mysql-data:
   redis-data:
+  report-files:
+  vector-data:

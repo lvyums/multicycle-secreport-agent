@@ -55,6 +55,16 @@ async def generate(body: dict, request: Request, _=Depends(require_analyst), db:
     cycle = (body.get("cycle") or "").upper()
     validate_enum(cycle, [c.value for c in ReportCycle], "cycle")
 
+    # B3 并发生成上限（V2.2）：RUNNING 任务达上限拒绝新提交，防打爆 LLM/DB
+    from model.entity.entities import ReportTask
+    from config.settings import settings as _settings
+    running_count = db.query(ReportTask).filter(ReportTask.status == "RUNNING").count()
+    if running_count >= _settings.max_concurrent_generation:
+        return fail(
+            f"并发生成任务已达上限（{_settings.max_concurrent_generation}），请稍后重试",
+            ApiCode.BUSINESS_ERROR,
+        )
+
     ws = body.get("windowStart") or None
     we = body.get("windowEnd") or None
     if not ws or not we:

@@ -200,5 +200,8 @@ class User(Base):
     role: Mapped[str] = mapped_column(String(16), default="viewer")     # admin/analyst/viewer
     display_name: Mapped[str] = mapped_column(String(64), default="")
     enabled: Mapped[str] = mapped_column(String(8), default="enabled")  # enabled/disabled
+    must_change_pwd: Mapped[str] = mapped_column(String(8), default="no")   # yes/no（V2.2 首次登录强制改密）
+    login_fail_count: Mapped[int] = mapped_column(Integer, default=0)       # 连续登录失败次数（V2.2 锁定）
+    locked_until: Mapped[str] = mapped_column(String(32), default="")       # 锁定截止时间（V2.2）
     created_at: Mapped[str] = mapped_column(String(32), default=_now)
     updated_at: Mapped[str] = mapped_column(String(32), default=_now)

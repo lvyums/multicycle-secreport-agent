@@ -36,6 +36,16 @@ def _test_datasources():
     from infra.db.session import SessionLocal, init_db
     from infra.db.repositories import DataSourceConfigRepo
     init_db()
+    # V2.2：测试库也走轻量列迁移（老 test_sec_report.db 无 sys_user 新列）
+    try:
+        from infra.db.migrate import run_migrations
+        _db = SessionLocal()
+        try:
+            run_migrations(_db)
+        finally:
+            _db.close()
+    except Exception:
+        pass
     paths = ensure_mock_files()
     db = SessionLocal()
     try:
