@@ -182,7 +182,8 @@ python3 -m pytest tests/ -q --cov=app --cov=api --cov=capability --cov=infra --c
 | V1.3 | 前端可视化零代码（数据源 / 知识库 / 报告选配 / 任务日志） |
 | V2.0 | 生产加固：RBAC / 异步生成 / 容错重试 / 知识库 RAG / 覆盖率 94% |
 | V2.1 | 报告智能问答 + Markdown/Word 导出 + 中文降级问答 |
-| **V2.2** | **上线硬门槛：登录失败锁定 / 强制改密 / 任务恢复 / 并发生成上限 / Dockerfile+Systemd+Nginx 部署 / 数据备份** |
+| V2.2 | 上线硬门槛：登录失败锁定 / 强制改密 / 任务恢复 / 并发生成上限 / Dockerfile+Systemd+Nginx 部署 / 数据备份 |
+| V2.3 | 运维完善：/health 就绪探针 + /metrics Prometheus 指标 / 推送真实化（钉钉/企微加签+重试）/ 导出审计 + 审计日志页 / 前端路由级角色拦截 |
 
 ---
 

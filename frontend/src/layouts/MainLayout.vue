@@ -38,6 +38,10 @@
           <el-icon><UserFilled /></el-icon>
           <span>系统用户</span>
         </el-menu-item>
+        <el-menu-item v-if="canManage" index="/audit">
+          <el-icon><List /></el-icon>
+          <span>审计日志</span>
+        </el-menu-item>
       </el-menu>
     </el-aside>
 

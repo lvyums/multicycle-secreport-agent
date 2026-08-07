@@ -3,7 +3,7 @@
 import re
 import time
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
 from api.response import ok, fail, ApiCode
@@ -108,6 +108,26 @@ def change_pwd(body: dict, user=Depends(get_current_user), db: Session = Depends
     AuditLogRepo.add(db, operator=db_user.username, action="CHANGE_PWD",
                      target_type="User", target_id=db_user.id, detail="修改密码")
     return ok({"id": db_user.id}, message="密码修改成功，请重新登录")
+
+
+@router.get("/audit-logs")
+def audit_logs(action: str = "", limit: int = 200, _=Depends(require_admin),
+               db: Session = Depends(get_db)):
+    """审计日志（V2.3）：admin 可见，支持动作筛选，倒序最多 limit 条"""
+    from model.entity.entities import AuditLog
+    q = db.query(AuditLog)
+    if action:
+        q = q.filter(AuditLog.action == action)
+    rows = q.order_by(AuditLog.id.desc()).limit(min(limit, 500)).all()
+    return ok({"items": [
+        {
+            "id": r.id, "operator": r.operator, "action": r.action,
+            "targetType": r.target_type, "targetId": r.target_id,
+            "detail": r.detail, "clientIp": r.client_ip,
+            "traceId": r.trace_id, "createdAt": r.created_at,
+        }
+        for r in rows
+    ]})
 
 
 @router.get("/users")

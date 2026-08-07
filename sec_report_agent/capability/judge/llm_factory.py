@@ -66,6 +66,13 @@ class DeepSeekClient(BaseLLMClient):
             return {"content": None, "success": False, "error": str(e)}
         finally:
             logger.info(f"[LLM] DeepSeekClient 调用 {'成功' if success else '失败'} {(time.monotonic() - start) * 1000:.0f}ms")
+            # V2.3 指标埋点
+            try:
+                from infra import metrics
+                metrics.inc("sec_report_llm_calls_total",
+                            {"mode": "llm", "result": "success" if success else "fail"})
+            except Exception:
+                pass
 
     async def chat_stream(self, messages: list[dict], temperature: Optional[float] = None, timeout: Optional[int] = None):
         """流式调用 DeepSeek，逐个 yield token"""

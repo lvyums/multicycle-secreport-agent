@@ -5,7 +5,8 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
+from sqlalchemy import text
 
 from config.settings import settings
 from common.exception.exception import SecReportError
@@ -143,16 +144,83 @@ async def unhandled_error_handler(request: Request, exc: Exception):
     )
 
 
-# ── 健康检查 ──
+# ── 健康检查（V2.3 就绪探针：依赖明细，全挂才 503） ──
+def _check_db() -> tuple[bool, str]:
+    try:
+        from infra.db.session import SessionLocal
+        db = SessionLocal()
+        try:
+            db.execute(text("SELECT 1"))
+            return True, "ok"
+        finally:
+            db.close()
+    except Exception as e:
+        return False, f"fail: {e}"
+
+
+def _check_cache() -> tuple[bool, str]:
+    try:
+        from infra.cache.cache import get_cache
+        c = get_cache()
+        c.set("__health__", 1, ttl=5)
+        return (c.get("__health__") is not None), "ok"
+    except Exception as e:
+        return False, f"fail: {e}"
+
+
+def _check_vector() -> tuple[bool, str]:
+    try:
+        from config.settings import settings as _s
+        import os
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        d = os.path.join(root, "vector_data")
+        os.makedirs(d, exist_ok=True)
+        probe = os.path.join(d, ".health_probe")
+        with open(probe, "w") as f:
+            f.write("ok")
+        os.remove(probe)
+        return True, "ok"
+    except Exception as e:
+        return False, f"fail: {e}"
+
+
 @app.get("/health")
 async def health():
-    return ApiResponse.ok(data={
-        "app": settings.app_name,
-        "env": settings.app_env,
-        "time": time.strftime("%Y-%m-%d %H:%M:%S"),
-        "db": "sqlite" if settings.database_url.startswith("sqlite") else "mysql",
-        "cache": settings.cache_backend,
-    }, message="ok")
+    checks = {}
+    db_ok, db_st = _check_db()
+    cache_ok, cache_st = _check_cache()
+    vector_ok, vector_st = _check_vector()
+    checks["db"] = db_st
+    checks["cache"] = cache_st
+    checks["vector"] = vector_st
+    overall = db_ok and cache_ok and vector_ok
+    if overall:
+        return ApiResponse.ok(data={
+            "app": settings.app_name,
+            "env": settings.app_env,
+            "time": time.strftime("%Y-%m-%d %H:%M:%S"),
+            "checks": checks,
+            "status": "ok",
+        }, message="ok")
+    # 就绪探针：任一核心依赖挂 → 503（容器编排/负载均衡摘流量）
+    bad = [k for k, v in checks.items() if not v.startswith("ok")]
+    return JSONResponse(
+        status_code=503,
+        content={
+            "code": ApiCode.INTERNAL_ERROR, "message": f"依赖异常: {bad}",
+            "data": {"status": "degraded", "checks": checks},
+        },
+    )
+
+
+# ── 指标（V2.3 Prometheus 文本格式，零依赖） ──
+@app.get("/metrics")
+async def metrics_endpoint():
+    from infra import metrics
+    return Response(
+        content=metrics.render(),
+        media_type="text/plain; version=0.0.4; charset=utf-8",
+    )
 
 
 # ── 路由注册（V1.0 阶段按模块挂载）──

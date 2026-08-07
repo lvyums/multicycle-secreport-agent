@@ -531,6 +531,17 @@ class ReportService:
         try:
             task = ReportTaskRepo.get(db, task_id)
             if task:
+                # V2.3 指标埋点：任务终态 + 耗时（埋点失败不影响业务）
+                try:
+                    from infra import metrics
+                    metrics.inc("sec_report_task_total", {"status": status})
+                    if status == TaskStatus.FAILED.value:
+                        metrics.inc("sec_report_task_failed_total")
+                    if duration_ms > 0:
+                        metrics.inc("sec_report_task_duration_seconds_total",
+                                    {"cycle": task.cycle}, value=max(1, int(duration_ms / 1000)))
+                except Exception:
+                    pass
                 ReportTaskRepo.update(
                     db, task, status=status, error_msg=error,
                     finished_at=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),

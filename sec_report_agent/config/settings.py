@@ -48,6 +48,13 @@ class Settings(BaseSettings):
     # ── 报告存储 ──
     report_root: str = os.path.join(_PROJECT_ROOT, "reports")
     vector_persist_dir: str = os.path.join(_PROJECT_ROOT, "vector_data")
+
+    # ── 推送（V2.3：mock 默认保测试；real 需配 webhook 地址/密钥）──
+    push_mode: str = "mock"                # mock | real
+    dingtalk_webhook_url: str = ""         # 钉钉群机器人 webhook 地址
+    dingtalk_webhook_secret: str = ""      # 钉钉加签密钥（非空才签名）
+    wecom_webhook_url: str = ""            # 企微群机器人 webhook 地址
+    wecom_webhook_key: str = ""            # 企微加签密钥（非空才签名）
     template_root: str = os.path.join(_PROJECT_ROOT, "template")
 
     # ── 风险阈值（规则引擎）──

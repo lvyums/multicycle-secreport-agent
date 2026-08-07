@@ -103,11 +103,12 @@ async def report_qa(body: dict, _=Depends(require_login), db: Session = Depends(
 
 @router.get("/export/{version_id}")
 def report_export(version_id: int, format: str = Query("md", pattern="^(md|docx)$"),
-                  _=Depends(require_login), db: Session = Depends(get_db)):
-    """报告导出（V2.1）：md / docx 文件下载"""
+                  user=Depends(require_login), db: Session = Depends(get_db)):
+    """报告导出（V2.1）：md / docx 文件下载；V2.3 导出审计留痕"""
     from fastapi.responses import StreamingResponse
     from app.services.report_export_service import ReportExportService
     from model.entity.entities import ReportVersion
+    from infra.db.repositories import AuditLogRepo
 
     version = db.query(ReportVersion).filter(ReportVersion.id == version_id).first()
     if not version:
@@ -124,6 +125,16 @@ def report_export(version_id: int, format: str = Query("md", pattern="^(md|docx)
     filename = filename.replace("（", "(").replace("）", ")").replace(" ", "_")
     from urllib.parse import quote
     safe_name = quote(filename)  # 中文文件名需 URL 编码（headers 必须 latin-1 可编码）
+    # V2.3 导出审计：留痕操作者/版本/格式（导出失败不阻断下载）
+    try:
+        AuditLogRepo.add(
+            db, getattr(user, "username", "?"), "EXPORT_REPORT",
+            target_type="ReportVersion", target_id=version_id,
+            detail=f"导出报告 {format.upper()}，标题={version.title or ''}",
+        )
+        db.commit()
+    except Exception:
+        pass
     return StreamingResponse(
         BytesIO(payload),
         media_type=media,

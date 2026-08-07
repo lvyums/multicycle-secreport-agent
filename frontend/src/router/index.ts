@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { isLoggedIn, needsChangePwd } from '../utils/auth'
+import { isLoggedIn, needsChangePwd, getUser } from '../utils/auth'
 
+// V2.3 路由级角色拦截：meta.roles 声明可访问角色（viewer < analyst < admin）
 const routes = [
   {
     path: '/login',
@@ -23,55 +24,67 @@ const routes = [
         path: 'dashboard',
         name: 'dashboard',
         component: () => import('@/views/Dashboard.vue'),
-        meta: { title: '任务看板' },
+        meta: { title: '任务看板', roles: ['viewer', 'analyst', 'admin'] },
       },
       {
         path: 'reports',
         name: 'reports',
         component: () => import('@/views/Reports.vue'),
-        meta: { title: '历史报告' },
+        meta: { title: '历史报告', roles: ['viewer', 'analyst', 'admin'] },
       },
       {
         path: 'report-preview/:versionId?',
         name: 'report-preview',
         component: () => import('@/views/ReportPreview.vue'),
-        meta: { title: '报告预览' },
+        meta: { title: '报告预览', roles: ['viewer', 'analyst', 'admin'] },
       },
       {
         path: 'schedule',
         name: 'schedule',
         component: () => import('@/views/Schedule.vue'),
-        meta: { title: '调度配置' },
+        meta: { title: '调度配置', roles: ['viewer', 'analyst', 'admin'] },
       },
       {
         path: 'datasources',
         name: 'datasources',
         component: () => import('@/views/DataSources.vue'),
-        meta: { title: '数据源管理' },
+        meta: { title: '数据源管理', roles: ['admin'] },
       },
       {
         path: 'knowledge',
         name: 'knowledge',
         component: () => import('@/views/Knowledge.vue'),
-        meta: { title: '知识库' },
+        meta: { title: '知识库', roles: ['admin'] },
       },
       {
         path: 'report-config',
         name: 'report-config',
         component: () => import('@/views/ReportConfig.vue'),
-        meta: { title: '报告选配' },
+        meta: { title: '报告选配', roles: ['admin'] },
       },
       {
         path: 'task-logs',
         name: 'task-logs',
         component: () => import('@/views/TaskLogs.vue'),
-        meta: { title: '任务日志' },
+        meta: { title: '任务日志', roles: ['viewer', 'analyst', 'admin'] },
       },
       {
         path: 'users',
         name: 'users',
         component: () => import('@/views/UserManage.vue'),
-        meta: { title: '系统用户' },
+        meta: { title: '系统用户', roles: ['admin'] },
+      },
+      {
+        path: 'audit',
+        name: 'audit',
+        component: () => import('@/views/AuditLog.vue'),
+        meta: { title: '审计日志', roles: ['admin'] },
+      },
+      {
+        path: '403',
+        name: 'forbidden',
+        component: () => import('@/views/Forbidden.vue'),
+        meta: { title: '无权限' },
       },
     ],
   },
@@ -95,6 +108,14 @@ router.beforeEach((to) => {
   }
   if (to.path === '/change-pwd' && !needsChangePwd() && isLoggedIn()) {
     return { path: '/dashboard' }
+  }
+  // V2.3：路由级角色拦截（后端 403 兜底，前端防页面壳直输）
+  const roles: string[] | undefined = to.meta?.roles as string[] | undefined
+  if (roles && roles.length > 0) {
+    const role = getUser()?.role || ''
+    if (!roles.includes(role)) {
+      return { path: '/403' }
+    }
   }
   return true
 })
