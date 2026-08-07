@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 from typing import Optional
 
 from infra.vector.vector_store import VectorStore
-from common.logger import LogManager
+from common.logger.logger import LogManager
 
 logger = LogManager.get_logger()
 

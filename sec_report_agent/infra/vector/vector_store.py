@@ -9,7 +9,7 @@ import chromadb
 from chromadb.api.types import EmbeddingFunction, Embeddings
 from chromadb.config import Settings as ChromaSettings
 
-from common.logger import LogManager
+from common.logger.logger import LogManager
 
 logger = LogManager.get_logger()
 
@@ -292,19 +292,31 @@ class VectorStore:
 
     @staticmethod
     def _try_create_client(path: str) -> Optional[chromadb.PersistentClient]:
-        """创建 ChromaDB 客户端，检测并清理锁文件避免僵尸进程阻塞"""
+        """创建 ChromaDB 客户端，检测并清理残留 journal 锁文件（不删数据库本体！）
+
+        V2.4.1 修复：原实现把 chroma.sqlite3 本体也删了，导致每次新进程初始化
+        都清空向量库（前端加文档后 count 仍为 0、问答 refs 永远空）。journal 文件
+        是异常中断残留的锁，可以安全清理；数据库文件删除 = 数据丢失，严禁。
+        """
         db_file = os.path.join(path, "chroma.sqlite3")
         journal = db_file + "-journal"
 
-        # 检测并清理残留锁文件
-        for f in [journal, db_file]:
+        # 只清理残留 journal 锁文件（异常中断残留），绝不删除数据库本体
+        if os.path.exists(journal):
+            try:
+                os.remove(journal)
+                logger.info(f"清理残留锁文件: {journal}")
+            except OSError:
+                logger.warning(f"journal 被其他进程锁定，跳过: {path}")
+        # 兼容 wal 模式的 -wal/-shm 残留（同样只删锁不删库）
+        for suffix in ("-wal", "-shm"):
+            f = db_file + suffix
             if os.path.exists(f):
                 try:
                     os.remove(f)
-                    logger.info(f"清理残留文件: {f}")
+                    logger.info(f"清理残留锁文件: {f}")
                 except OSError:
-                    logger.warning(f"数据库被其他进程锁定，跳过: {path}")
-                    return None
+                    pass
 
         try:
             return chromadb.PersistentClient(
@@ -383,3 +395,12 @@ class VectorStore:
             return self._collection.count()
         except Exception:
             return 0
+
+    def delete(self, ids: list[str]):
+        """按 id 删除文档（同步知识库启停/删除用）"""
+        if not ids:
+            return
+        try:
+            self._collection.delete(ids=ids)
+        except Exception as e:
+            logger.error(f"删除文档失败: {e}")

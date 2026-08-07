@@ -5,7 +5,7 @@ import os
 from typing import Optional, Any, Union
 from threading import Lock
 
-from common.logger import LogManager
+from common.logger.logger import LogManager
 from common.file_util import read_file
 
 logger = LogManager.get_logger()

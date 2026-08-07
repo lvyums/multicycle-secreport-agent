@@ -29,9 +29,11 @@ class RAGFacade:
                 try:
                     result = RAGFactory.retrieve(kb, query, top_k=top_k)
                     for item in result.items:
+                        meta = item.get("metadata") or {}
                         refs.append({
                             "kb_name": result.kb_name,
                             "kb_label": result.kb_label,
+                            "title": meta.get("source") or "",
                             "content": item.get("document") or item.get("text") or "",
                             "score": item.get("score", 0),
                         })

@@ -82,7 +82,9 @@
             <div v-if="qaRefs.length" class="qa-refs">
               <div class="qa-ref-title">📚 参考资料（知识库）</div>
               <div v-for="(r, i) in qaRefs" :key="i" class="qa-ref-item">
-                [{{ r.kb_label || r.kb_name }}] {{ String(r.content || '').slice(0, 140) }}
+                <span class="qa-ref-src">[{{ r.kb_label || r.kb_name }}]</span>
+                <span class="qa-ref-title">{{ r.title || '（未命名文档）' }}</span>
+                <span class="qa-ref-body">{{ String(r.content || '').slice(0, 140) }}</span>
               </div>
             </div>
           </div>
@@ -399,8 +401,19 @@ onMounted(load)
 }
 .qa-ref-item {
   font-size: 12px;
-  color: #606266;
   line-height: 1.7;
+  color: #606266;
+}
+.qa-ref-src {
+  color: #409eff;
+  margin-right: 4px;
+}
+.qa-ref-title {
+  font-weight: 600;
+  margin-right: 6px;
+}
+.qa-ref-body {
+  color: #909399;
 }
 .mt8 {
   margin-top: 8px;

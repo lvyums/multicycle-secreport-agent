@@ -46,6 +46,9 @@ def kb_create(body: dict, _=Depends(require_admin), db: Session = Depends(get_db
         content=body.get("content", ""),
         enabled=body.get("enabled", "enabled"),
     )
+    if doc.enabled == "enabled":
+        from capability.rag.kb_sync import sync_add
+        sync_add(doc)
     return ok({"id": doc.id, "title": doc.title})
 
 
@@ -62,6 +65,10 @@ def kb_update(body: dict, _=Depends(require_admin), db: Session = Depends(get_db
         category=body.get("category", doc.category),
         content=body.get("content", doc.content),
     )
+    from capability.rag.kb_sync import sync_add, sync_remove
+    sync_remove(doc.id)
+    if doc.enabled == "enabled":
+        sync_add(doc)
     return ok({"id": doc.id})
 
 
@@ -71,6 +78,11 @@ def kb_toggle(body: dict, _=Depends(require_admin), db: Session = Depends(get_db
     if not doc:
         raise NotFoundError(f"文档不存在: {body.get('id')}")
     KnowledgeDocRepo.toggle(db, doc)
+    from capability.rag.kb_sync import sync_add, sync_remove
+    if doc.enabled == "enabled":
+        sync_add(doc)
+    else:
+        sync_remove(doc.id)
     return ok({"id": doc.id, "enabled": doc.enabled})
 
 
@@ -80,4 +92,6 @@ def kb_delete(body: dict, _=Depends(require_admin), db: Session = Depends(get_db
     if not doc:
         raise NotFoundError(f"文档不存在: {body.get('id')}")
     KnowledgeDocRepo.delete(db, doc)
+    from capability.rag.kb_sync import sync_remove
+    sync_remove(doc.id)
     return ok({"id": body.get("id")})

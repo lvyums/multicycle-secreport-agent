@@ -11,7 +11,7 @@ def read_file(file_path: str, encoding: str = "utf-8") -> Optional[str]:
         with open(file_path, "r", encoding=encoding) as f:
             return f.read()
     except (FileNotFoundError, UnicodeDecodeError, IOError) as e:
-        from common.logger import LogManager
+        from common.logger.logger import LogManager
         LogManager.get_logger().error(f"读取文件失败 {file_path}: {e}")
         return None
 
@@ -24,7 +24,7 @@ def save_file(content: str, file_path: str, encoding: str = "utf-8") -> bool:
             f.write(content)
         return True
     except IOError as e:
-        from common.logger import LogManager
+        from common.logger.logger import LogManager
         LogManager.get_logger().error(f"保存文件失败 {file_path}: {e}")
         return False
 

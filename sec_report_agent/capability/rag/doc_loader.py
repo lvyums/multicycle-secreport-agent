@@ -5,7 +5,7 @@ import os
 from typing import Optional
 
 from capability.rag.rag_factory import RAGFactory
-from common.logger import LogManager
+from common.logger.logger import LogManager
 
 logger = LogManager.get_logger()
 
