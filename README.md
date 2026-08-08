@@ -1,82 +1,174 @@
-# 多周期网安报告智能体（MultiCycle SecReport Agent）
+<div align="center">
 
-面向安全运营团队的多周期网络安全态势报告自动生成平台：支持 **日报 / 周报 / 月报 / 季报 / 年报** 五类周期报告的全自动生成、审核流转、推送归档，并内置 **报告智能问答** 与 **Markdown / Word 导出**，帮助分析师从"写报告"中解放出来。
+# 📊 多周期网安报告智能体 (MultiCycle SecReport Agent)
 
-> 当前版本：**V2.1**（生产加固 + 报告智能问答 + 导出）
-> 仓库路径注意：目录名含 U+2011 非断行连字符（`‑`），复制路径时请保留原字符。
+**面向安全运营团队的多周期网络安全态势报告自动生成平台**
 
----
+[![Version](https://img.shields.io/badge/version-v2.5.0-blue)]()
+[![Backend](https://img.shields.io/badge/FastAPI-0.114-009688)]()
+[![Frontend](https://img.shields.io/badge/Vue3-Element_Plus-42b883)]()
+[![LLM](https://img.shields.io/badge/LLM-DeepSeek_V4_Flash-4f5d95)]()
+[![RAG](https://img.shields.io/badge/RAG-ChromaDB-orange)]()
+[![Tests](https://img.shields.io/badge/tests-377_passed-2ea44f)]()
 
-## 功能特性
+**日报 / 周报 / 月报 / 季报 / 年报 五周期自动生成** · **7 类数据源真实对接** · **审核流转 / 推送归档 / 报告问答**
 
-**报告生成**
-- 5 周期（日/周/月/季/年）自动生成，窗口自动计算（上一自然周期）
-- 异步任务化：提交即返回，后台执行 + 前端 1s 轮询状态
-- 幂等复用：同窗口已有成功任务直接复用并跳转预览；支持"强制重跑"
-- 数据源失败自动重试（指数退避），部分失败出 PARTIAL 报告
-
-**数据处理（7 类数据源）**
-- SYSLOG / API / DB / EXCEL（xlsx）/ INTEL 情报（jsonl）/ HISTORY 历史 / IOC
-- 统一清洗 → 标准事件 → 指标聚合（总量/等级分布/类型分布/闭环率/环比趋势）
-- 内置 mock 数据生成器，零外部依赖即可完整体验链路
-
-**AI 研判与问答**
-- 规则引擎（风险阈值标记）+ LLM 研判双通道，LLM 失败自动降级，报告照常生成
-- 知识库（RAG）：上传研判参考文档，生成时按告警类型自动召回注入
-- **报告智能问答**：针对已生成报告提问（正文 + 知识库召回 + LLM；LLM 不可用时自动提取相关章节）
-- 报告版本摘要、风险等级、趋势预测与安全建议
-
-**审核与交付**
-- 版本管理：DRAFT → REVIEWING → APPROVED → ARCHIVED 全状态机 + 审计日志
-- 版本对比：10 项指标 diff + 章节文本 diff（环比变化一目了然）
-- 报告导出：**Markdown / Word（docx）** 文件下载（中文文件名）
-- 推送：钉钉 / 企微 / 邮件 / 本地归档（stub 实现，可替换真实 Webhook）
-
-**管理与安全**
-- RBAC 三角色：admin（全部）/ analyst（生成、审核、推送）/ viewer（只读）
-- 数据源、知识库、报告选配、调度、用户管理零代码界面
-- 任务日志（TraceID / 耗时 / 数据源统计）、周期调度启停与手动触发
+</div>
 
 ---
 
-## 技术栈
+## 📑 目录
 
-| 层 | 选型 |
-|---|---|
-| 后端 | Python 3.10 + FastAPI + SQLAlchemy 2 + Pydantic v2 |
-| 前端 | Vue 3 + Element Plus + Vite 6 + TypeScript |
-| 存储 | MySQL 8（开发可用 SQLite 零依赖）/ ChromaDB 向量库 / Redis 缓存（可选） |
-| 调度 | 自研零依赖 asyncio 调度器（接口预留 APScheduler 替换） |
-| 渲染 | Jinja2 模板（MD）+ python-docx（Word 导出） |
-| LLM | OpenAI 兼容接口（默认 raytoken / deepseek，按需配置） |
-
-**设计原则**：四层解耦（api → service → capability → infra），基础设施（DB/向量/缓存/调度/推送）全部抽象可替换，上层业务零感知。
+- [🚀 项目简介](#-项目简介)
+- [✨ 核心功能（全部）](#-核心功能全部)
+  - [报告生成](#报告生成模块)
+  - [数据源真实对接](#数据源对接模块)
+  - [AI 研判与知识库](#ai-研判与知识库模块)
+  - [审核与交付](#审核与交付模块)
+  - [运维深化](#运维深化模块)
+  - [管理与安全](#管理与安全模块)
+- [🏗️ 架构设计](#️-架构设计)
+  - [五层架构](#五层架构)
+  - [报告生成链路](#报告生成链路)
+  - [项目目录结构](#项目目录结构)
+- [⚡ 快速开始](#-快速开始)
+- [🧩 全部功能说明](#-全部功能说明)
+- [🐳 Docker 部署](#-docker-部署)
+- [🔧 配置说明](#-配置说明)
+- [🧪 测试](#-测试)
+- [📚 文档索引](#-文档索引)
+- [⚠️ 已知限制](#️-已知限制)
+- [📄 License](#-license)
 
 ---
 
-## 目录结构
+## 🚀 项目简介
+
+多周期网安报告智能体帮助安全分析师从"写报告"中解放出来：系统自动从 **7 类数据源** 拉取告警/漏洞/情报数据，经统一清洗、指标聚合与 AI 研判，生成 **日报 / 周报 / 月报 / 季报 / 年报** 五类周期报告，并支持完整的 **审核流转 → 推送归档 → 智能问答** 闭环。
+
+**核心亮点：**
+
+- 🗓️ **五周期自动生成**：窗口自动计算（上一自然周期），异步任务化 + 幂等复用 + 失败自动重试，部分失败出 PARTIAL 报告
+- 🔌 **数据源真实对接**：网页端配置数据源（按接口引导 + 测试连接 + 连通状态），ES / MySQL / 告警平台 API 真实对接，生产填真实地址即真连
+- 🧠 **规则 + LLM 双通道研判**：规则引擎（零依赖可穷举测试）→ RAG 知识库 → LLM 推理，三级降级容错，LLM 故障报告照常生成
+- 💬 **报告智能问答**：针对已生成报告提问（正文 + 知识库召回 + LLM 定制回答，引用来源可溯源）
+- 📤 **审核推送交付**：DRAFT → REVIEWING → APPROVED → ARCHIVED 全状态机 + 审计、10 项指标版本对比、Markdown / Word 导出、钉钉 / 企微真实推送（HMAC 加签 + 重试）
+- 🛡️ **运维深化**：内置自检告警器（阈值 DB 热读、30min 防抖）、日志 JSON 结构化 + 脱敏、Prometheus 指标 + 告警规则、就绪探针
+
+---
+
+## ✨ 核心功能（全部）
+
+### 报告生成模块
+
+| 能力 | 说明 |
+|------|------|
+| 五周期生成 | 日 / 周 / 月 / 季 / 年，窗口自动计算（上一自然周期） |
+| 异步任务化 | 提交即返回，后台执行 + 前端 1s 轮询状态 |
+| 幂等复用 | 同窗口已有成功任务直接复用并跳转预览；支持"强制重跑" |
+| 容错重试 | 数据源失败自动重试（指数退避），部分失败出 PARTIAL 报告 |
+
+### 数据源对接模块
+
+| 类型 | 对接方式 | 配置字段（网页端引导） |
+|------|----------|------------------------|
+| **ES 日志检索** | Elasticsearch REST（`/_cluster/health` 探测 + `/_search` 窗口检索 + search_after 翻页） | 集群地址 / 认证（basic·apikey）/ 索引模式 / 时间字段 / 附加 DSL |
+| **API 告警平台** | 厂商平台 REST（认证 + 分页循环 + 时间窗口过滤） | 接口地址 / 认证（Bearer·APIKey·Basic）/ 时间字段 / 分页大小 |
+| **漏洞台账 DB** | SQLAlchemy 连接 MySQL 等关系库（SELECT + 窗口过滤 + 字段映射） | 连接串 / 表名 / 时间字段 / 字段映射 |
+| SYSLOG / EXCEL / INTEL / HISTORY | 本地文件 / 历史报告（字段补全） | 文件路径 / 格式 / 时间列映射 |
+
+> 🔌 每个数据源支持**保存前测试连接**，列表展示**连通状态**（成功 / 失败 / 未测试）；双模式兼容：旧文件模式配置（读本地 mock 文件）与新真实对接配置并存，报告生成链路不受影响。
+
+### AI 研判与知识库模块
+
+| 能力 | 说明 |
+|------|------|
+| 规则研判 | 风险阈值标记（指标 → P0-P3 / 高风险告警），零依赖、可穷举测试 |
+| LLM 研判 | OpenAI 兼容接口（默认 raytoken / deepseek-v4-flash），失败自动降级，报告照常生成 |
+| RAG 知识库 | 威胁情报库（攻击特征 / 处置建议）+ 报告规范库（指标口径），生成时按告警类型自动召回注入 |
+| 报告智能问答 | 正文 + 知识库召回 + LLM 定制回答；引用来源显示（来源库 / 标题 / 摘要）；LLM 不可用时自动提取相关章节 |
+
+### 审核与交付模块
+
+| 能力 | 说明 |
+|------|------|
+| 版本状态机 | DRAFT → REVIEWING → APPROVED → ARCHIVED 全流程 + 审计日志 |
+| 版本对比 | 10 项指标 diff + 章节文本 diff（环比变化一目了然） |
+| 报告导出 | Markdown / Word（docx）文件下载（中文文件名） |
+| 推送 | 钉钉 / 企微 / 邮件 / 本地归档；**real 模式**真实发送（钉钉 HMAC-SHA256 加签、企微 key 加签、失败重试 2 次、PushLog 落库）；mock 模式开发期零外网验证 |
+
+### 运维深化模块
+
+| 能力 | 说明 |
+|------|------|
+| 内置自检告警器 | 阈值 DB 热读（界面改规则免重启）、30min 防抖、触发 → 审计 + 钉钉 / 企微推送 |
+| 可观测性 | `/health` 就绪探针（DB / 缓存 / 向量库三项明细）、`/metrics` Prometheus 指标 |
+| 日志治理 | JSON 结构化（Loki / ELK 零转换采集）+ 轮转 + 脱敏（敏感字段可配置） |
+| 交付物 | Prometheus 告警规则 + Promtail 采集示例 + Systemd / Nginx 部署模板 |
+
+### 管理与安全模块
+
+| 能力 | 说明 |
+|------|------|
+| RBAC | admin（全部）/ analyst（生成、审核、推送）/ viewer（只读），前端路由级拦截 |
+| 调度 | 自研零依赖 asyncio 调度器，周期调度启停与手动触发 |
+| 安全 | 登录失败锁定 / 强制改密 / 并发生成上限 / 审计日志页 / 数据备份方案 |
+
+---
+
+## 🏗️ 架构设计
+
+### 五层架构
 
 ```
-multicycle‑secreport‑agent/
-├── sec_report_agent/            # 后端（FastAPI）
-│   ├── main.py                  # 应用入口（路由注册）
-│   ├── api/routers/             # auth / report / schedule / version / publish / datasource / knowledge / config
-│   ├── app/services/            # 业务服务（report / auth / qa / export ...）
-│   ├── capability/              # data_adapter / metric / judge / rag / render / push
-│   ├── infra/                   # db / vector / cache / schedule / storage / trace
-│   ├── model/                   # enum / entity / struct
-│   ├── template/                # 五周期报告模板（Jinja2）
-│   ├── scripts/                 # mock 数据生成 / 数据源初始化 / 联调脚本
-│   ├── tests/                   # 338 个用例（test_v1x / test_v20 / test_v21）
-│   └── .env                     # 环境配置（DATABASE_URL / LLM 等）
-├── frontend/                    # 前端（Vue 3 + Element Plus）
-│   └── src/views/               # Dashboard / Reports / ReportPreview / Schedule / DataSources / Knowledge / ReportConfig / TaskLogs / UserManage / Login
-└── docker-compose.yml           # MySQL 8 + Redis 7（可选依赖）
+api/routers ──▶ app/services ──▶ capability ──▶ infra ──▶ model
+  (端点层)        (业务编排)      (能力层)      (基础设施)   (领域模型)
+                 app/tasks
+                 (异步任务)
+```
+
+- **api/routers**：auth / report / version / schedule / datasource / knowledge / config / publish / alert / audit 十个路由
+- **app/services + tasks**：报告生成 / 审核 / 问答 / 导出 / 审计业务编排与异步任务
+- **capability**：`adapter`（7 类数据源对接）/ `clean`（清洗）/ `judge`（规则+LLM 研判）/ `metric`（指标聚合）/ `rag`（知识库）/ `render`（模板渲染）/ `push`（推送策略）
+- **infra**：db / vector（ChromaDB）/ cache / schedule / storage / trace / alert —— 全部抽象可替换，上层业务零感知
+
+### 报告生成链路
+
+```
+数据源适配器 ──▶ 统一清洗 ──▶ 指标聚合 ──▶ 规则+LLM 研判 ──▶ RAG 召回注入 ──▶ 模板渲染
+   (fetch)        (标准事件)   (总量/等级/类型/闭环率/环比)  (风险标注)     (攻击类型知识)   (Jinja2 MD)
+```
+
+### 项目目录结构
+
+```
+multicycle‑secreport‑agent/            # 仓库根（目录名含 U+2011 非断行连字符 ‑，复制路径请保留原字符）
+├── README.md                          # 本文档
+├── docker-compose.yml                 # MySQL 8 + Redis 7（可选依赖）
+│
+├── sec_report_agent/                  # ── 后端（FastAPI）──
+│   ├── main.py                        # 应用入口（路由注册 + 告警器启动）
+│   ├── Dockerfile                     # 生产镜像（多阶段构建 + 非 root + 健康检查）
+│   ├── .env.example                   # 环境变量模板
+│   ├── api/routers/                   # auth / report / version / schedule / datasource / knowledge / config / publish / alert
+│   ├── app/services/                  # report / version / qa / export / audit / auth 业务服务
+│   ├── app/tasks/                     # report_task 异步生成任务
+│   ├── capability/                    # adapter（7 类数据源）/ clean / judge / metric / rag / render / push / message
+│   ├── infra/                         # db / vector / cache / schedule / storage / trace / alert
+│   ├── model/                         # enum / entity / struct
+│   ├── template/                      # 五周期报告模板（Jinja2）
+│   ├── scripts/                       # 数据源初始化 / mock 数据 / 联调协议服务 / 清理脚本
+│   ├── tests/                         # 377 个用例（test_v1x ~ test_v25）
+│   ├── docs/deploy/                   # Systemd / Nginx / 备份恢复模板
+│   └── .env                           # 环境配置（DATABASE_URL / LLM / PUSH_MODE）
+│
+└── frontend/                          # ── 前端（Vue 3 + Element Plus + Vite 6 + TS）──
+    └── src/views/                     # Dashboard / Reports / ReportPreview / Schedule / DataSources / Knowledge / ReportConfig / TaskLogs / UserManage / AlertRules / AuditLog / Login / ChangePwd / Forbidden
 ```
 
 ---
 
-## 快速开始
+## ⚡ 快速开始
 
 ### 1. 前置
 
@@ -84,10 +176,10 @@ multicycle‑secreport‑agent/
 
 ### 2. 启动基础设施（可选）
 
-开发期可完全零依赖（SQLite + 内存缓存），需要 MySQL/Redis 时：
+开发期可完全零依赖（SQLite + 内存缓存），需要 MySQL / Redis 时：
 
 ```bash
-docker compose up -d          # MySQL 8 + Redis 7
+docker compose up -d          # MySQL 8 + Redis 7（健康检查就绪后）
 ```
 
 ### 3. 启动后端
@@ -95,7 +187,7 @@ docker compose up -d          # MySQL 8 + Redis 7
 ```bash
 cd sec_report_agent
 pip install -r requirements.txt        # 首次
-cp .env.example .env                   # 按需修改 DATABASE_URL / LLM 配置
+cp .env.example .env                   # 按需修改 DATABASE_URL / LLM / PUSH_MODE
 python3 -m uvicorn main:app --host 127.0.0.1 --port 8001
 ```
 
@@ -114,80 +206,105 @@ npm run dev                  # http://127.0.0.1:5174（/api 自动代理到 8001
 
 ### 5. 使用
 
-浏览器打开 http://127.0.0.1:5174 → 登录 → 任务看板点"生成报告"（或"↻ 重跑"强制重新生成）→ 轮询完成后跳转预览 → 可提问、导出、审核、推送。
+浏览器打开 http://127.0.0.1:5174 → 登录 → 任务看板点"生成报告"（或"↻ 重跑"强制重新生成）→ 轮询完成后跳转预览 → 可提问、导出、审核、推送。数据源管理页可新增真实数据源（ES / 告警平台 API / MySQL）并测试连接。
 
 ---
 
-## 默认账号与端口
-
-| 项 | 值 |
-|---|---|
-| 前端 | http://127.0.0.1:5174 |
-| 后端 | http://127.0.0.1:8001（`/health` 健康检查，`/docs` Swagger） |
-| 管理员 | `admin` / `admin123` |
-| 分析师 | `analyst` / `analyst123` |
-| 只读访客 | `viewer` / `viewer123` |
-
----
-
-## API 概览
+## 🧩 全部功能说明
 
 | 前缀 | 说明 | 主要端点 |
-|---|---|---|
-| `/api/auth` | 认证与用户 | login / me / users（CRUD） |
+|------|------|----------|
+| `/api/auth` | 认证与用户 | login / me / users（CRUD）/ audit-logs |
 | `/api/report` | 报告任务 | list / generate / status / detail / stats / **qa** / **export** |
 | `/api/version` | 版本与审核 | list / detail / content / audit / compare |
 | `/api/schedule` | 调度 | list / trigger / toggle / next-run |
-| `/api/datasource` | 数据源管理 | meta / list / create / toggle / test |
+| `/api/datasource` | 数据源管理 | meta（动态表单定义）/ list / create / update / toggle / **test** / delete |
 | `/api/kb` | 知识库 | categories / list / create / toggle |
 | `/api/config/report` | 报告选配 | get / save（章节开关 / 周期 / 自动推送） |
 | `/api/publish` | 推送 | channels / push / records |
+| `/api/alert/rules` | 告警规则 | list / update（阈值 / 开关，热生效） |
 
 统一响应结构：`{ code, message, data, traceId, timestamp }`；RBAC 通过 `Authorization: Bearer <token>` 鉴权。
 
 ---
 
-## 测试与质量
+## 🐳 Docker 部署
+
+### 基础设施（docker-compose.yml）
+
+```bash
+docker compose up -d          # MySQL 8（utf8mb4 + healthcheck）+ Redis 7
+```
+
+| 服务 | 端口 | 说明 |
+|------|------|------|
+| mysql | 3306 | `sec_report` / `sec_report` / `sec_report_dev`，数据卷持久化 |
+| redis | 6379 | 缓存（可选，`CACHE_BACKEND=memory` 可跳过） |
+
+### 后端镜像（sec_report_agent/Dockerfile）
+
+多阶段构建 + 非 root（uid 10001）+ 健康检查，`/app/reports` 与 `/app/vector_data` 数据目录持久化。部署模板见 `docs/deploy/`（Systemd 服务单元 + Nginx 反代 + 备份恢复 restore.md）。
+
+---
+
+## 🔧 配置说明
+
+`.env` 关键项（模板见 `.env.example`）：
+
+| 分组 | 变量 | 默认值 |
+|------|------|--------|
+| 服务 | `APP_ENV` / `DEBUG` / `PORT` | `dev` / `true` / `8000` |
+| 存储 | `DATABASE_URL` | `mysql+pymysql://sec_report:sec_report_dev@127.0.0.1:3306/sec_report?charset=utf8mb4` |
+| 缓存 | `CACHE_BACKEND` / `REDIS_URL` | `redis` / `redis://127.0.0.1:6379/0` |
+| LLM | `LLM_API_KEY` / `LLM_BASE_URL` / `LLM_MODEL` | 空 / `https://raytoken.com.cn` / `deepseek-v4-flash` |
+| 推送 | `PUSH_MODE` / `DINGTALK_WEBHOOK_URL` / `WECOM_WEBHOOK_URL` | `mock` / 空 / 空（`real` 需配 webhook + 加签密钥） |
+
+> ⚠️ 路径配置基于项目根自动计算绝对路径（`settings._PROJECT_ROOT` 上溯 3 层），从任意目录运行均可正确解析。
+
+---
+
+## 🧪 测试
 
 ```bash
 cd sec_report_agent
-python3 -m pytest tests/ -q                    # 338 用例全绿
-python3 -m pytest tests/ -q --cov=app --cov=api --cov=capability --cov=infra --cov=model --cov=common --cov-report=term
+python3 -m pytest tests/ -q                                        # 377 用例全绿
+python3 -m pytest tests/ -q --cov=api --cov=capability --cov=infra --cov=model --cov=common --cov=service --cov=app --cov-report=term
 ```
 
+```
+测试结果: 377/377 通过 ✅，覆盖率 91%（4885 stmts）
+```
+
+**测试覆盖亮点**：
+
 - 测试隔离：conftest 自动切换独立 SQLite 测试库 + mock 数据源，**不污染开发库**
-- 覆盖率：**94%**（4062 stmts）
-- 测试数据清理：`python3 scripts/dev/cleanup_test_data.py`（幂等删除测试特征数据）
+- 数据源适配器：文件模式 + 真实对接双模式；HTTP 模式测试内自起协议服务（不依赖外部进程），覆盖认证 / 分页 / 时间窗口 / search_after 翻页 / 失败路径
+- 知识库同步：台账 ↔ 向量库 CRUD 同步（fake store 隔离）
+- 告警器 / 推送 / 可观测性：规则热更新、钉钉签名验签、mock 与 real 双模式、就绪探针降级
 
 ---
 
-## 文档索引
+## 📚 文档索引
 
 | 文档 | 内容 |
-|---|---|
-| `多周期网安报告智能体.md` | 主设计文档（四层架构 / SOLID / 设计模式） |
+|------|------|
+| `多周期网安报告智能体.md` | 主设计文档（五层架构 / SOLID / 设计模式） |
 | `多周期网安报告智能体（MultiCycle SecReport Agent）详细设计文档.md` | 六层架构 / 7 类数据源 / 5 周期 / 接口规范 |
-| `多周期网安报告智能体 迭代开发规划.md` | V1.0 ~ V2.1 版本路线 |
-| `开发规划（落地执行版）.md` 等 | 各版本落地执行标准（技术栈定版 / 任务清单 / 验收） |
+| `多周期网安报告智能体 迭代开发规划.md` | V1.0 ~ V2.5 版本路线 |
+| `开发规划（V2.4 运维深化）.md` 等 | 各版本落地执行标准（技术栈定版 / 任务清单 / 验收） |
+| `docs/deploy/` | Systemd / Nginx / 备份恢复模板 |
 
 ---
 
-## 版本历史
+## ⚠️ 已知限制
 
-| 版本 | 核心内容 |
-|---|---|
-| V1.0 | 框架底座 + 月报最小闭环（数据接入→指标→研判→渲染→API/调度/前端） |
-| V1.1 | 月报完整交付（审核流转 / 推送 stub / 版本对比 / 环比） |
-| V1.2 | 全周期模板（日/周/季/年）+ 新增 4 类数据源适配器 |
-| V1.3 | 前端可视化零代码（数据源 / 知识库 / 报告选配 / 任务日志） |
-| V2.0 | 生产加固：RBAC / 异步生成 / 容错重试 / 知识库 RAG / 覆盖率 94% |
-| V2.1 | 报告智能问答 + Markdown/Word 导出 + 中文降级问答 |
-| V2.2 | 上线硬门槛：登录失败锁定 / 强制改密 / 任务恢复 / 并发生成上限 / Dockerfile+Systemd+Nginx 部署 / 数据备份 |
-| V2.3 | 运维完善：/health 就绪探针 + /metrics Prometheus 指标 / 推送真实化（钉钉/企微加签+重试）/ 导出审计 + 审计日志页 / 前端路由级角色拦截 |
-| V2.4 | 运维深化：内置自检告警器（阈值 DB 热读，界面热改无需重启 + 30min 防抖 + 钉钉/企微推送）/ 日志 JSON 结构化 + 轮转 + 脱敏（字段可配置）/ Prometheus 告警规则 + Promtail 采集示例 / 告警规则管理页 |
+- **LLM 依赖外网**：LLM 调用需可达 raytoken.com.cn（deepseek-v4-flash）；不可用时自动降级为规则 + 章节提取，报告生成不受阻
+- **真实推送需配置**：`PUSH_MODE=real` 且配置钉钉 / 企微 webhook 才真实发送；未配置时 mock 模式返回模拟成功（detail 标注 stub）
+- **重型组件开发期不内置**：ES / Splunk 等重型组件开发期用本地协议服务验证对接代码（`scripts/dev/mock_data_services.py`），生产填真实地址即真连；Milvus 向量库（需 etcd + minio 三件套）开发期不用，使用 ChromaDB
+- **仓库目录名**：含 U+2011 非断行连字符（`‑`），复制路径时请保留原字符
 
 ---
 
-## License
+## 📄 License
 
 内部项目，保留所有权利。
