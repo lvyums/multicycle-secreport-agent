@@ -341,19 +341,23 @@ class AlertRuleRepo:
     """告警规则（V2.4）— 阈值 DB 热读"""
 
     _SEED = [
-        # (rule_key, name, threshold, window_hours)
-        ("task_fail_count", "任务失败数", 3, 1),
-        ("llm_fallback_rate", "LLM 降级率", 0.5, 1),
-        ("push_fail_count", "推送失败数", 3, 1),
+        # (rule_key, name, threshold, window_hours, enabled)
+        ("task_fail_count", "任务失败数", 3, 1, "enabled"),
+        ("llm_fallback_rate", "LLM 降级率", 0.5, 1, "enabled"),
+        ("push_fail_count", "推送失败数", 3, 1, "enabled"),
+        # 趋势告警（V2.7）：安全指标环比突增，threshold=环比增长率阈值（0.5=增长50%）
+        # 默认 disabled：首期无基准/数据源未接时避免误报，运维在界面上显式启用
+        ("trend_MONTHLY_alert_total", "月度告警量突增", 0.5, 1, "disabled"),
+        ("trend_WEEKLY_alert_high", "周度高危告警突增", 0.5, 1, "disabled"),
     ]
 
     @staticmethod
     def ensure_seed_rules(db: Session):
-        for key, name, threshold, window in AlertRuleRepo._SEED:
+        for key, name, threshold, window, enabled in AlertRuleRepo._SEED:
             existing = AlertRuleRepo.get_by_key(db, key)
             if existing is None:
                 db.add(AlertRule(rule_key=key, name=name, threshold=threshold,
-                                 window_hours=window, enabled="enabled"))
+                                 window_hours=window, enabled=enabled))
         db.commit()
 
     @staticmethod

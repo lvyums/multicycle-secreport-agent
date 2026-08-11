@@ -1,20 +1,24 @@
 """Webhook 渠道推送策略 — 钉钉/企微/邮件
 
 - mock 模式（默认，settings.push_mode=mock）：校验内容 + 模拟发送，记录 PushLog —— 测试/开发零外网
-- real 模式（settings.push_mode=real）：真实 HTTP 发送，钉钉 HMAC-SHA256 加签、企微 key 加签，
-  失败重试 2 次指数退避（0.3 * 3^n），PushLog 记录真实 HTTP 状态码/响应摘要
-- email：仅 stub（未实现真实 SMTP，标注提示）
+- real 模式（settings.push_mode=real）：真实发送，钉钉 HMAC-SHA256 加签、企微 key 加签、
+  SMTP 发邮件（V2.7 实现），失败重试 2 次指数退避（0.3 * 3^n），PushLog 记录真实结果
 
-零新增依赖（urllib）。
+零新增依赖（urllib + smtplib 标准库）。
+
 """
-
 import base64
 import hashlib
 import hmac
+import html
 import json
+import smtplib
 import time
 import urllib.parse
 import urllib.request
+from email.header import Header
+from email.mime.text import MIMEText
+from email.utils import formataddr
 from typing import Optional
 
 from capability.push.push_strategy import PushStrategy, PushResult
@@ -67,6 +71,56 @@ def _wecom_sign(timestamp_ms: str, key: str) -> str:
     digest = hmac.new(key.encode("utf-8"), timestamp_ms.encode("utf-8"),
                       hashlib.sha256).digest()
     return base64.b64encode(digest).decode("utf-8")
+
+
+def _md_to_html(title: str, content_md: str) -> str:
+    """极简 MD → HTML：标题 + 正文按行转义后 <pre> 包裹（零依赖，够用即可）"""
+    body = html.escape(content_md)
+    return (f"<html><body><h2>{html.escape(title)}</h2>"
+            f"<pre style='font-family:Menlo,Consolas,monospace;font-size:13px;"
+            f"line-height:1.6;white-space:pre-wrap'>{body}</pre></body></html>")
+
+
+def _smtp_send(title: str, content_md: str, recipients: list[str],
+               timeout: int = 15, retries: int = 2) -> tuple[bool, str]:
+    """SMTP 发送（smtplib 标准库），失败重试 2 次指数退避；返回 (ok, detail)"""
+    host = settings.smtp_host
+    port = settings.smtp_port
+    user = settings.smtp_user or ""
+    password = settings.smtp_password or ""
+    from_addr = settings.smtp_from or user
+    use_tls = settings.smtp_use_tls
+
+    msg = MIMEText(_md_to_html(title, content_md), "html", "utf-8")
+    msg["Subject"] = Header(title, "utf-8")
+    msg["From"] = formataddr((str(Header("安全态势报告", "utf-8")), from_addr))
+    msg["To"] = ", ".join(recipients)
+
+    last_err = ""
+    for attempt in range(retries + 1):
+        try:
+            if use_tls:
+                server = smtplib.SMTP_SSL(host, port, timeout=timeout)
+            else:
+                server = smtplib.SMTP(host, port, timeout=timeout)
+                server.starttls()
+            try:
+                if user:
+                    server.login(user, password)
+                server.sendmail(from_addr, recipients, msg.as_string())
+            finally:
+                server.quit()
+            detail = (f"SMTP 真实发送成功：{host}:{port} → {len(recipients)} 个收件人，"
+                      f"主题《{title[:40]}》")
+            logger.info(f"[PUSH:email] {detail}")
+            return True, detail
+        except Exception as e:  # noqa: BLE001
+            last_err = f"{type(e).__name__}: {e}"
+            if attempt < retries:
+                time.sleep(0.3 * (3 ** attempt))
+    detail = f"SMTP 真实发送失败(重试{retries}次后): {last_err[:200]}"
+    logger.warning(f"[PUSH:email] {detail}")
+    return False, detail
 
 
 class _WebhookStubStrategy(PushStrategy):
@@ -169,9 +223,23 @@ class EmailPushStrategy(_WebhookStubStrategy):
     channel = "email"
 
     def _push_real(self, title: str, content: str) -> PushResult:
-        # 邮件 SMTP 未实现（需 smtplib + 邮件服务器配置），real 模式显式失败
-        return PushResult(success=False, channel=self.channel,
-                          detail="邮件渠道暂未实现真实 SMTP 发送，请使用钉钉/企微渠道")
+        if not settings.smtp_host:
+            return PushResult(success=False, channel=self.channel,
+                              detail="push_mode=real 但未配置 SMTP_HOST（.env）")
+        recipients = [r.strip() for r in (settings.email_recipients or "").split(",")
+                      if r.strip()]
+        if not recipients:
+            return PushResult(success=False, channel=self.channel,
+                              detail="push_mode=real 但未配置 EMAIL_RECIPIENTS（.env）")
+        ok, detail = _smtp_send(title, content, recipients)
+        try:
+            from infra import metrics
+            metrics.inc("sec_report_push_total",
+                        {"channel": self.channel, "result": "success" if ok else "fail"})
+        except Exception:
+            pass
+        return PushResult(success=ok, channel=self.channel,
+                          detail=detail, extra={"mock": False, "recipients": len(recipients)})
 
 
 # ── 注册到工厂 ──

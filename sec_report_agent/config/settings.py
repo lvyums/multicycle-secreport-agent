@@ -62,6 +62,16 @@ class Settings(BaseSettings):
     dingtalk_webhook_secret: str = ""      # 钉钉加签密钥（非空才签名）
     wecom_webhook_url: str = ""            # 企微群机器人 webhook 地址
     wecom_webhook_key: str = ""            # 企微加签密钥（非空才签名）
+
+    # ── 邮件推送（V2.7：smtplib 标准库 real 发送，零新增依赖） ──
+    smtp_host: str = ""                    # SMTP 服务器（如 smtp.exmail.qq.com）
+    smtp_port: int = 465                   # 465=SSL / 587=STARTTLS
+    smtp_user: str = ""                    # 登录账号（空则不认证）
+    smtp_password: str = ""                # 登录密码/授权码
+    smtp_use_tls: bool = True              # True=SMTP_SSL(465) / False=STARTTLS(587)
+    smtp_from: str = ""                    # 发件人地址，默认取 smtp_user
+    email_recipients: str = ""             # 逗号分隔收件人（real 模式必填）
+
     template_root: str = os.path.join(_PROJECT_ROOT, "template")
 
     # ── 风险阈值（规则引擎）──

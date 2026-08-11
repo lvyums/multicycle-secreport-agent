@@ -77,11 +77,63 @@ class Alerter:
                 return None, ""
             rate = fall / total
             return rate, f"近{window_hours}h LLM 降级 {fall}/{total}"
+        if rule_key.startswith("trend_"):
+            return self._eval_trend_rule(db, rule_key)
         return None, ""
+
+    # ── 趋势告警求值（V2.7：安全指标环比突增） ──
+
+    _TREND_METRIC_LABEL = {
+        "alert_total": "告警量", "alert_high": "高危告警", "alert_medium": "中危告警",
+        "vuln_total": "漏洞数", "vuln_unfixed": "未修复漏洞", "event_count": "事件量",
+    }
+    # TrendService._parse_metrics 返回驼峰 key，规则 metric 用下划线 → 映射取值
+    _TREND_POINT_KEY = {
+        "alert_total": "alertTotal", "alert_high": "alertHigh", "alert_medium": "alertMedium",
+        "vuln_total": "vulnTotal", "vuln_unfixed": "vulnUnfixed", "event_count": "eventCount",
+    }
+
+    def _eval_trend_rule(self, db, rule_key: str) -> tuple[float | None, str]:
+        """趋势规则：rule_key = trend_{cycle}_{metric}
+
+        取该周期最近两期非空快照（升序），算环比增长率：
+        - 不足两期 → 不评估（首期无基准）
+        - 上期=0 且本期=0 → 不评估
+        - 上期=0 且本期>0 → 返回 99999（"从无到有"显著信号，必触发）
+        - 否则 growth = (cur - prev) / prev
+        """
+        parts = rule_key.split("_", 2)
+        if len(parts) != 3:
+            return None, ""
+        _, cycle, metric = parts
+        point_key = self._TREND_POINT_KEY.get(metric)
+        if point_key is None:
+            return None, ""
+        try:
+            from app.services.trend_service import TrendService
+            points = TrendService.list_snapshots(db, cycle, limit=2, include_empty=False)
+        except Exception as e:  # noqa: BLE001 趋势数据异常不阻塞告警器
+            logger.warning(f"[ALERT] 趋势评估 {rule_key} 异常: {e}")
+            return None, ""
+        if len(points) < 2:
+            return None, ""
+        prev, cur = points[-2], points[-1]
+        pv, cv = float(prev.get(point_key, 0.0)), float(cur.get(point_key, 0.0))
+        if pv == 0 and cv == 0:
+            return None, ""
+        if pv == 0:
+            growth = 99999.0
+            desc = (f"{cycle} {self._TREND_METRIC_LABEL.get(metric, metric)} "
+                    f"从无到有：{int(pv)} → {int(cv)}")
+        else:
+            growth = (cv - pv) / pv
+            desc = (f"{cycle} {self._TREND_METRIC_LABEL.get(metric, metric)} "
+                    f"{int(pv)} → {int(cv)}，环比 {growth * 100:+.1f}%")
+        return growth, desc
 
     @staticmethod
     def _exceeded(rule_key: str, value: float, threshold: float) -> bool:
-        if rule_key == "llm_fallback_rate":
+        if rule_key == "llm_fallback_rate" or rule_key.startswith("trend_"):
             return value > threshold
         return value >= threshold
 
