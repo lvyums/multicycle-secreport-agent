@@ -2,14 +2,8 @@
   <div ref="chartRef" class="trend-chart" :style="{ height }"></div>
 </template>
 
-<script setup lang="ts">
-/** TrendChart — echarts 封装（V2.6）
- * 默认四条主线：告警总数 / 高危告警 / 漏洞总数 / 未修复高危
- * 可传自定义 series（如事件量柱状 + 关闭率百分比双轴）
- * tooltip 附带关闭率、事件数；自动随容器 resize
- */
-import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import * as echarts from 'echarts'
+<script lang="ts">
+/** 模块作用域常量：withDefaults 默认值不可引用 <script setup> 局部变量（会被 hoist） */
 import type { TrendPoint } from '@/types'
 
 export interface TrendSeriesDef {
@@ -21,12 +15,22 @@ export interface TrendSeriesDef {
   percent?: boolean
 }
 
-const DEFAULT_SERIES: TrendSeriesDef[] = [
+export const DEFAULT_SERIES: TrendSeriesDef[] = [
   { key: 'alertTotal', name: '告警总数', color: '#409eff' },
   { key: 'alertHigh', name: '高危告警', color: '#f56c6c' },
   { key: 'vulnTotal', name: '漏洞总数', color: '#e6a23c' },
   { key: 'vulnUnfixedHigh', name: '未修复高危', color: '#c45656' },
 ]
+</script>
+
+<script setup lang="ts">
+/** TrendChart — echarts 封装（V2.6）
+ * 默认四条主线：告警总数 / 高危告警 / 漏洞总数 / 未修复高危
+ * 可传自定义 series（如事件量柱状 + 关闭率百分比双轴）
+ * tooltip 附带关闭率、事件数；自动随容器 resize
+ */
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import * as echarts from 'echarts'
 
 const props = withDefaults(
   defineProps<{
