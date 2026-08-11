@@ -10,13 +10,22 @@
       <el-table :data="rules" v-loading="loading" stripe>
         <el-table-column prop="name" label="规则" min-width="140" />
         <el-table-column prop="ruleKey" label="标识" min-width="150" />
-        <el-table-column label="判定" min-width="160">
+        <el-table-column label="判定" min-width="170">
           <template #default="{ row }">
-            <el-input-number v-model="row.threshold" :min="0" :max="100000" :step="row.ruleKey === 'llm_fallback_rate' ? 0.1 : 1" size="small" />
+            <el-input-number v-if="isTrend(row.ruleKey)" v-model="row.threshold" :min="0.1"
+                             :max="10" :step="0.05" size="small" />
+            <span v-else class="unit-suffix">
+              <el-input-number v-model="row.threshold" :min="0" :max="100000"
+                               :step="row.ruleKey === 'llm_fallback_rate' ? 0.1 : 1"
+                               size="small" />
+            </span>
           </template>
         </el-table-column>
-        <el-table-column prop="windowHours" label="窗口" width="100">
-          <template #default="{ row }">近 {{ row.windowHours }}h</template>
+        <el-table-column prop="windowHours" label="窗口" width="110">
+          <template #default="{ row }">
+            <span v-if="isTrend(row.ruleKey)" class="trend-tag">{{ cycleLabel(row.ruleKey) }}</span>
+            <span v-else>近 {{ row.windowHours }}h</span>
+          </template>
         </el-table-column>
         <el-table-column label="状态" width="110">
           <template #default="{ row }">
@@ -33,7 +42,9 @@
       </el-table>
       <div class="tip">
         💡 告警触发后写入审计日志（ALERT_xxx）并推送钉钉/企微（推送模式由系统配置决定），
-        同规则 30 分钟内不重复触发。
+        同规则 30 分钟内不重复触发。<br />
+        📈 趋势规则（标识 trend_*）：盯安全指标环比突增，判定值为"环比增长率阈值"（0.5 = 增长 50%
+        触发），取该周期最近两期快照计算；不足两期时不评估。默认停用，建议数据源稳定后启用。
       </div>
     </el-card>
   </div>
@@ -62,6 +73,19 @@ const originals = new Map<number, string>()
 function dirty(row: AlertRule): boolean {
   const orig = originals.get(row.id)
   return orig !== `${row.threshold}|${row.enabled}`
+}
+
+/** 趋势规则：标识 trend_{周期}_{指标}，判定值为环比增长率阈值（0.5=增长50%） */
+function isTrend(key: string): boolean {
+  return key.startsWith('trend_')
+}
+
+function cycleLabel(key: string): string {
+  const m = key.match(/^trend_(.+?)_/)
+  const map: Record<string, string> = {
+    DAILY: '日报', WEEKLY: '周报', MONTHLY: '月报', QUARTERLY: '季报', YEARLY: '年报',
+  }
+  return m ? (map[m[1]] || m[1]) : '—'
 }
 
 async function load() {
@@ -96,5 +120,14 @@ onMounted(load)
   margin-top: 12px;
   color: #909399;
   font-size: 13px;
+  line-height: 1.7;
+}
+.trend-tag {
+  color: #e6a23c;
+  font-weight: 600;
+}
+.unit-suffix {
+  display: inline-flex;
+  align-items: center;
 }
 </style>
