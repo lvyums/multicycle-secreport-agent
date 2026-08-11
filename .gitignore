@@ -16,3 +16,6 @@ htmlcov/
 
 # 设计文档（不推送远程）
 多周期网安报告智能体*.md
+
+# 答辩汇报材料（不入库）
+multicycle-secreport-slides.html
