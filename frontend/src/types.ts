@@ -69,3 +69,46 @@ export const VERSION_STATUS_LABELS: Record<string, string> = {
   ARCHIVED: '已归档',
   FAILED: '失败',
 }
+
+/** 趋势点（V2.6 趋势分析，来自 /api/trend/series） */
+export interface TrendPoint {
+  label: string
+  windowStart: string
+  windowEnd: string
+  snapshotId: number
+  createdAt: string
+  alertTotal: number
+  alertHigh: number
+  alertMedium: number
+  alertLow: number
+  alertInfo: number
+  alertCloseRate: number
+  vulnTotal: number
+  vulnUnfixed: number
+  vulnUnfixedHigh: number
+  vulnCloseRate: number
+  eventCount: number
+}
+
+/** 单周期趋势序列 */
+export interface TrendSeries {
+  cycle: string
+  cycleLabel: string
+  points: TrendPoint[]
+}
+
+/** 时间轴条目（V2.6，来自 /api/trend/timeline） */
+export interface TimelineItem {
+  versionId: number
+  versionNo: number
+  cycle: string
+  windowStart: string
+  windowEnd: string
+  title: string
+  status: string
+  createdAt: string
+  alertTotal: number
+  alertHigh: number
+  vulnTotal: number
+  eventCount: number
+}

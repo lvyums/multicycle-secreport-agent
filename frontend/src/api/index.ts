@@ -94,4 +94,11 @@ export const Api = {
     records: (versionId: number) => get('/api/publish/records', { versionId }),
     channels: () => get('/api/publish/channels'),
   },
+
+  // ── 趋势分析 + 报告时间轴（V2.6） ──
+  trend: {
+    series: (params?: Record<string, string | number>) => get('/api/trend/series', params),
+    allCycles: (params?: Record<string, string | number>) => get('/api/trend/all-cycles', params),
+    timeline: (params?: Record<string, string | number>) => get('/api/trend/timeline', params),
+  },
 }

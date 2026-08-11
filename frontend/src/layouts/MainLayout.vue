@@ -14,6 +14,14 @@
           <el-icon><Document /></el-icon>
           <span>历史报告</span>
         </el-menu-item>
+        <el-menu-item index="/trend">
+          <el-icon><TrendCharts /></el-icon>
+          <span>趋势分析</span>
+        </el-menu-item>
+        <el-menu-item index="/timeline">
+          <el-icon><Histogram /></el-icon>
+          <span>报告时间轴</span>
+        </el-menu-item>
         <el-menu-item index="/schedule">
           <el-icon><Timer /></el-icon>
           <span>调度配置</span>

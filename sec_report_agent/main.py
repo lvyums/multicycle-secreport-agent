@@ -284,6 +284,11 @@ def register_routers():
     except ImportError:
         pass
     try:
+        from api.routers.trend import router as trend_router
+        app.include_router(trend_router, tags=["趋势分析"])
+    except ImportError:
+        pass
+    try:
         from api.routers.auth import router as auth_router
         app.include_router(auth_router, prefix="/api/auth", tags=["认证"])
     except ImportError:

@@ -33,6 +33,18 @@ const routes = [
         meta: { title: '历史报告', roles: ['viewer', 'analyst', 'admin'] },
       },
       {
+        path: 'trend',
+        name: 'trend',
+        component: () => import('@/views/TrendView.vue'),
+        meta: { title: '趋势分析', roles: ['viewer', 'analyst', 'admin'] },
+      },
+      {
+        path: 'timeline',
+        name: 'timeline',
+        component: () => import('@/views/TimelineView.vue'),
+        meta: { title: '报告时间轴', roles: ['viewer', 'analyst', 'admin'] },
+      },
+      {
         path: 'report-preview/:versionId?',
         name: 'report-preview',
         component: () => import('@/views/ReportPreview.vue'),
