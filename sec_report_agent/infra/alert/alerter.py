@@ -144,6 +144,12 @@ class Alerter:
         logger.warning(msg)
         AuditLogRepo.add(db, operator="system", action=f"ALERT_{rule_key}",
                          target_type="alert", target_id=0, detail=f"{name} {desc}")
+        # V2.8 站内通知：告警触发
+        try:
+            from app.services.notification_service import NotificationService
+            NotificationService.alert_fired(rule_key, name, desc)
+        except Exception:
+            pass
         # 推送（复用 V2.3 策略；mock 模式记 PushLog 不真发）
         try:
             from capability.push.push_strategy import PushStrategyFactory

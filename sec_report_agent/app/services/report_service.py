@@ -142,6 +142,13 @@ class ReportService:
         # 5. 渲染 + 版本快照
         version = await cls._render_and_snapshot(task_id, cycle, ws, we, metric, judge, cleaned)
 
+        # 5.1 站内通知：报告生成完成（V2.8）
+        try:
+            from app.services.notification_service import NotificationService
+            NotificationService.report_ready(cycle, ws, we, task_id, version.get("id", 0))
+        except Exception:
+            pass
+
         # 6. 状态收尾
         empty = metric.alert.get("total", 0) == 0 and metric.vuln.get("total", 0) == 0
         status = TaskStatus.EMPTY.value if empty else (TaskStatus.PARTIAL.value if partial else TaskStatus.SUCCESS.value)
@@ -149,9 +156,11 @@ class ReportService:
         cls._finish_task(task_id, status, duration_ms=duration_ms,
                          data_source_stats=stats, version_id=version.get("id", 0))
 
-        # 7. 自动推送（报告选配 auto_generate，V1.3）
+        # 7. 自动推送（报告选配 auto_generate，V1.3；V2.8 EMPTY 策略可配）
         if status == TaskStatus.SUCCESS.value:
             cls._auto_push_if_enabled(version.get("id", 0))
+        elif status == TaskStatus.EMPTY.value:
+            cls._handle_empty_push(cycle, ws, we, task_id, version.get("id", 0))
 
         logger.info(f"[PIPE] 任务 #{task_id} 完成: {status} 耗时{duration_ms}ms")
         return {"status": status, "version_id": version.get("id", 0),
@@ -509,14 +518,61 @@ class ReportService:
                             status="SUCCESS" if result.success else "FAILED",
                             detail=f"[自动推送] {result.detail[:360]}",
                         )
+                        if not result.success:
+                            try:
+                                from app.services.notification_service import NotificationService
+                                NotificationService.push_fail(ver.cycle, channel, version_id,
+                                                              result.detail[:300])
+                            except Exception:
+                                pass
                         logger.info(f"[PIPE] 自动推送 #{version_id} → {channel}: "
                                     f"{'成功' if result.success else '失败'}")
                     except Exception as e:
                         logger.warning(f"[PIPE] 自动推送 {channel} 失败: {e}")
+                        try:
+                            from app.services.notification_service import NotificationService
+                            NotificationService.push_fail(ver.cycle, channel, version_id,
+                                                          str(e)[:300])
+                        except Exception:
+                            pass
             finally:
                 db.close()
         except Exception as e:
             logger.warning(f"[PIPE] 自动推送流程异常（忽略）: {e}")
+
+    @classmethod
+    def _load_empty_push_mode(cls) -> str:
+        """读取 EMPTY 推送策略（skip/alert_only/push，异常回退 skip）"""
+        try:
+            from infra.db.session import SessionLocal
+            from infra.db.repositories import ReportConfigRepo
+            db = SessionLocal()
+            try:
+                cfg = ReportConfigRepo.get_or_create(db)
+                mode = getattr(cfg, "empty_push_mode", "skip") or "skip"
+                return mode if mode in ("skip", "alert_only", "push") else "skip"
+            finally:
+                db.close()
+        except Exception:
+            return "skip"
+
+    @classmethod
+    def _handle_empty_push(cls, cycle: str, ws: str, we: str,
+                           task_id: int, version_id: int) -> None:
+        """EMPTY 终态策略（V2.8）：push=正常推送 / alert_only=不推+告警通知 / skip=不处理"""
+        mode = cls._load_empty_push_mode()
+        if mode == "push":
+            cls._auto_push_if_enabled(version_id)
+            logger.info(f"[PIPE] EMPTY 报告 #{version_id} 按策略 push 已推送")
+        elif mode == "alert_only":
+            try:
+                from app.services.notification_service import NotificationService
+                NotificationService.empty_report(cycle, ws, we, task_id, version_id)
+            except Exception:
+                pass
+            logger.warning(f"[PIPE] EMPTY 报告 #{version_id} 不推送（策略=alert_only），已告警通知")
+        else:
+            logger.info(f"[PIPE] EMPTY 报告 #{version_id} 不推送（策略=skip）")
 
     # ── 状态收尾 ──
 

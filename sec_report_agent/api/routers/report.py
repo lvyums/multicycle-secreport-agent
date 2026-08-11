@@ -192,3 +192,67 @@ def task_stats(_=Depends(require_login), db: Session = Depends(get_db)):
             "last": cyc_rows[0].finished_at if cyc_rows else None,
         }
     return ok(stats)
+
+
+@router.post("/export-batch")
+def report_export_batch(body: dict, user=Depends(require_analyst),
+                        db: Session = Depends(get_db)):
+    """批量导出/周期归档（V2.8）：按周期 + 窗口范围打包 ZIP（标准库 zipfile）"""
+    import zipfile
+    from fastapi.responses import StreamingResponse
+    from model.entity.entities import ReportVersion
+    from infra.db.repositories import AuditLogRepo
+
+    cycle = (body.get("cycle") or "").upper()
+    if cycle not in [c.value for c in ReportCycle]:
+        return fail(f"cycle 非法: {cycle}", ApiCode.PARAM_ERROR)
+    from_ = (body.get("from") or "").strip()
+    to_ = (body.get("to") or "").strip()
+
+    q = db.query(ReportVersion).filter(ReportVersion.cycle == cycle)
+    # 窗口范围过滤（ISO 字符串字典序即时间序；注意日期与时间拼接的字典序坑）
+    from datetime import datetime as _dt
+    if from_:
+        from_start = from_ if len(from_) >= 19 else f"{from_} 00:00:00"
+        q = q.filter(ReportVersion.window_start >= from_start)
+    if to_:
+        if len(to_) >= 19:
+            to_end = to_
+        elif len(to_) == 7:  # YYYY-MM → 下月首日（开区间，避免 '-' < ' ' 字典序坑）
+            y, m = int(to_[:4]), int(to_[5:7])
+            ny, nm = (y + 1, 1) if m == 12 else (y, m + 1)
+            to_end = f"{ny:04d}-{nm:02d}-01 00:00:00"
+        else:  # YYYY-MM-DD → 当日 23:59:59
+            to_end = f"{to_} 23:59:59"
+        q = q.filter(ReportVersion.window_start < to_end)
+    versions = q.order_by(ReportVersion.window_start.desc()).limit(200).all()
+    if not versions:
+        return fail(f"{cycle} 周期 {from_ or '全部'}~{to_ or '全部'} 无报告版本",
+                    ApiCode.NOT_FOUND)
+
+    buf = BytesIO()
+    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:
+        for v in versions:
+            title = (v.title or f"report-{v.window_start[:10]}").replace("/", "-")
+            fname = f"{cycle}_{v.window_start[:10]}_{title}.md"
+            zf.writestr(fname, v.content_md or f"# {title}\n\n（无内容）")
+    buf.seek(0)
+
+    # 导出审计（V2.3 惯例）
+    try:
+        AuditLogRepo.add(
+            db, getattr(user, "username", "?"), "EXPORT_REPORT_BATCH",
+            target_type="ReportVersion", target_id=0,
+            detail=f"批量导出 {cycle} {from_ or '全部'}~{to_ or '全部'}，共 {len(versions)} 份",
+        )
+        db.commit()
+    except Exception:
+        pass
+
+    from urllib.parse import quote
+    safe_name = quote(f"{cycle}_批量归档_{len(versions)}份.zip")
+    return StreamingResponse(
+        buf,
+        media_type="application/zip",
+        headers={"Content-Disposition": f"attachment; filename*=UTF-8''{safe_name}"},
+    )

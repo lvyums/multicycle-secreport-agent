@@ -285,12 +285,14 @@ def register_routers():
         pass
     try:
         from api.routers.trend import router as trend_router
+        from api.routers.notification import router as notification_router
         app.include_router(trend_router, tags=["趋势分析"])
     except ImportError:
         pass
     try:
         from api.routers.auth import router as auth_router
         app.include_router(auth_router, prefix="/api/auth", tags=["认证"])
+        app.include_router(notification_router, prefix="/api/notification", tags=["通知"])
     except ImportError:
         pass
 

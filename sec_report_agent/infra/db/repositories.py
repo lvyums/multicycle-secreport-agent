@@ -12,6 +12,7 @@ from model.entity.entities import (
     DataSourceConfig, RawEvent, StdEvent, AssetVuln,
     ReportTask, ReportVersion, MetricSnapshot, AuditLog, PushLog,
     KnowledgeDoc, ReportConfig, User, AlertRule,
+    Notification,
 )
 from model.enum.enums import TaskStatus, DataSourceType
 
@@ -537,3 +538,64 @@ class ReportConfigRepo:
         db.commit()
         db.refresh(cfg)
         return cfg
+
+
+class NotificationRepo:
+    """站内通知（V2.8）— 四类消息：REPORT_READY / PUSH_FAIL / ALERT / REVIEW_RESULT"""
+
+    @staticmethod
+    def add(db: Session, ntype: str, title: str, content: str = "",
+            level: str = "info", target_user: str = "",
+            task_id: int = 0, version_id: int = 0) -> Notification:
+        n = Notification(
+            type=ntype, title=title, content=content, level=level,
+            target_user=target_user, read_flag="no",
+            task_id=task_id, version_id=version_id,
+        )
+        db.add(n)
+        db.commit()
+        db.refresh(n)
+        return n
+
+    @staticmethod
+    def list_all(db: Session, target_user: str = "", read_flag: str | None = None,
+                 page: int = 1, limit: int = 20) -> tuple[list, int]:
+        q = db.query(Notification)
+        if target_user:
+            # 全体通知 + 本人定向通知
+            q = q.filter(Notification.target_user.in_(["", target_user]))
+        if read_flag is not None:
+            q = q.filter(Notification.read_flag == read_flag)
+        total = q.count()
+        rows = (q.order_by(Notification.id.desc())
+                 .offset((page - 1) * limit).limit(limit).all())
+        return rows, total
+
+    @staticmethod
+    def unread_count(db: Session, target_user: str = "") -> int:
+        q = db.query(Notification).filter(Notification.read_flag == "no")
+        if target_user:
+            q = q.filter(Notification.target_user.in_(["", target_user]))
+        return q.count()
+
+    @staticmethod
+    def mark_read(db: Session, nid: int, target_user: str = "") -> bool:
+        n = db.get(Notification, nid)
+        if not n:
+            return False
+        if target_user and n.target_user not in ("", target_user):
+            return False
+        n.read_flag = "yes"
+        db.commit()
+        return True
+
+    @staticmethod
+    def mark_all_read(db: Session, target_user: str = "") -> int:
+        q = db.query(Notification).filter(Notification.read_flag == "no")
+        if target_user:
+            q = q.filter(Notification.target_user.in_(["", target_user]))
+        rows = q.all()
+        for n in rows:
+            n.read_flag = "yes"
+        db.commit()
+        return len(rows)

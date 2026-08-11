@@ -147,6 +147,7 @@ class ReportConfig(Base):
     sections: Mapped[dict] = mapped_column(JSON, default=dict)            # 章节开关 {overview: true, ...}
     push_channels: Mapped[list] = mapped_column(JSON, default=list)       # 推送渠道
     auto_generate: Mapped[str] = mapped_column(String(8), default="disabled")  # enabled/disabled
+    empty_push_mode: Mapped[str] = mapped_column(String(8), default="skip")    # skip/alert_only/push（V2.8 EMPTY 推送策略）
     updated_at: Mapped[str] = mapped_column(String(32), default=_now, onupdate=_now)
 
 
@@ -219,3 +220,19 @@ class User(Base):
     locked_until: Mapped[str] = mapped_column(String(32), default="")       # 锁定截止时间（V2.2）
     created_at: Mapped[str] = mapped_column(String(32), default=_now)
     updated_at: Mapped[str] = mapped_column(String(32), default=_now)
+
+
+class Notification(Base):
+    """站内通知（V2.8）— 报告待审核/推送失败/告警触发/审核结果四类"""
+    __tablename__ = "sys_notification"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    type: Mapped[str] = mapped_column(String(32), index=True)        # REPORT_READY/PUSH_FAIL/ALERT/REVIEW_RESULT
+    title: Mapped[str] = mapped_column(String(255), default="")
+    content: Mapped[str] = mapped_column(Text, default="")
+    level: Mapped[str] = mapped_column(String(8), default="info")    # info/warning/error
+    target_user: Mapped[str] = mapped_column(String(64), default="", index=True)  # 空=全体可见
+    read_flag: Mapped[str] = mapped_column(String(8), default="no", index=True)   # yes/no
+    task_id: Mapped[int] = mapped_column(Integer, default=0)
+    version_id: Mapped[int] = mapped_column(Integer, default=0)
+    created_at: Mapped[str] = mapped_column(String(32), default=_now)

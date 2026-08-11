@@ -18,6 +18,9 @@ MIGRATIONS: dict[str, dict[str, str]] = {
         "login_fail_count": "INTEGER DEFAULT 0",
         "locked_until": "VARCHAR(32) DEFAULT ''",
     },
+    "report_config": {
+        "empty_push_mode": "VARCHAR(8) DEFAULT 'skip'",
+    },
 }
 
 

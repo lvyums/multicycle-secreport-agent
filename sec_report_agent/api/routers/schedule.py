@@ -3,8 +3,9 @@
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import JSONResponse
 
-from api.response import ok, fail
+from api.response import ok, fail, ApiCode
 from api.auth_deps import require_login, require_admin, require_analyst
+from infra.db.session import get_db
 from common.validator.validator import validate_enum
 from model.enum.enums import ReportCycle
 
@@ -84,3 +85,66 @@ def toggle(body: dict, request: Request, _=Depends(require_admin)):
         else:
             scheduler.shutdown()
     return ok({"enabled": enabled}, message="调度已启用" if enabled else "调度已停用")
+
+
+# ═══════════ 错过窗口检测 + 一键补跑（V2.8） ═══════════
+
+_MISSED_LOOKBACK = 3  # 往前检测 3 个窗口
+
+
+@router.get("/missed")
+def schedule_missed(db=Depends(get_db), _=Depends(require_login)):
+    """检测错过窗口：各周期应生成但无任务记录的窗口（凌晨维护/断电/cron 错过）"""
+    from datetime import datetime as _dt
+    from app.tasks.report_task import calc_window
+    from infra.db.repositories import ReportTaskRepo
+    from model.entity.entities import ReportTask
+
+    missed = []
+    for cycle in ReportCycle:
+        # 从最近窗口往前推 N 个窗口
+        windows = []
+        ref = None
+        for _ in range(_MISSED_LOOKBACK + 1):
+            ws, we = calc_window(cycle.value, ref)
+            windows.append((ws, we))
+            ref = _dt.strptime(ws, "%Y-%m-%d %H:%M:%S")
+        # windows[0]=最近窗口（可能进行中），检查 windows[1:]，窗口必须已结束
+        now = _dt.now()
+        for ws, we in windows[1:]:
+            we_dt = _dt.strptime(we, "%Y-%m-%d %H:%M:%S")
+            if we_dt > now:
+                continue
+            exists = db.query(ReportTask).filter(
+                ReportTask.cycle == cycle.value,
+                ReportTask.window_start == ws,
+            ).first()
+            if not exists:
+                missed.append({
+                    "cycle": cycle.value,
+                    "cycleLabel": cycle.label,
+                    "windowStart": ws, "windowEnd": we,
+                    "reason": "该窗口无任何生成记录（可能因停机/断电/cron 错过）",
+                })
+    return ok({"items": missed, "total": len(missed)})
+
+
+@router.post("/backfill")
+def schedule_backfill(body: dict, _=Depends(require_analyst)):
+    """一键补跑指定窗口（trigger_type=BACKFILL，rerun 绕过幂等）"""
+    import asyncio
+    from app.services.report_service import ReportService
+
+    cycle = (body.get("cycle") or "").upper()
+    validate_enum(cycle, [c.value for c in ReportCycle], "cycle")
+    ws = body.get("windowStart") or ""
+    we = body.get("windowEnd") or ""
+    if not ws or not we:
+        return fail("windowStart/windowEnd 必填（来自 /missed 检测结果）", ApiCode.PARAM_ERROR)
+    try:
+        result = asyncio.run(ReportService.generate(
+            cycle, ws, we, trigger_type="BACKFILL", rerun=True,
+        ))
+    except Exception as e:
+        return fail(f"补跑异常: {str(e)[:200]}", ApiCode.BUSINESS_ERROR)
+    return ok(result, message=f"已触发 {ReportCycle(cycle).label} 补跑 {ws[:10]}~{we[:10]}")

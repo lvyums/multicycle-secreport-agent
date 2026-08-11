@@ -110,3 +110,68 @@ def datasource_test(body: dict, _=Depends(require_admin), db: Session = Depends(
     adapter = AdapterFactory.get(cfg)
     ok_flag, msg = adapter.test_connection()
     return ok({"id": cfg.id, "name": cfg.name, "ok": ok_flag, "message": msg})
+
+
+@router.get("/health")
+def datasource_health(db: Session = Depends(get_db), _=Depends(require_login)):
+    """数据源健康看板（V2.8）：按数据源聚合最近 N 次拉取结果（ok/条数/延迟）"""
+    from model.entity.entities import ReportTask
+
+    rows = DataSourceConfigRepo.list_all(db)
+    cfgs = {c.name: c for c in rows}
+
+    # 最近 30 个终态任务的拉取统计
+    recent = (db.query(ReportTask)
+              .filter(ReportTask.status.in_(["SUCCESS", "EMPTY", "PARTIAL", "FAILED"]))
+              .order_by(ReportTask.id.desc())
+              .limit(30)
+              .all())
+
+    agg: dict[str, dict] = {}
+    for t in recent:
+        stats = t.data_source_stats or {}
+        for name, st in stats.items():
+            a = agg.setdefault(name, {
+                "name": name, "totalRuns": 0, "okRuns": 0, "failRuns": 0,
+                "okRatio": 0.0, "latestOk": None, "latestCount": 0,
+                "latestAt": None, "latestError": "", "type": st.get("type", ""),
+            })
+            a["totalRuns"] += 1
+            if st.get("ok"):
+                a["okRuns"] += 1
+            else:
+                a["failRuns"] += 1
+            a["latestOk"] = st.get("ok")
+            a["latestCount"] = st.get("count", 0)
+            a["latestAt"] = t.finished_at or t.created_at
+            a["latestError"] = st.get("error", "") or a["latestError"]
+    for a in agg.values():
+        a["okRatio"] = round(a["okRuns"] / a["totalRuns"], 2) if a["totalRuns"] else 0.0
+        a["status"] = ("ok" if a["okRatio"] == 1.0
+                       else ("warning" if a["okRatio"] > 0 else "error"))
+        if not a["totalRuns"]:
+            a["status"] = "unknown"
+
+    # 合并配置表（无记录 → unknown）
+    items = []
+    for name, c in cfgs.items():
+        if name in agg:
+            item = agg[name]
+            item["typeLabel"] = (TYPE_META.get(c.type, {}).get("label") or c.type)
+            item["enabled"] = c.status
+            items.append(item)
+        else:
+            items.append({
+                "name": name, "type": c.type,
+                "typeLabel": TYPE_META.get(c.type, {}).get("label") or c.type,
+                "enabled": c.status, "totalRuns": 0, "okRuns": 0, "failRuns": 0,
+                "okRatio": 0.0, "latestOk": None, "latestCount": 0,
+                "latestAt": None, "latestError": "", "status": "unknown",
+            })
+    # 曾出现但已删除配置的数据源也列出（历史统计）
+    for name, a in agg.items():
+        if name not in cfgs:
+            a["typeLabel"] = a["type"]
+            a["enabled"] = "-"
+            items.append(a)
+    return ok({"items": items, "recentTasks": len(recent)})

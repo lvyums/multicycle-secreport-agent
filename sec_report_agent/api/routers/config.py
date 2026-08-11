@@ -25,6 +25,7 @@ def config_get(_=Depends(require_login), db: Session = Depends(get_db)):
         "sections": cfg.sections,
         "pushChannels": cfg.push_channels,
         "autoGenerate": cfg.auto_generate,
+        "emptyPushMode": cfg.empty_push_mode,
         "updatedAt": cfg.updated_at,
     })
 
@@ -49,6 +50,9 @@ def config_save(body: dict, _=Depends(require_admin), db: Session = Depends(get_
     auto = body.get("autoGenerate")
     if auto is not None and auto not in ("enabled", "disabled"):
         raise BusinessError("autoGenerate 只能是 enabled/disabled")
+    empty_mode = body.get("emptyPushMode")
+    if empty_mode is not None and empty_mode not in ("skip", "alert_only", "push"):
+        raise BusinessError("emptyPushMode 只能是 skip/alert_only/push")
 
     ReportConfigRepo.save(
         db, cfg,
@@ -56,5 +60,6 @@ def config_save(body: dict, _=Depends(require_admin), db: Session = Depends(get_
         enabled_cycles=cycles if cycles is not None else cfg.enabled_cycles,
         push_channels=channels if channels is not None else cfg.push_channels,
         auto_generate=auto if auto is not None else cfg.auto_generate,
+        empty_push_mode=empty_mode if empty_mode is not None else cfg.empty_push_mode,
     )
     return ok({"id": cfg.id, "updatedAt": cfg.updated_at})

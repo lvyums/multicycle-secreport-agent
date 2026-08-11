@@ -78,6 +78,14 @@ def version_audit(action: str, version_id: int, body: dict | None = None,
     AuditService.log_audit(db, version_id, action, operator,
                            detail=f"{action}: {ver.title} → {new_status}",
                            trace_id=body.get("traceId") or "")
+    # V2.8 站内通知：审核结果通知报告创建人
+    if action in ("approve", "reject", "archive"):
+        try:
+            from app.services.notification_service import NotificationService
+            NotificationService.review_result(version_id, action, operator,
+                                              ver.operator or "", remark=remark)
+        except Exception:
+            pass
     db.commit()
     return ok({"versionId": version_id, "status": new_status,
                "statusLabel": ReportStatus(new_status).label})
