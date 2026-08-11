@@ -61,7 +61,33 @@
       <el-header class="main-header">
         <div class="header-title">{{ pageTitle }}</div>
         <div class="header-right">
-          <el-tag size="small" type="info">V2.0 生产加固</el-tag>
+          <el-tag size="small" type="info">V2.8</el-tag>
+          <el-popover placement="bottom-end" :width="360" trigger="click" @show="loadNotifications">
+            <template #reference>
+              <el-badge :value="unreadCount" :hidden="unreadCount === 0" :max="99" class="bell-badge">
+                <el-icon :size="18" class="bell-icon"><Bell /></el-icon>
+              </el-badge>
+            </template>
+            <div class="notify-panel">
+              <div class="notify-head">
+                <span>通知中心</span>
+                <el-button link type="primary" size="small" @click="onReadAll">全部已读</el-button>
+              </div>
+              <el-empty v-if="notifications.length === 0" description="暂无通知" :image-size="60" />
+              <div v-else class="notify-list">
+                <div v-for="n in notifications" :key="n.id" class="notify-item"
+                     :class="{ unread: n.readFlag === 'no' }" @click="onRead(n)">
+                  <div class="notify-title">
+                    <el-tag size="small" :type="levelType(n.level)" effect="plain">{{ typeLabel(n.type) }}</el-tag>
+                    <span>{{ n.title }}</span>
+                    <el-icon v-if="n.readFlag === 'no'" class="dot"><BellFilled /></el-icon>
+                  </div>
+                  <div class="notify-content">{{ n.content }}</div>
+                  <div class="notify-time">{{ n.createdAt }}</div>
+                </div>
+              </div>
+            </div>
+          </el-popover>
           <el-dropdown @command="onCommand">
             <span class="user-chip">
               <el-icon><UserFilled /></el-icon>
@@ -85,13 +111,61 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { Bell, BellFilled } from '@element-plus/icons-vue'
 import { getUser, clearAuth, isAdmin, ROLE_LABEL } from '../utils/auth'
+import { Api } from '../api'
 
 const route = useRoute()
 const router = useRouter()
 const user = getUser()
+const unreadCount = ref(0)
+const notifications = ref<any[]>([])
+let timer: number | undefined
+
+const typeLabel = (t: string) =>
+  ({ REPORT_READY: '待审核', PUSH_FAIL: '推送失败', ALERT: '告警', REVIEW_RESULT: '审核' }[t] || t)
+const levelType = (l: string) =>
+  ({ info: 'info', warning: 'warning', error: 'danger' }[l] || 'info')
+
+async function loadNotifications() {
+  try {
+    const r = await Api.notification.list({ limit: 10 })
+    notifications.value = r.data.items || []
+  } catch { /* 静默 */ }
+}
+
+async function refreshUnread() {
+  try {
+    const r = await Api.notification.unreadCount()
+    unreadCount.value = r.data.count || 0
+  } catch { /* 静默 */ }
+}
+
+async function onRead(n: any) {
+  if (n.readFlag === 'no') {
+    try { await Api.notification.read(n.id) } catch { /* 静默 */ }
+    n.readFlag = 'yes'
+    refreshUnread()
+  }
+}
+
+async function onReadAll() {
+  try {
+    await Api.notification.readAll()
+    notifications.value.forEach((n) => (n.readFlag = 'yes'))
+    refreshUnread()
+  } catch { /* 静默 */ }
+}
+
+onMounted(() => {
+  refreshUnread()
+  timer = window.setInterval(refreshUnread, 30000)
+})
+onUnmounted(() => {
+  if (timer) window.clearInterval(timer)
+})
 const canManage = isAdmin()
 const activeMenu = computed(() => route.path)
 const pageTitle = computed(() => (route.meta?.title as string) || '')
@@ -146,6 +220,64 @@ function onCommand(cmd: string) {
 .header-title {
   font-size: 16px;
   font-weight: 600;
+}
+.bell-badge {
+  cursor: pointer;
+  margin-right: 4px;
+  display: inline-flex;
+  align-items: center;
+}
+.bell-icon {
+  color: #606266;
+  vertical-align: middle;
+}
+.notify-panel {
+  max-height: 420px;
+  display: flex;
+  flex-direction: column;
+}
+.notify-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.notify-list {
+  overflow-y: auto;
+  max-height: 340px;
+}
+.notify-item {
+  padding: 8px 4px;
+  border-bottom: 1px solid #f5f5f5;
+  cursor: pointer;
+}
+.notify-item.unread {
+  background: #f5f9ff;
+}
+.notify-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+.notify-title .dot {
+  color: #f56c6c;
+}
+.notify-content {
+  font-size: 12px;
+  color: #909399;
+  margin-top: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.notify-time {
+  font-size: 11px;
+  color: #c0c4cc;
+  margin-top: 2px;
 }
 .header-right {
   display: flex;

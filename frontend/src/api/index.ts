@@ -36,6 +36,9 @@ export const Api = {
     qa: (data: { versionId: number; question: string }) => post('/api/report/qa', data),
     exportUrl: (versionId: number, format: 'md' | 'docx') =>
       `/api/report/export/${versionId}?format=${format}`,
+    // V2.8 批量导出（周期归档 ZIP）
+    exportBatch: (data: { cycle: string; from?: string; to?: string }) =>
+      post('/api/report/export-batch', data),
   },
 
   // ── 调度 ──
@@ -47,6 +50,10 @@ export const Api = {
     toggle: (enabled: boolean) => post('/api/schedule/toggle', { enabled }),
     save: (body: Record<string, unknown>) => post('/api/schedule/save', body),
     pause: (body: Record<string, unknown>) => post('/api/schedule/pause', body),
+    // V2.8 错过窗口检测 + 一键补跑
+    missed: () => get('/api/schedule/missed'),
+    backfill: (data: { cycle: string; windowStart: string; windowEnd: string }) =>
+      post('/api/schedule/backfill', data),
   },
 
   // ── 数据源（V1.3 零代码管理） ──
@@ -58,6 +65,8 @@ export const Api = {
     toggle: (id: number) => post('/api/datasource/toggle', { id }),
     remove: (id: number) => post('/api/datasource/delete', { id }),
     test: (id: number) => post('/api/datasource/test', { id }),
+    // V2.8 数据源健康看板
+    health: () => get('/api/datasource/health'),
   },
 
   // ── 知识库（V1.3） ──
@@ -93,6 +102,14 @@ export const Api = {
     push: (data: { versionId: number; channel?: string }) => post('/api/publish/push', data),
     records: (versionId: number) => get('/api/publish/records', { versionId }),
     channels: () => get('/api/publish/channels'),
+  },
+
+  // ── 站内通知（V2.8） ──
+  notification: {
+    list: (params?: Record<string, string | number>) => get('/api/notification/list', params),
+    unreadCount: () => get('/api/notification/unread-count'),
+    read: (id: number) => post(`/api/notification/read/${id}`),
+    readAll: () => post('/api/notification/read-all'),
   },
 
   // ── 趋势分析 + 报告时间轴（V2.6） ──

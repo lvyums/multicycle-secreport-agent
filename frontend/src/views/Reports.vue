@@ -7,6 +7,7 @@
           <el-select v-model="cycleFilter" placeholder="全部周期" clearable style="width: 130px" @change="load">
             <el-option v-for="(label, value) in CYCLE_LABELS" :key="value" :label="label" :value="value" />
           </el-select>
+          <el-button style="margin-left: 8px" type="primary" plain @click="openBatch">批量导出 ZIP</el-button>
           <el-button style="margin-left: 8px" @click="load">刷新</el-button>
         </div>
       </div>
@@ -46,6 +47,35 @@
       :current-page="page"
       @current-change="onPage"
     />
+
+    <!-- 批量导出 / 周期归档（V2.8） -->
+    <el-dialog v-model="batchVisible" title="批量导出 ZIP（周期归档）" width="460px">
+      <el-form label-width="90px">
+        <el-form-item label="报告周期" required>
+          <el-select v-model="batchForm.cycle" placeholder="选择周期" style="width: 100%">
+            <el-option v-for="(label, value) in CYCLE_LABELS" :key="value" :label="label" :value="value" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="窗口范围">
+          <div class="range-row">
+            <el-date-picker
+              v-model="batchForm.from" type="date" value-format="YYYY-MM-DD"
+              placeholder="开始日期（含）" style="width: 100%"
+            />
+            <span class="range-sep">~</span>
+            <el-date-picker
+              v-model="batchForm.to" type="date" value-format="YYYY-MM-DD"
+              placeholder="结束日期（含）" style="width: 100%"
+            />
+          </div>
+          <div class="hint">不选范围 = 导出该周期全部版本（最多 200 份）。用于月度/季度归档留痕。</div>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="batchVisible = false">取消</el-button>
+        <el-button type="primary" :loading="batchLoading" @click="doBatchExport">导出并下载</el-button>
+      </template>
+    </el-dialog>
   </el-card>
 </template>
 
@@ -66,6 +96,58 @@ const cycleFilter = ref('')
 const page = ref(1)
 const pageSize = 15
 const total = ref(0)
+
+// ── 批量导出（V2.8） ──
+const batchVisible = ref(false)
+const batchLoading = ref(false)
+const batchForm = ref<{ cycle: string; from: string; to: string }>({ cycle: '', from: '', to: '' })
+
+function openBatch() {
+  batchForm.value = { cycle: cycleFilter.value || '', from: '', to: '' }
+  batchVisible.value = true
+}
+
+async function doBatchExport() {
+  if (!batchForm.value.cycle) {
+    ElMessage.warning('请选择报告周期')
+    return
+  }
+  batchLoading.value = true
+  try {
+    // request.ts 只解析 JSON，ZIP 需手动 fetch 带 token 拿 blob
+    const { getToken } = await import('@/utils/auth')
+    const resp = await fetch('/api/report/export-batch', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + getToken(),
+      },
+      body: JSON.stringify(batchForm.value),
+    })
+    if (!resp.ok) {
+      const err = await resp.json().catch(() => null)
+      ElMessage.error(err?.message || 'HTTP ' + resp.status)
+      return
+    }
+    const blob = await resp.blob()
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    const cd = resp.headers.get('Content-Disposition') || ''
+    const m = cd.match(/filename\*=UTF-8''(.+)/)
+    a.href = url
+    a.download = m ? decodeURIComponent(m[1]) : 'report-archive.zip'
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+    URL.revokeObjectURL(url)
+    ElMessage.success('批量导出已开始，ZIP 已下载')
+    batchVisible.value = false
+  } catch (e: any) {
+    ElMessage.error('导出失败: ' + (e?.message || e))
+  } finally {
+    batchLoading.value = false
+  }
+}
 
 function statusType(s: string) {
   return { DRAFT: 'warning', APPROVED: 'success', ARCHIVED: 'info', FAILED: 'danger', REVIEWING: 'primary' }[s] || 'info'
@@ -122,5 +204,20 @@ onMounted(() => {
 .mt16 {
   margin-top: 16px;
   justify-content: flex-end;
+}
+.range-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+.range-sep {
+  color: #909399;
+}
+.hint {
+  font-size: 12px;
+  color: #909399;
+  line-height: 1.5;
+  margin-top: 4px;
 }
 </style>

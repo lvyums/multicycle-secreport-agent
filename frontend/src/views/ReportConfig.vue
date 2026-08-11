@@ -35,6 +35,15 @@
           <el-switch v-model="autoGenerate" active-text="开启" inactive-text="关闭" />
           <div class="hint">开启后，每次报告生成成功自动推送到所选渠道</div>
         </el-form-item>
+        <el-form-item label="EMPTY 推送策略">
+          <el-select v-model="emptyPushMode" style="width: 280px">
+            <el-option label="不推送（默认，仅生成占位报告）" value="skip" />
+            <el-option label="不推送 + 告警通知" value="alert_only" />
+            <el-option label="正常推送（占位报告也推送）" value="push" />
+          </el-select>
+          <div class="hint">EMPTY=窗口内无告警/漏洞数据。建议开启「不推送 + 告警通知」，
+            避免把「数据源故障导致的空数据」当成「真的没有安全事件」推给领导</div>
+        </el-form-item>
       </el-form>
     </el-card>
   </div>
@@ -49,6 +58,7 @@ const loading = ref(false)
 const saving = ref(false)
 const form = ref<any>({ enabledCycles: [], sections: {}, pushChannels: [] })
 const autoGenerate = ref(false)
+const emptyPushMode = ref('skip')
 
 const allCycles = [
   { value: 'DAILY', label: '日报' },
@@ -80,6 +90,7 @@ async function load() {
       pushChannels: d.pushChannels || [],
     }
     autoGenerate.value = d.autoGenerate === 'enabled'
+    emptyPushMode.value = d.emptyPushMode || 'skip'
   } finally {
     loading.value = false
   }
@@ -93,6 +104,7 @@ async function onSave() {
       sections: form.value.sections,
       pushChannels: form.value.pushChannels,
       autoGenerate: autoGenerate.value ? 'enabled' : 'disabled',
+      emptyPushMode: emptyPushMode.value,
     })
     ElMessage.success('配置已保存')
   } finally {

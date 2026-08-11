@@ -1,5 +1,59 @@
 <template>
   <div class="datasources-page">
+    <!-- 数据源健康看板（V2.8） -->
+    <el-card class="mb16">
+      <template #header>
+        <div class="toolbar">
+          <span>数据源健康看板</span>
+          <el-button size="small" @click="loadHealth" :loading="healthLoading">刷新</el-button>
+        </div>
+      </template>
+
+      <el-alert
+        v-if="healthWarn"
+        type="warning" :closable="false" class="mb12"
+        :title="healthWarn"
+      />
+
+      <el-table :data="healthItems" size="small" v-loading="healthLoading" empty-text="暂无拉取记录">
+        <el-table-column label="状态" width="80">
+          <template #default="{ row }">
+            <span class="health-dot" :class="'dot-' + row.status" :title="statusLabel(row.status)"></span>
+            <span class="health-text">{{ statusLabel(row.status) }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="name" label="数据源" min-width="130" show-overflow-tooltip />
+        <el-table-column prop="typeLabel" label="类型" width="120" />
+        <el-table-column label="启用" width="70">
+          <template #default="{ row }">
+            <el-tag size="small" :type="row.enabled === 'enabled' ? 'success' : 'info'">
+              {{ row.enabled === 'enabled' ? '启用' : (row.enabled === '-' ? '-' : '停用') }}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column label="最近 N 次拉取" width="160">
+          <template #default="{ row }">
+            <span class="ok-count">{{ row.okRuns }}</span>/{{ row.totalRuns }} 成功
+            <span v-if="row.failRuns" class="fail-count">（{{ row.failRuns }} 失败）</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="成功率" width="90">
+          <template #default="{ row }">{{ (row.okRatio * 100).toFixed(0) }}%</template>
+        </el-table-column>
+        <el-table-column label="最近拉取" min-width="200">
+          <template #default="{ row }">
+            <template v-if="row.latestAt">
+              <el-tag v-if="row.latestOk" type="success" size="small">成功 {{ row.latestCount }} 条</el-tag>
+              <el-tag v-else type="danger" size="small">失败</el-tag>
+              <div class="test-time">{{ row.latestAt }}</div>
+              <div v-if="!row.latestOk && row.latestError" class="err-msg">{{ row.latestError }}</div>
+            </template>
+            <span v-else class="muted">无记录</span>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-card>
+
     <el-card>
       <template #header>
         <div class="toolbar">
@@ -113,6 +167,29 @@ const dialogVisible = ref(false)
 const editing = ref<any>(null)
 const form = ref<any>({ name: '', type: '', config: {}, syncStrategy: 'window', description: '' })
 
+// ── 健康看板（V2.8） ──
+const healthLoading = ref(false)
+const healthItems = ref<any[]>([])
+const healthWarn = ref('')
+
+function statusLabel(s: string) {
+  return { ok: '健康', warning: '异常', error: '故障', unknown: '未知' }[s] || s
+}
+
+async function loadHealth() {
+  healthLoading.value = true
+  try {
+    const r = await Api.datasource.health()
+    healthItems.value = r.data.items || []
+    const bad = healthItems.value.filter((i: any) => i.status === 'error' || i.status === 'warning')
+    healthWarn.value = bad.length
+      ? `检测到 ${bad.length} 个数据源最近拉取异常（${bad.map((i: any) => i.name).join('、')}）。数据源故障可能导致 EMPTY 空报告，请先排查数据源再判定「无安全事件」。`
+      : ''
+  } finally {
+    healthLoading.value = false
+  }
+}
+
 const currentMeta = computed(() => typeMeta.value[form.value.type] || null)
 const currentFields = computed(() => currentMeta.value?.fields || [])
 
@@ -223,10 +300,19 @@ async function onRemove(row: any) {
   load()
 }
 
-onMounted(load)
+onMounted(() => {
+  load()
+  loadHealth()
+})
 </script>
 
 <style scoped>
+.mb16 {
+  margin-bottom: 16px;
+}
+.mb12 {
+  margin-bottom: 12px;
+}
 .guide-alert {
   margin-bottom: 16px;
 }
@@ -240,5 +326,48 @@ onMounted(load)
   font-size: 11px;
   color: #b0b3b8;
   margin-top: 2px;
+}
+.err-msg {
+  font-size: 11px;
+  color: #f56c6c;
+  margin-top: 2px;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.muted {
+  color: #c0c4cc;
+}
+.ok-count {
+  color: #67c23a;
+  font-weight: 600;
+}
+.fail-count {
+  color: #f56c6c;
+}
+.health-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+.dot-ok {
+  background: #67c23a;
+}
+.dot-warning {
+  background: #e6a23c;
+}
+.dot-error {
+  background: #f56c6c;
+}
+.dot-unknown {
+  background: #c0c4cc;
+}
+.health-text {
+  font-size: 13px;
+  vertical-align: middle;
 }
 </style>
